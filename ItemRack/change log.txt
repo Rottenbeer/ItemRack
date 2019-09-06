@@ -1,0 +1,239 @@
+__ New in 3.08 - By Kharthus __
+
+* Bug fixes for event and queue errors
+* Fixed error due to UIPanelButtonTemplate2
+
+__ New in 3.07 - By Kharthus __
+
+* TOC update for 8.2 patch
+
+__ New in 3.06 - By Kharthus __
+
+* Fixes for 8.0 patch
+
+__ New in 3.05 - By Kharthus __
+
+* Fixes for off-hand artifact weapons (Thanks oscarucb)
+
+__ New in 3.04 - By Kharthus __
+
+* More fixes for PlaySound (missed the xml files)
+
+__ New in 3.03 - By Kharthus __
+
+* Updates for 7.3 patch
+
+__ New in 3.02 - By Kharthus __
+
+* TOC update for 7.2 patch
+
+__ New in 3.01 - By Kharthus __
+
+* TOC update for 7.1 patch
+
+__ New in 3.00 - By Kharthus __
+
+* Updates for 7.0.3 patch
+* Removed helm/cloak hiding options
+
+__ New in 2.98 - By Kharthus __
+
+* Fixed items with different enchants
+
+__ New in 2.97 - By Kharthus __
+
+* TOC update for 6.2 patch
+
+__ New in 2.96 - By Kharthus __
+
+* Fixed green icons in Sets screen
+
+__ New in 2.95 - By Kharthus __
+
+* TOC update for 6.1 patch
+
+__ New in 2.94 - By Kharthus __
+
+* Properly remove disabled events
+
+__ New in 2.93 - By Kharthus __
+
+* Added support for bonus stats in WoD (Thanks Gello)
+
+__ New in 2.92 - By Kharthus __
+
+* Fixed black and white buttons and gear icons
+
+__ New in 2.91 - By Kharthus __
+
+* Code cleanup for 6.0.2
+
+__ New in 2.90 - By Kharthus __
+
+* Fixed helm/cloak hiding
+
+__ New in 2.89 - By Kharthus __
+
+* TOC update for 6.0.2 patch
+
+__ New in 2.88 - By Kharthus __
+
+* TOC update for 5.4 patch
+
+__ New in 2.87 - By Kharthus __
+
+* New option for Hide the ItemRack buttons during pet battles
+
+__ New in 2.86 - By Kharthus __
+
+* Hide the ItemRack buttons during pet battles
+
+__ New in 2.85 - By Kharthus __
+
+* TOC update for 5.2 patch
+
+__ New in 2.84 - By Kharthus __
+
+* Fixed Monk off-hands
+
+__ New in 2.83 - By Kharthus __
+
+* TOC update for 5.1 patch
+
+__ New in 2.82 - By Kharthus __
+
+* Fixed dual spec events
+
+__ New in 2.81 - By Kharthus __
+
+* Attempt to fix GlyphUI problem
+
+__ New in 2.8 - By Kharthus __
+
+* Updates for MoP
+
+__ New in 2.73 - By Kharthus __
+
+* TOC update for WoW 4.3.0
+* Fixed GetNumMacroIcons error in 4.3
+
+__ New in 2.72 - By Kharthus __
+
+* TOC update for WoW 4.2.0
+
+__ New in 2.71 - By Kharthus __
+
+* TOC update for WoW 4.1.0
+
+__ New in 2.7 - By Yewbacca __
+
+* Created new consolidated patterns for ItemLink/ItemString-to-ItemRackStyleID, ItemRackStyleID-to-BaseID, ItemLink/ItemString-to-BaseID
+* Created new functions that use those patterns, and various other new helper functions, in order to consolidate all ItemString-handling in one place
+* Replaced all old-style handling of itemIDs (string.gsub/find/match) and made everything use the new functions instead, for more robust handling as well as easy updates in the future
+* Replaced GUI drawing code with references to new functions, to get icons and tooltips to work in the GUI
+* Updated the GUI code so that it always draws item tooltips using the player's current level, which ensures that mousing over heirlooms in saved sets will actually show their stats for your CURRENT level (the old code set all levels to 0 which made it so the stats were shown incorrectly as level 1)
+* Improved the two functions that actually LOCATE the stored equipment set items inside the player's inventory/equipment/bank (whether it's for equipping, or simply displaying a tooltip), by making sure those functions pass the INCOMING ID through the new level updater (UpdateIRString) to ensure all old Item IDs are up to date, thus fixing the bug where leveling up would cause ItemRack to fail strict item search on all saved sets and resort to any-item-with-the-same-baseID; this injection point was chosen because it fixes the problem completely throughout the board, since everything that locates items relies on the item finding functions
+* Updated the functions for getting info for an item (GetInfoByID), posting an itemlink to the chatbox when shift clicking an item in ItemRack's GUI (ChatLinkID), and the function for showing an item in a tooltip, so that they all pass the incoming ID through the level updater (UpdateIRString) in order to work with up-to-date information, since it's important that stats are correct whether it's for posting chat links or looking at a tooltip's stats
+* Commented and cleaned up terrible code here and there, as I untangled the messy code (minor changes)
+
+__ New in 2.65 - By Kharthus __
+
+* Reverted gear swap code to 2.243 version
+
+__ New in 2.64 - By Kharthus __
+
+* Fixed slash commands
+
+__ New in 2.63 - By Kharthus __
+
+* Replaced all getglobal calls with _G
+* Fixed Titan's Grip and Shaman off-hand
+
+__ New in 2.62 - By Kharthus __
+
+* Fixed lua errors caused by chat links
+* Fixed issues with clicking on Dockable Buttons
+* Fixed event code
+* Fixed icon updates on gear swaps
+
+__ New in 2.61 - By Kiki __
+
+* Fixed lua errors caused by tooltips
+
+__ New in 2.60 - By Kiki __
+
+* Fixed for WoW 4.0
+
+__ New in 2.25 __
+
+* Fix for Titan's Grip and dual spec
+* Fix for Shaman's dual wield
+
+2.65, 10/22/10, gear swap code
+2.64, 10/17/10, slash commands
+2.63, 10/17/10, global variables, titan's grip, shaman DW
+2.62, 10/16/10, chatframe errors, dockable buttons, event handling
+2.61, 10/15/10, tooltip lua errors
+2.60, 10/13/10, toc update, fix for wow 4.0
+2.25, 4/17/09, toc update, TG talent fix for dual wield, shaman dual wield talent fix
+2.243, 10/14/08, more DK, Titan's Grip, shaman dual wield support
+2.242, 8/17/08, delayed OnLogin to timer, basic Titan's Grip support
+2.241, 8/13/08, removed nil of .old in unequip, PLAYER_AURAS_CHANGED to UNIT_AURA, button font to styles
+2.24, 8/9/08, added self,offset to OnVerticalScroll, changed GetPlayerBuffName to UnitAura
+2.23, 7/17/08, changed "Tree of Life Form" to "Tree of Life", added "Except in PVP instances" option to buff/stance events, added "Disable alt+clicK" option, UNIT_SPELLCAST_x now watched to delay set swaps via existing SetsWaiting, changed if elseif elseif etc in OnEvent to tabled ItemRack.EventHandlers
+2.22, 7/10/08, MouseIsOver in menu update checks for frame visibility, second set to /itemrack toggle, alt+left click (show hidden sets) on minimap button with "Allow hidden items" disabled will behave the same as alt+right click (toggle events), "Equip on choosen set" renamed "Equip in options" and works for slots now as well as sets, changed shine flash from default UI's fade to inhouse timer (taint issue)
+2.21, 6/29/08, added options Equip on choosing set, Set menu wrap, Show minimap tooltips, alt+left click minimap button=show hidden sets, alt+right click minimap button=toggle events, added swimming, druid flight form, druid swift flight form to events, prevent mount event on taxi (SaberHawke), gear icon on minimap regardless of dockable set button status, check for existing set on tooltip
+2.2, 6/19/08, added event system
+2.16, 6/8/08, added item lock throttle, equippable items in container cache (updated at end of lock update), replaced buff cache with GetPlayerBuffName, Feign Death checked with GetPlayerBuffName if enUS, gear icon shows if all queues disabled, but half alpha
+2.15, 5/26/08, menu strata forced high in DockWindows, item tooltips look in bank if not on person, "^Requires" exception for IsRed changed to ITEM_MIN_SKILL global, set equip/unequip wait system added, hide set checkbutton, ignore/show/hide cloak/helm buttons back for now
+2.14, 5/15/08, BankFrame:IsVisible() now a flag again, ITEM_SPELL_CHARGES split to separate search strings (Maldivia), Cooldown90 option, TrinketMenuMode fixed
+2.13, 5/13/08, added topLevel="true" to ItemRackMenuFrame (Romracer), Menu on Shift tooltip bug (Romracer)
+2.12, 5/12/08, ITEM_SPELL_CHARGES_P1 removed, %d+ replaced with %-?%d+, empty->2h swap fix by Romracer, AnythingLocked() fixed, ValidBag uses GetItemFamily
+2.1, 7/14/07, tooltip fix for 2.2 patch, minor edits/fixes over past months
+2.0-beta, 1/30/07, complete rewrite.
+1.991, 12/23/06, bug fixed: hide/show made combat-aware
+1.99, 12/4/06, added: 2.0 changes, key bindings
+1.983, 10/19/06, changed: "inventory" attribute to "item" attribute
+1.982, 10/14/06, updated: for lua 5.1 (by Esamynn), uses secure action buttons
+1.974, 8/22/06, toc changed
+1.973, 8/2/06, bugs fixed: changed evocation to ITEMRACK_BUFFS_CHANGED, changed Spirit Tab Begin arg1 to ItemRack.Buffs
+1.972, 7/29/06, bug fixes: arg1 preserved through BuffsChanged, GetMouseFocus() could be nil in BAG_UPDATE
+1.971, 7/28/06, bug fixes: changed BankFrame:IsVisible to a flag when bank open/closed, SPELLS_CHANGED events now PLAYER_AURAS_CHANGED for 1.12
+1.97, 7/27/06, added: bank support, ITEMRACK_BUFFS_CHANGED
+1.96, 4/20/06, bug fixed: 4606 error, checked if queue empty, changed: unequip will unequip whole set even if partial unequipped, reset events will nil .old itemid's in sets
+1.95, 4/6/06, changes: IsSetEquipped "optimizations" removed, temporary events reverted to earlier versions, tooltip fix scaled back to one SetOwner, queuing a worn set clears queue for those slots, added: queued item insets to character sheet
+1.94, 3/29/06, bug fix: menu not appearing on bar
+1.93, 3/29/06, bug fixes: nil errors from tooltip changes, added: relic slot support
+1.92, 3/20/06, bug fixes: attempt to fix arithmetic on string value 4706
+1.91, 3/19/06, bug fixes: invalid key for 'next', couple nil errors, changed: mount event to old style, added: option ('Show set icon labels') to show/hide set labels, option ('Auto toggle sets') to auto toggle sets, shift on chosing set toggles set
+1.9, 1/24/06, release of 1.891-1.897
+1.897 (1.9 beta7) 2/24/06, bug fixed: queue jams (hopefully) gone for good, added: option to show/hide cloak/helm, AQ mount checks, changed: consolidated timers
+1.896 (1.9 beta6) 2/21/06, bug fixed: new user and post-combat/death error
+1.895 (1.9 beta5) 2/20/06, bug fixed: hide tradables fixed
+1.894 (1.9 beta4) 2/19/06, changed: options to scrollable list, form events use IR_FORM global, combat/death queue redone to a single "set" instead of a full queue, alt+click on locked bar won't add/remove slots, one-hand won't show up in offhand for non-DW'ers, items clicked on cooldown won't appear to be used, added: square minimap, large cooldown, reset events
+1.893 (1.9 beta3) 2/5/06, bug fixed: TrinketMenu Mode menu fixed if only trinkets on bar, added: Large font option for event script, changed: Event scripts overhauled for new EquipSet
+1.892 (1.9 beta2) 1/29/06, bug fixed: non-standard bags recognized, old freespace code removed, 2h swaps on bar immediate move
+1.891 (1.9 beta1) 1/28/06, changed: new EquipSet (enchants recognized), ^Requires dropped from "red" check, player-made events won't unregister on zoning, minimap button scaling fixed, /itemrack reset fixed
+1.84, 1/20/06, bug fixed: menu update only checks MouseIsOver for plugin if it's installed
+1.83, 1/19/06, added: titan support/docking, bug fixed: scroll wheel on lists, changed: checks for TitanRider enabled, events unregister/register on zoning
+1.82, 1/16/06, changed: ALT+click/hide behavior made an option for all but sets (default off), bugs fixed: notify with no bar on screen should reliably fire, 2h->1h+offhand swaps will moved orphaned offhand to leftmost bag again
+1.81, 1/14/06, bug fixed: Mount event
+1.8, 1/12/06, added: IsSetEquipped(setname) returns true if all slots in a set are currently worn, error message when attempting to equip a set that doesn't exist, TitanPanel_ItemRackUpdate, note that events are suspended when set/event window up, bugs fixed: Disenchants/enchants/etc during gear swaps will abort the swap, Bloodvine will show up in menu on enUS clients, ammo count shows again, changed: initialization done in phases, removed cooldown boundry checks, tooltip scans changed to GetItemInfo, new events: Eating-Drinking, Low Mana, Skinning, Mage:Evocation, Priest:Spirit Tap Begin, Priest:Spirit Tap End
+1.74, 1/8/06: bugs fixed: bags should work properly on deDE clients, set icon will remember last set when leaving an event, "Mount" event no longer disabled if TitanRider installed
+1.73, 1/7/06: bugs fixed: Scrollbars enabled properly (the thumb will appear in 1.9.1 patch), Bindings saved using new SaveBindings, Soul Bags treated like quivers, ammo slot name lifted from tooltip for SaveSet, notify will happen if bar is off screen, changed: In TrinketMenu Mode, hold Shift to keep menu open on the bar, if any event uses ITEMRACK_NOTIFY trigger notify is automatically enabled, removed: check for TitanRider
+1.72, 1/3/06: added: reset button added to options, bugs fixed: items used from action bars noticed by mod, users without SCT won't have notify messages "stick", scaling fixes for 1.9, removed scalebugfix (huzzah!)
+1.71, 12/21/05: changed: inventory items used elsewhere in the UI reflects in the mod, arg1 and arg2 save on delayed events, added: ITEMRACK_ITEMUSED event (arg1=item name, arg2=item slot), Insignia Ready/Insignia Used events, examples for making scripts that swap on use, bugs fixed: added pink tiger to problem mounts
+1.7, 12/8/05, added: events (see events manual.txt), sets queue, sets menu on minimap button, 30 second notify, French localization by Tinou, more slash commands (/itemrack help)
+1.61, 11/02/05, bugs fixed: tooltip back to standard GameTooltip (should fix issues with Tipster, TipBuddy and other tooltip mods), set builder now updates properly when nothing on the bar
+1.6, 10/31/05, bug fixed: error when items on notify queue are banked, "Container" in DE localized, added: menu pops up on character sheet, audible alert on notify, changed: ItemRack_CurrentSet made global
+1.5, 10/5/05, bug fixed: pairs of items of same name with one worn swap, "Container" in German, added: Flip bar growth option, alt+click items in menu to hide them, changed: selecting set equips it
+1.42, 10/2/05, bug fixed: two items of same name will swap in sets, key bindings in normal key binding window force to sets
+1.41, 9/30/05, bug fixed: nil error on mouseover set icon
+1.4, 9/30/05, added: sets, minimap button, /itemrack opt, help text, changed: using sharpening stones/poisons/enchants/etc will work on the bar, only wearable items will show in menu, options moved to a tab on sets window, bugs fixed: ghost countdowns for real
+1.32, 9/18/05, bugs fixed: overhead errors fade normally, tabard on bar with cooldown/notify won't error, switching from 2h to 1h+shield queue works properly, swapping to empty won't attempt to put items in quivers, "ghost" cooldowns no longer show on empty slots, removed check for 1.7 in supposed client bug fix for 1.7 that never happened, changed: queues process as sets in stages
+1.31, 9/8/05, bug fixed: rotate menu works when bar is horizontal
+1.3, 9/7/05, added: German translation by Leelaa, Alt+right click an item will add a space after it, changed: right-click will activate an item same as left click, holding Alt while mouseover items will show full tooltip if Tiny Tooltips enabled, option TrinketMenu Clicks renamed TrinketMenu Mode, while TrinketMenu Mode enabled trinkets show as one menu, bugs fixed: overlapping tooltips, queue won't process upon FD, ammo count shows when adding to rack
+1.21, 9/3/05, added: ammo shows quantity, changed: custom tooltip used instead of standard, bug fixed: thrown weapons recognized, multiple ammo stacks show as one in menu, error clicking empty slot with notify on, weapons will queue while dead
+1.2, 9/3/05, added: options to hide tooltips or make them smaller, notify when items ready, /itemrack scale as alternative to set scale, changed: spacers to trinkets when TrinketMenu Clicks checked, OnUpdates given ItemRack_InvFrame parent, bugs fixed: mod hides when UI hidden, hunter FD won't block item swaps
+1.1, 9/2/05, added: option to swap to empty slots, option to reverse menu growth, left/right-click trinkets options added, changed: "Soulbound Only" renamed to "Hide Tradables", some slots ignore soulbound flag now: trinket, ammo, shirt, tabard. quest and conjured items now show with 'Soulbound Only' on. bug fixed: items queued while dead will swap on res before release
+1.0, 8/31/05, initial release

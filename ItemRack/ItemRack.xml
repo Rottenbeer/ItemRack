@@ -1,0 +1,188 @@
+<Ui>
+	<Frame name="ItemRackFrame" hidden="true">
+		<Scripts>
+			<OnLoad>
+				ItemRack.OnLoad(self)
+			</OnLoad>
+			<OnEvent>
+				ItemRack.OnEvent(self,event,...)
+			</OnEvent>
+			<OnUpdate>
+				ItemRack.OnUpdate(self,elapsed)
+			</OnUpdate>
+		</Scripts>
+	</Frame>
+
+	<Frame name="ItemRackMenuFrame" frameStrata="HIGH" enableMouse="false" movable="true" parent="UIParent" hidden="true" clampedToScreen="true" topLevel="true">
+		<Size>
+			<AbsDimension x="64" y="64" />
+		</Size>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="4" right="4" top="4" bottom="4" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="16" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="16" />
+			</EdgeSize>
+			<BorderColor>
+				<Color r=".3" g=".3" b=".3"/>
+			</BorderColor>
+		</Backdrop>
+		<Scripts>
+			<OnHide>
+				ItemRack.MenuOnHide()
+			</OnHide>
+		</Scripts>
+	</Frame>
+
+	<GameTooltip name="ItemRackTooltip" inherits="GameTooltipTemplate" hidden="true">
+		<Scripts>
+			<OnLoad>
+				self:SetOwner(WorldFrame,"ANCHOR_NONE")
+			</OnLoad>
+		</Scripts>
+	</GameTooltip>
+
+	<Button name="ItemRackMinimapFrame" toplevel="true" frameStrata="HIGH" parent="Minimap" enableMouse="true" movable="true">
+		<Size>
+			<AbsDimension x="33" y="33"/>
+		</Size>
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset>
+					<AbsDimension x="-15" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="ItemRackMinimapIcon" file="Interface\AddOns\ItemRack\ItemRackIcon">
+					<Size>
+						<AbsDimension x="21" y="21"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="7" y="-6"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<Texture file="Interface\Minimap\MiniMap-TrackingBorder">
+					<Size>
+						<AbsDimension x="56" y="56"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture name="ItemRackMinimapGear" file="Interface\AddOns\ItemRack\ItemRackGear" hidden="true">
+					<Size>
+						<AbsDimension x="16" y="16"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER" relativeTo="ItemRackMinimapIcon" relativePoint="TOPLEFT">
+							<Offset x="2" y="-2"/>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture name="ItemRackMinimapShine" file="Interface\ComboFrame\ComboPoint" alphaMode="ADD" hidden="true">
+					<Size x="32" y="32"/>
+						<Anchors>
+							<Anchor point="CENTER">
+								<Offset x="3" y="3"/>
+							</Anchor>
+						</Anchors>
+					<TexCoords left="0.5625" right="1" top="0" bottom="1"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
+		<Scripts>
+			<OnLoad>
+				self:RegisterForClicks("LeftButtonUp","RightButtonUp")
+				self:RegisterForDrag("LeftButton")
+			</OnLoad>
+			<OnMouseDown>
+				ItemRackMinimapIcon:SetTexCoord(.075,.925,.075,.925)
+			</OnMouseDown>
+			<OnMouseUp>
+				ItemRackMinimapIcon:SetTexCoord(0,1,0,1)
+			</OnMouseUp>
+			<OnEnter>
+				ItemRack.MinimapOnEnter(self)
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide()
+			</OnLeave>
+			<OnDragStart>
+				self:LockHighlight()
+				ItemRack.StartTimer("MinimapDragging")
+				ItemRackMinimapIcon:SetTexCoord(.075,.925,.075,.925)
+			</OnDragStart>
+			<OnDragStop>
+				ItemRack.StopTimer("MinimapDragging")
+				self:UnlockHighlight()
+				ItemRackMinimapIcon:SetTexCoord(0,1,0,1)
+			</OnDragStop>
+			<OnClick>
+				ItemRack.MinimapOnClick(self,button)
+				ItemRackMinimapIcon:SetTexCoord(0,1,0,1)
+			</OnClick>
+		</Scripts>
+	</Button>
+
+	<Frame name="ItemRackQueueTemplate" enableMouse="false" virtual="true">
+		<Size>
+			<AbsDimension x="20" y="20"/>
+		</Size>
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset>
+					<AbsDimension x="-2" y="2"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture name="$parentQueue" hidden="true" file="Interface\AddOns\ItemRack\ItemRackGear"/>
+			</Layer>
+		</Layers>
+	</Frame>
+
+	<Frame parent="CharacterHeadSlot" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="CharacterNeckSlot" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="CharacterShoulderSlot" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="CharacterShirtSlot" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="CharacterChestSlot" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="CharacterWaistSlot" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="CharacterLegsSlot" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="CharacterFeetSlot" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="CharacterWristSlot" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="CharacterHandsSlot" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="CharacterFinger0Slot" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="CharacterFinger1Slot" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="CharacterTrinket0Slot" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="CharacterTrinket1Slot" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="CharacterBackSlot" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="CharacterMainHandSlot" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="CharacterSecondaryHandSlot" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="CharacterTabardSlot" inherits="ItemRackQueueTemplate"/>
+
+	<!-- All player Events (Buff/Zone/Stance/Script) go through this frame -->
+	<Frame name="ItemRackEventProcessingFrame" hidden="true" parent="UIParent">
+		<Scripts>
+			<OnEvent>
+				ItemRack.ProcessingFrameOnEvent(self,event,...)
+			</OnEvent>
+		</Scripts>
+	</Frame>
+
+</Ui>

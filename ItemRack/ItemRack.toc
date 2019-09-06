@@ -1,0 +1,15 @@
+## Interface: 80200
+## Title: ItemRack
+## Author: Gello - Updated for WoW 4.0 by Kiki + Kharthus + Yewbacca
+## SavedVariables: ItemRackSettings, ItemRackItems, ItemRackEvents
+## SavedVariablesPerCharacter: ItemRackUser
+ItemRack.lua
+ItemRack.xml
+ItemRackButtons.lua
+ItemRackButtons.xml
+ItemRackEquip.lua
+ItemRackQueue.lua
+ItemRackEvents.lua
+
+
+

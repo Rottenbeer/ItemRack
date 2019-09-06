@@ -1,0 +1,209 @@
+<Ui>
+	<Frame name="ItemRackBracketTemplate" virtual="true">
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture name="$parentTexture" file="Interface\AddOns\ItemRack\Brackets"/>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ItemRackMainBracket" inherits="ItemRackBracketTemplate"/>
+	<Frame name="ItemRackMenuBracket" inherits="ItemRackBracketTemplate"/>
+
+	<Frame name="ItemRackTimeTemplate" enableMouse="false" virtual="true">
+		<Size>
+			<AbsDimension x="36" y="12"/>
+		</Size>
+		<Anchors>
+			<Anchor point="BOTTOMRIGHT"/>
+		</Anchors>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="$parentTime" inherits="NumberFontNormal" justifyH="CENTER"/>
+			</Layer>
+		</Layers>
+	</Frame>
+
+	<CheckButton name="ItemRackButtonsTemplate" movable="true" parent="UIParent" inherits="ActionButtonTemplate,SecureActionButtonTemplate" hidden="true" virtual="true">
+<!--		<Layers>
+			<Layer level="OVERLAY">
+				<Texture name="$parentQueue" file="Interface\Cursor\Interact" hidden="true">
+					<Size x="16" y="16"/>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers> -->
+		<Scripts>
+			<PostClick>
+				ItemRack.ButtonPostClick(self,button)
+			</PostClick>
+			<OnDragStart>
+				ItemRack.StartMovingButton(self)
+			</OnDragStart>
+			<OnDragStop>
+				ItemRack.StopMovingButton(self)
+			</OnDragStop>
+			<OnEnter>
+				ItemRack.OnEnterButton(self)
+			</OnEnter>
+			<OnLeave>
+				ItemRack.ClearTooltip(self)
+			</OnLeave>
+		</Scripts>
+	</CheckButton>
+	<CheckButton name="ItemRackButton0" inherits="ItemRackButtonsTemplate" id="0"/>
+	<CheckButton name="ItemRackButton1" inherits="ItemRackButtonsTemplate" id="1"/>
+	<CheckButton name="ItemRackButton2" inherits="ItemRackButtonsTemplate" id="2"/>
+	<CheckButton name="ItemRackButton3" inherits="ItemRackButtonsTemplate" id="3"/>
+	<CheckButton name="ItemRackButton4" inherits="ItemRackButtonsTemplate" id="4"/>
+	<CheckButton name="ItemRackButton5" inherits="ItemRackButtonsTemplate" id="5"/>
+	<CheckButton name="ItemRackButton6" inherits="ItemRackButtonsTemplate" id="6"/>
+	<CheckButton name="ItemRackButton7" inherits="ItemRackButtonsTemplate" id="7"/>
+	<CheckButton name="ItemRackButton8" inherits="ItemRackButtonsTemplate" id="8"/>
+	<CheckButton name="ItemRackButton9" inherits="ItemRackButtonsTemplate" id="9"/>
+	<CheckButton name="ItemRackButton10" inherits="ItemRackButtonsTemplate" id="10"/>
+	<CheckButton name="ItemRackButton11" inherits="ItemRackButtonsTemplate" id="11"/>
+	<CheckButton name="ItemRackButton12" inherits="ItemRackButtonsTemplate" id="12"/>
+	<CheckButton name="ItemRackButton13" inherits="ItemRackButtonsTemplate" id="13"/>
+	<CheckButton name="ItemRackButton14" inherits="ItemRackButtonsTemplate" id="14"/>
+	<CheckButton name="ItemRackButton15" inherits="ItemRackButtonsTemplate" id="15"/>
+	<CheckButton name="ItemRackButton16" inherits="ItemRackButtonsTemplate" id="16"/>
+	<CheckButton name="ItemRackButton17" inherits="ItemRackButtonsTemplate" id="17"/>
+	<CheckButton name="ItemRackButton18" inherits="ItemRackButtonsTemplate" id="18"/>
+	<CheckButton name="ItemRackButton19" inherits="ItemRackButtonsTemplate" id="19"/>
+	<CheckButton name="ItemRackButton20" inherits="ItemRackButtonsTemplate" id="20"/>
+
+	<Frame parent="ItemRackButton0" inherits="ItemRackTimeTemplate"/>
+	<Frame parent="ItemRackButton1" inherits="ItemRackTimeTemplate"/>
+	<Frame parent="ItemRackButton2" inherits="ItemRackTimeTemplate"/>
+	<Frame parent="ItemRackButton3" inherits="ItemRackTimeTemplate"/>
+	<Frame parent="ItemRackButton4" inherits="ItemRackTimeTemplate"/>
+	<Frame parent="ItemRackButton5" inherits="ItemRackTimeTemplate"/>
+	<Frame parent="ItemRackButton6" inherits="ItemRackTimeTemplate"/>
+	<Frame parent="ItemRackButton7" inherits="ItemRackTimeTemplate"/>
+	<Frame parent="ItemRackButton8" inherits="ItemRackTimeTemplate"/>
+	<Frame parent="ItemRackButton9" inherits="ItemRackTimeTemplate"/>
+	<Frame parent="ItemRackButton10" inherits="ItemRackTimeTemplate"/>
+	<Frame parent="ItemRackButton11" inherits="ItemRackTimeTemplate"/>
+	<Frame parent="ItemRackButton12" inherits="ItemRackTimeTemplate"/>
+	<Frame parent="ItemRackButton13" inherits="ItemRackTimeTemplate"/>
+	<Frame parent="ItemRackButton14" inherits="ItemRackTimeTemplate"/>
+	<Frame parent="ItemRackButton15" inherits="ItemRackTimeTemplate"/>
+	<Frame parent="ItemRackButton16" inherits="ItemRackTimeTemplate"/>
+	<Frame parent="ItemRackButton17" inherits="ItemRackTimeTemplate"/>
+	<Frame parent="ItemRackButton18" inherits="ItemRackTimeTemplate"/>
+	<Frame parent="ItemRackButton19" inherits="ItemRackTimeTemplate"/>
+	<Frame parent="ItemRackButton20" inherits="ItemRackTimeTemplate"/>
+
+	<Frame parent="ItemRackButton0" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="ItemRackButton1" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="ItemRackButton2" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="ItemRackButton3" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="ItemRackButton4" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="ItemRackButton5" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="ItemRackButton6" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="ItemRackButton7" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="ItemRackButton8" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="ItemRackButton9" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="ItemRackButton10" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="ItemRackButton11" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="ItemRackButton12" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="ItemRackButton13" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="ItemRackButton14" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="ItemRackButton15" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="ItemRackButton16" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="ItemRackButton17" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="ItemRackButton18" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="ItemRackButton19" inherits="ItemRackQueueTemplate"/>
+	<Frame parent="ItemRackButton20" inherits="ItemRackQueueTemplate"/>
+
+	<Button name="ItemRackButtonMenuTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<HighlightTexture file="Interface\AddOns\ItemRack\ItemRackButtons" alphaMode="ADD">
+			<TexCoords left=".25" right=".375" top="0" bottom=".125"/>
+		</HighlightTexture>
+		<Scripts>
+			<OnClick>
+				PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
+				ItemRack.ButtonMenuOnClick(self)
+			</OnClick>
+			<OnEnter>
+				ItemRack.OnTooltip(self)
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide()
+			</OnLeave>
+		</Scripts>
+	</Button>
+
+	<Frame name="ItemRackButtonMenu" parent="ItemRackMenuFrame">
+		<Size>
+			<AbsDimension x="36" y="36"/>
+		</Size>
+		<Frames>
+			<Button name="ItemRackButtonMenuLock" inherits="ItemRackButtonMenuTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset>
+							<AbsDimension x="1" y="-1"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<NormalTexture file="Interface\AddOns\ItemRack\ItemRackButtons">
+					<TexCoords left=".75" right=".875" top=".125" bottom=".25"/>
+				</NormalTexture>
+				<PushedTexture file="Interface\AddOns\ItemRack\ItemRackButtons">
+					<TexCoords left=".875" right="1" top=".125" bottom=".25"/>
+				</PushedTexture>
+			</Button>
+			<Button name="ItemRackButtonMenuQueue" inherits="ItemRackButtonMenuTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="-1" y="-1"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<NormalTexture file="Interface\AddOns\ItemRack\ItemRackButtons">
+					<TexCoords left="0" right=".125" top=".5" bottom=".625"/>
+				</NormalTexture>
+				<PushedTexture file="Interface\AddOns\ItemRack\ItemRackButtons">
+					<TexCoords left=".125" right=".25" top=".5" bottom=".625"/>
+				</PushedTexture>
+			</Button>
+			<Button name="ItemRackButtonMenuOptions" inherits="ItemRackButtonMenuTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="1" y="1"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<NormalTexture file="Interface\AddOns\ItemRack\ItemRackButtons">
+					<TexCoords left=".75" right=".875" top=".25" bottom=".375"/>
+				</NormalTexture>
+				<PushedTexture file="Interface\AddOns\ItemRack\ItemRackButtons">
+					<TexCoords left=".875" right="1" top=".25" bottom=".375"/>
+				</PushedTexture>
+			</Button>
+			<Button name="ItemRackButtonMenuClose" inherits="ItemRackButtonMenuTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT">
+						<Offset>
+							<AbsDimension x="-1" y="1"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<NormalTexture file="Interface\AddOns\ItemRack\ItemRackButtons">
+					<TexCoords left=".375" right=".5" top=".25" bottom=".375"/>
+				</NormalTexture>
+				<PushedTexture file="Interface\AddOns\ItemRack\ItemRackButtons">
+					<TexCoords left=".5" right=".625" top=".25" bottom=".375"/>
+				</PushedTexture>
+			</Button>
+		</Frames>
+	</Frame>
+</Ui>

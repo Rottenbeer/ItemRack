@@ -1,0 +1,7 @@
+## Interface: 80200
+## Title: ItemRackOptions
+## Notes: Load-On-Demand modules for ItemRack
+## Dependencies: ItemRack, Blizzard_MacroUI
+## LoadOnDemand: 1
+ItemRackOptions.lua
+ItemRackOptions.xml
