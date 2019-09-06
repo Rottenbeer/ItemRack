@@ -376,17 +376,17 @@ function ItemRack.InitCore()
 	ItemRackFrame:RegisterEvent("BANKFRAME_CLOSED")
 	ItemRackFrame:RegisterEvent("BANKFRAME_OPENED")
 	ItemRackFrame:RegisterEvent("CHARACTER_POINTS_CHANGED")
-	ItemRackFrame:RegisterEvent("PLAYER_TALENT_UPDATE")
-	ItemRackFrame:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-	ItemRackFrame:RegisterEvent("PET_BATTLE_OPENING_START")
-	ItemRackFrame:RegisterEvent("PET_BATTLE_CLOSE")
+	-- ItemRackFrame:RegisterEvent("PLAYER_TALENT_UPDATE")
+	-- ItemRackFrame:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+	-- ItemRackFrame:RegisterEvent("PET_BATTLE_OPENING_START")
+	-- ItemRackFrame:RegisterEvent("PET_BATTLE_CLOSE")
 	if not disable_delayed_swaps then
 		-- in the event delayed swaps while casting don't work well,
 		-- make disable_delayed_swaps=1 at top of this file to disable it
-		ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_START")
-		ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_STOP")
-		ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
-		ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
+		-- ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_START")
+		-- ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_STOP")
+		-- ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+		-- ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
 	end
 	ItemRack.StartTimer("CooldownUpdate")
 	ItemRack.MoveMinimap()
@@ -1835,7 +1835,7 @@ function ItemRack.SetSetBindings()
 			SetBindingClick(ItemRackUser.Sets[i].key,buttonName)
 		end
 	end
-	SaveBindings(GetCurrentBindingSet())
+	--SaveBindings(GetCurrentBindingSet())
 end
 
 function ItemRack.RunSetBinding(setname)
