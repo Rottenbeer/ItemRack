@@ -3,7 +3,7 @@ ItemRack = {}
 local disable_delayed_swaps = nil -- temporary. change nil to 1 to stop attempting to delay set swaps while casting
 local _
 
-ItemRack.Version = "3.08"
+ItemRack.Version = "3.09"
 
 ItemRackUser = {
 	Sets = {}, -- user's sets
@@ -1832,10 +1832,10 @@ function ItemRack.SetSetBindings()
 			button = _G[buttonName] or CreateFrame("Button",buttonName,nil,"SecureActionButtonTemplate")
 			button:SetAttribute("type","macro")
 			button:SetAttribute("macrotext","/script ItemRack.RunSetBinding(\""..i.."\")")
-			SetBindingClick(ItemRackUser.Sets[i].key,buttonName)
+			-- SetBindingClick(ItemRackUser.Sets[i].key,buttonName)
 		end
 	end
-	--SaveBindings(GetCurrentBindingSet())
+	-- SaveBindings(GetCurrentBindingSet())
 end
 
 function ItemRack.RunSetBinding(setname)
@@ -1998,4 +1998,10 @@ function ItemRack.ProfileFuncs()
 		end
 		table.insert(TinyPadPages,info)
 	end
+end
+
+function GetInspectSpecialization()
+
+	return 0;
+
 end
