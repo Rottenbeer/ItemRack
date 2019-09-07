@@ -181,8 +181,8 @@ function ItemRack.OnPlayerLogin()
 	handler.CHARACTER_POINTS_CHANGED = ItemRack.UpdateClassSpecificStuff
 	handler.PLAYER_TALENT_UPDATE = ItemRack.UpdateClassSpecificStuff
 	handler.ACTIVE_TALENT_GROUP_CHANGED = ItemRack.UpdateClassSpecificStuff
-	handler.PET_BATTLE_OPENING_START = ItemRack.OnEnteringPetBattle
-	handler.PET_BATTLE_CLOSE = ItemRack.OnLeavingPetBattle
+--	handler.PET_BATTLE_OPENING_START = ItemRack.OnEnteringPetBattle
+--	handler.PET_BATTLE_CLOSE = ItemRack.OnLeavingPetBattle
 
 	ItemRack.InitCore()
 	ItemRack.InitButtons()
@@ -305,26 +305,17 @@ end
 function ItemRack.UpdateClassSpecificStuff()
 	local _,class = UnitClass("player")
 
-	if class=="WARRIOR" or class=="ROGUE" or class=="HUNTER" or class=="DEATHKNIGHT" or class=="MONK" then
+	if class=="WARRIOR" or class=="ROGUE" or class=="HUNTER" or class=="MAGE" or class=="WARLOCK" then
 		ItemRack.CanWearOneHandOffHand = 1
 	end
 
 	if class=="WARRIOR" then
-		if (GetSpecialization() == 2) then
-			ItemRack.HasTitansGrip = 1
-			ItemRack.SlotInfo[17].INVTYPE_2HWEAPON = 1
-		else
-			ItemRack.HasTitansGrip = nil
-			ItemRack.SlotInfo[17].INVTYPE_2HWEAPON = nil
-		end
+		ItemRack.HasTitansGrip = nil
+		ItemRack.SlotInfo[17].INVTYPE_2HWEAPON = nil
 	end
 
 	if class=="SHAMAN" then
-		if (GetSpecialization() == 2) then
-			ItemRack.CanWearOneHandOffHand = 1
-		else
-			ItemRack.CanWearOneHandOffHand = nil
-		end
+		ItemRack.CanWearOneHandOffHand = 1
 	end
 end
 
@@ -2001,7 +1992,10 @@ function ItemRack.ProfileFuncs()
 end
 
 function GetInspectSpecialization()
-
 	return 0;
-
 end
+
+function GetSpecialization()
+	return 0;
+end
+
