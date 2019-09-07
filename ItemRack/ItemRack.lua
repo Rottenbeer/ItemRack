@@ -1823,10 +1823,10 @@ function ItemRack.SetSetBindings()
 			button = _G[buttonName] or CreateFrame("Button",buttonName,nil,"SecureActionButtonTemplate")
 			button:SetAttribute("type","macro")
 			button:SetAttribute("macrotext","/script ItemRack.RunSetBinding(\""..i.."\")")
-			-- SetBindingClick(ItemRackUser.Sets[i].key,buttonName)
+			SetBindingClick(ItemRackUser.Sets[i].key,buttonName)
 		end
 	end
-	-- SaveBindings(GetCurrentBindingSet())
+	AttemptToSaveBindings(GetCurrentBindingSet())
 end
 
 function ItemRack.RunSetBinding(setname)
