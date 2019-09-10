@@ -77,9 +77,6 @@ ItemRack.DefaultEvents = {
 	["Druid Cat"] = { Type = "Stance", Stance = 3 },
 	["Druid Travel"] = { Type = "Stance", Stance = 4 },
 	["Druid Moonkin"] = { Type = "Stance", Stance = "Moonkin Form" },
-	["Druid Tree of Life"] = { Type = "Stance", Stance = "Tree of Life" },
-	["Druid Flight Form"] = { Type = "Stance", Unequip = 1, Stance = "Flight Form" },
-	["Druid Swift Flight Form"] = { Type = "Stance", Unequip = 1, Stance = "Swift Flight Form" },
 
 	["Rogue Stealth"] = { Type = "Stance", Unequip = 1, Stance = 1 },
 
