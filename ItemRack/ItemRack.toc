@@ -1,6 +1,6 @@
 ## Interface: 11302
 ## Title: ItemRack
-## Author: Gello - Updated for WoW 4.0 by Kiki + Kharthus + Yewbacca
+## Author: Gello - Updated for Classic by Rottenbeer
 ## SavedVariables: ItemRackSettings, ItemRackItems, ItemRackEvents
 ## SavedVariablesPerCharacter: ItemRackUser
 ItemRack.lua
