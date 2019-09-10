@@ -286,8 +286,7 @@ function ItemRack.IsSetEquipped(setname,exact)
 		local id
 		for i in pairs(set) do
 			id = ItemRack.GetID(i)
---			if (exact and set[i]~=id) or (not exact and not ItemRack.SameID(set[i],ItemRack.GetID(i))) then
-			if (ItemRack.UpdateIRString(set[i]) ~= id) then
+			if (exact and set[i]~=id) or (not exact and not ItemRack.SameID(set[i],ItemRack.GetID(i))) then
 				return false
 			end
 		end
