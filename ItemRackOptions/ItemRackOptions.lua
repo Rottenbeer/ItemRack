@@ -8,7 +8,7 @@ ItemRackOpt = {
 	selectedIcon = 0,
 	prevFrame = nil, -- previous subframe a frame should return to (ItemRackOptSubFrame1-x)
 	numSubFrames = 8, -- number of subframes
-	slotOrder = {1,2,3,15,5,4,19,9,16,17,14,13,12,11,8,7,6,10,6,7,8,11,12,13,14,17,16,9,19,4,5,15,3,2},
+	slotOrder = {1,2,3,15,5,4,19,9,16,17,18,0,14,13,12,11,8,7,6,10,6,7,8,11,12,13,14,0,18,17,16,9,19,4,5,15,3,2},
 	currentMarquee = 1,
 }
 
@@ -214,9 +214,7 @@ function ItemRackOpt.UpdateInv()
 				_G["ItemRackOptInv"..i.."Border"]:Show()
 			end
 		else
-			if i ~= 0 and i ~= 18 then
-				_,texture = GetInventorySlotInfo(ItemRack.SlotInfo[i].name)
-			end
+			_,texture = GetInventorySlotInfo(ItemRack.SlotInfo[i].name)
 		end
 		icon:SetTexture(texture)
 		item = _G["ItemRackOptInv"..i]
@@ -328,9 +326,7 @@ function ItemRackOpt.PopulateInvIcons()
 		if ItemRackOpt.Inv[i].id and ItemRackOpt.Inv[i].id~=0 then
 			_,texture = ItemRack.GetInfoByID(ItemRackOpt.Inv[i].id)
 		else
-			if i ~= 0 and i ~= 18 then
-				_,texture = GetInventorySlotInfo(ItemRack.SlotInfo[i].name)
-			end
+			_,texture = GetInventorySlotInfo(ItemRack.SlotInfo[i].name)
 		end
 		ItemRackOpt.Icons[i+1] = texture
 	end
@@ -405,8 +401,8 @@ function ItemRackOpt.SaveSet()
 			set.equip[i] = ItemRackOpt.Inv[i].id
 		end
 	end
-	set.equip[0] = nil
-	set.equip[18] = nil
+	-- set.equip[0] = nil
+	-- set.equip[18] = nil
 	ItemRackOpt.ValidateSetButtons()
 end
 
