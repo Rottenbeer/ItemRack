@@ -979,7 +979,7 @@
 					</Anchor>
 				</Anchors>
 			</CheckButton>
-			<CheckButton name="ItemRackOptInv18" inherits="ItemRackOptInvTemplate" id="18" hidden="true">
+			<CheckButton name="ItemRackOptInv18" inherits="ItemRackOptInvTemplate" id="18">
 				<Anchors>
 					<Anchor point="BOTTOMLEFT" relativeTo="ItemRackOptInv17" relativePoint="BOTTOMRIGHT">
 						<Offset>
@@ -988,7 +988,7 @@
 					</Anchor>
 				</Anchors>
 			</CheckButton>
-			<CheckButton name="ItemRackOptInv0" inherits="ItemRackOptInvTemplate" id="0" hidden="true">
+			<CheckButton name="ItemRackOptInv0" inherits="ItemRackOptInvTemplate" id="0">
 				<Anchors>
 					<Anchor point="LEFT" relativeTo="ItemRackOptInv18" relativePoint="RIGHT">
 						<Offset>
