@@ -1094,16 +1094,16 @@ function ItemRack.CreateMenuButton(idx,itemID)
 --		font:SetHeight(12)
 --		font:SetPoint("BOTTOMRIGHT","ItemRackMenu"..idx,"BOTTOMRIGHT")
 	end
-	if itemID~=0 then
+	-- if itemID~=0 then
 		if ItemRackUser.Sets[itemID] then
 			_G["ItemRackMenu"..idx.."Icon"]:SetTexture(ItemRackUser.Sets[itemID].icon)
 		else
 			local _,texture = ItemRack.GetInfoByID(itemID)
 			_G["ItemRackMenu"..idx.."Icon"]:SetTexture(texture)
 		end
-	else
-		_G["ItemRackMenu"..idx.."Icon"]:SetTexture(select(2,GetInventorySlotInfo(ItemRack.SlotInfo[ItemRack.menuOpen].name)))
-	end
+	-- else
+	-- 	_G["ItemRackMenu"..idx.."Icon"]:SetTexture(select(2,GetInventorySlotInfo(ItemRack.SlotInfo[ItemRack.menuOpen].name)))
+	-- end
 	return _G["ItemRackMenu"..idx]
 end
 
