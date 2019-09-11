@@ -21,8 +21,8 @@ function ItemRack.InitButtons()
 	ItemRack.oldPaperDollItemSlotButton_OnModifiedClick = PaperDollItemSlotButton_OnModifiedClick
 	PaperDollItemSlotButton_OnModifiedClick = ItemRack.newPaperDollItemSlotButton_OnModifiedClick
 
-	--ItemRack.oldCharacterAmmoSlot_OnClick = CharacterAmmoSlot:GetScript("OnClick")
-	--CharacterAmmoSlot:SetScript("OnClick",ItemRack.newCharacterAmmoSlot_OnClick)
+	ItemRack.oldCharacterAmmoSlot_OnClick = CharacterAmmoSlot:GetScript("OnClick")
+	CharacterAmmoSlot:SetScript("OnClick",ItemRack.newCharacterAmmoSlot_OnClick)
 
 	ItemRack.oldCharacterModelFrame_OnMouseUp = CharacterModelFrame:GetScript("OnMouseUp")
 	CharacterModelFrame:SetScript("OnMouseUp",ItemRack.newCharacterModelFrame_OnMouseUp)
@@ -352,7 +352,7 @@ function ItemRack.UpdateButtons()
 		if i<20 then
 			_G["ItemRackButton"..i.."Icon"]:SetTexture(ItemRack.GetTextureBySlot(i))
 		end
-		--[[ ranged ammo is now infinite, so the below ammo count updater has been commented out
+		--ranged ammo is now infinite, so the below ammo count updater has been commented out
 		if i==0 then --ranged "ammo" slot
 			local baseID = ItemRack.GetIRString(ItemRack.GetID(0),true) --get the ItemRack-style ID for the ammo item in inventory slot 0 (ranged ammo) and convert it to just its baseID
 			if baseID~=0 then -- verify that we properly have the ammo item's baseID
@@ -360,7 +360,7 @@ function ItemRack.UpdateButtons()
 			else
 				ItemRackButton0Count:SetText("") -- clear the ammo count since there is no ammo in the slot
 			end
-		end]]
+		end
 	end
 	ItemRack.UpdateCurrentSet()
 	ItemRack.UpdateButtonCooldowns()

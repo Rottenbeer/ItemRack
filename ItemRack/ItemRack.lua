@@ -91,9 +91,9 @@ ItemRack.SlotInfo = {
 	[13] = { name="Trinket0Slot", real="Top Trinket", INVTYPE_TRINKET=1, other=14 },
 	[14] = { name="Trinket1Slot", real="Bottom Trinket", INVTYPE_TRINKET=1, other=13 },
 	[15] = { name="BackSlot", real="Cloak", INVTYPE_CLOAK=1 },
-	[16] = { name="MainHandSlot", real="Main hand", INVTYPE_WEAPONMAINHAND=1, INVTYPE_2HWEAPON=1, INVTYPE_WEAPON=1, INVTYPE_RANGED=1, INVTYPE_RANGEDRIGHT=1, other=17, swappable=true },
+	[16] = { name="MainHandSlot", real="Main hand", INVTYPE_WEAPONMAINHAND=1, INVTYPE_2HWEAPON=1, INVTYPE_WEAPON=1, other=17, swappable=true },
 	[17] = { name="SecondaryHandSlot", real="Off hand", INVTYPE_WEAPON=1, INVTYPE_WEAPONOFFHAND=1, INVTYPE_SHIELD=1, INVTYPE_HOLDABLE=1, other=16, swappable=true },
-	[18] = { name="RangedSlot", real="Ranged", INVTYPE_THROWN=1, INVTYPE_RELIC=1, swappable=true },
+	[18] = { name="RangedSlot", real="Ranged", INVTYPE_RANGED=1, INVTYPE_RANGEDRIGHT=1, INVTYPE_THROWN=1, INVTYPE_RELIC=1, swappable=true },
 	[19] = { name="TabardSlot", real="Tabard", INVTYPE_TABARD=1 },
 }
 
