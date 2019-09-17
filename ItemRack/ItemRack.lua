@@ -65,7 +65,7 @@ ItemRackItems = {
 
 ItemRack.Menu = {}
 ItemRack.LockList = {} -- index -2 to 11, flag whether item is tagged already for swap
-ItemRack.BankSlots = { -1,5,6,7,8,9,10,11 }
+ItemRack.BankSlots = { -1,5,6,7,8,9,10 }
 ItemRack.KnownItems = {} -- cache of known item locations for fast lookup
 
 ItemRack.SlotInfo = {
