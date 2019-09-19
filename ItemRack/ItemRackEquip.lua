@@ -89,20 +89,18 @@ function ItemRack.EquipSet(setname)
 		end
 		set.oldset = ItemRackUser.CurrentSet
 	end
-	
+
 	-- if in combat or dead, combat queue items wanting to equip and only let swappables through
 	if UnitAffectingCombat("player") or ItemRack.IsPlayerReallyDead() then
 		for i in pairs(swap) do
-			if not ItemRack.SlotInfo[i].swappable then
-				ItemRack.AddToCombatQueue(i,swap[i])
---				print("Combat queue "..ItemRack.GetInfoByID(swap[i]))
-				swap[i] = nil
-				if set.old then
-					set.old[i] = ItemRack.GetID(i)
-					ItemRack.CombatSet = setname
-				elseif set.oldset then
-					ItemRack.CombatSet = set.oldset
-				end
+			ItemRack.AddToCombatQueue(i,swap[i])
+			-- print("Combat queue "..ItemRack.GetInfoByID(swap[i]))
+			swap[i] = nil
+			if set.old then
+				set.old[i] = ItemRack.GetID(i)
+				ItemRack.CombatSet = setname
+			elseif set.oldset then
+				ItemRack.CombatSet = set.oldset
 			end
 		end
 	end
