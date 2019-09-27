@@ -1188,7 +1188,7 @@ function ItemRackOpt.ValidateSortButtons()
 		local baseID = ItemRack.GetIRString(list[selected],true)
 		ItemRackOptItemStatsPriority:SetChecked(ItemRackItems[baseID] and ItemRackItems[baseID].priority or false)
 		ItemRackOptItemStatsKeepEquipped:SetChecked(ItemRackItems[baseID] and ItemRackItems[baseID].keep or false)
-		ItemRackOptItemStatsDelay:SetText((ItemRackItems[baseID] and ItemRackItems[baseID].delay) or false)
+		ItemRackOptItemStatsDelay:SetText((ItemRackItems[baseID] and ItemRackItems[baseID].delay) or "0")
 	else
 		ItemRackOptSortMoveDelete:Disable()
 		ItemRackOptItemStatsFrame:Hide()
