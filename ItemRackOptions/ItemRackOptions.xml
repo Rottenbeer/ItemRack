@@ -2012,7 +2012,7 @@
 						ItemRackOpt.BindFrameOnKeyDown(self,key)
 					</OnKeyDown>
 					<OnMouseUp>
-						ItemRackOpt.BindFrameOnKeyDown(self,key)
+						ItemRackOpt.BindFrameOnKeyDown(self,button)
 					</OnMouseUp>
 					<OnMouseWheel>
 						delta = delta>0 and "MOUSEWHEELUP" or "MOUSEWHEELDOWN"
