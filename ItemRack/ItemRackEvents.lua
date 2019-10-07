@@ -201,7 +201,7 @@ end
 function ItemRack.InitEvents()
 	ItemRack.LoadEvents()
 
-	ItemRack.CreateTimer("EventsBuffTimer",ItemRack.ProcessBuffEvent,.25)
+	ItemRack.CreateTimer("EventsBuffTimer",ItemRack.ProcessBuffEvent,.50)
 	ItemRack.CreateTimer("EventsZoneTimer",ItemRack.ProcessZoneEvent,.33)
 
 	if ItemRackButton20Queue then
