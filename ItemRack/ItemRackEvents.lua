@@ -99,12 +99,6 @@ ItemRack.DefaultEvents = {
 		Trigger = "UNIT_SPELLCAST_SUCCEEDED",
 		Script = "local spell = \"Name of spell\"\nlocal set = \"Name of set\"\nif arg1==\"player\" and arg2==spell then\n  EquipSet(set)\nend\n\n--[[This event will equip \"Name of set\" when \"Name of spell\" has finished casting.  Change the names for your own use.]]",
 	},
-	
-	["Dual Spec"] = {
-		Type = "Script",
-		Trigger = "ACTIVE_TALENT_GROUP_CHANGED",
-		Script = "local set1 = \"Name of Set1\"\nlocal set2 = \"Name of Set2\"\nif ItemRack.HasTitansGrip and GetInventoryItemLink(\"player\",17) then\n  local b,s = ItemRack.FindSpace()\n  if b then\n    ItemRack.MoveItem(17,nil,b,s)\n  end\nend\nlocal at = GetActiveSpecGroup()\nif at == 1 then\n  ItemRack.EquipSet(set1)\nelseif at == 2 then\n  ItemRack.EquipSet(set2)\nend\n\n--[[This event will equip \"Name of Set1\" when you switch to primary talents and \"Name of Set2\" when switching to secondary talents. Edit the names for your own use.]]",
-	},
 }
 
 -- resetDefault to reload/update default events, resetAll to wipe all events and recreate them
