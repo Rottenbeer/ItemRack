@@ -324,6 +324,9 @@ do
 	local data = {}
 
 	function ItemRack.ListSetsHavingItem(tooltip, id)
+		if ItemRackSettings.ShowSetInTooltip ~= "ON" then
+			return
+		end
 		local same_ids = ItemRack.SameID
 		if not id or id == 0 then return end
 		for name, set in pairs(ItemRackUser.Sets) do
