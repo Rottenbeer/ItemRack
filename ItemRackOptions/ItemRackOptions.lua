@@ -403,6 +403,7 @@ function ItemRackOpt.SaveSet()
 	end
 	-- set.equip[0] = nil
 	-- set.equip[18] = nil
+	ItemRackOpt.ReconcileSetBindings()
 	ItemRackOpt.ValidateSetButtons()
 end
 

@@ -1847,7 +1847,16 @@ function ItemRack.SetSetBindings()
 			buttonName = "ItemRack"..UnitName("player")..GetRealmName()..i
 			button = _G[buttonName] or CreateFrame("Button",buttonName,nil,"SecureActionButtonTemplate")
 			button:SetAttribute("type","macro")
-			button:SetAttribute("macrotext","/script ItemRack.RunSetBinding(\""..i.."\")")
+			local macrotext = "/script ItemRack.RunSetBinding(\""..i.."\")\n"
+			for slot = 16, 18 do
+				if ItemRackUser.Sets[i].equip[slot] then
+					local name,_,_,_,_,_,_,_,_,_ = GetItemInfo("item:"..ItemRackUser.Sets[i].equip[slot])
+					if name then
+						macrotext = macrotext .. "/equipslot [combat]" .. slot .. " " .. name .. "\n";
+					end
+				end
+			end
+			button:SetAttribute("macrotext",macrotext)
 			SetBindingClick(ItemRackUser.Sets[i].key,buttonName)
 		end
 	end
