@@ -447,7 +447,7 @@ end
 -- itemrack itemstring updater.
 -- takes a saved ItemRack-style ID and returns an updated version with the latest player level and spec injected, which helps us update outdated IDs saved when the player was lower level or different spec
 function ItemRack.UpdateIRString(itemRackID)
-	return (string.gsub(itemRackID or "", "^("..strrep("%d+:", 8)..")%d+:%d+", "%1"..UnitLevel("player")..":"..GetInspectSpecialization("player"))) --note: parenthesis to discard 2nd return value (number of substitutions, which will always be 1)
+	return (string.gsub(itemRackID or "", "^("..strrep("%d+:", 8)..")%d+:%d+", "%1"..UnitLevel("player")..":".."0")) --note: parenthesis to discard 2nd return value (number of substitutions, which will always be 1)
 end
 
 -- returns the provided ItemRack-style ID string with "item:" prepended, which turns it into a normal itemstring which we can then use for item lookups, itemlink generation and so on.
@@ -1979,12 +1979,3 @@ function ItemRack.ProfileFuncs()
 		table.insert(TinyPadPages,info)
 	end
 end
-
-function GetInspectSpecialization()
-	return 0;
-end
-
-function GetSpecialization()
-	return 0;
-end
-
