@@ -308,6 +308,39 @@ function ItemRack.UpdateClassSpecificStuff()
 	end
 end
 
+function ItemRack.OnSetBagItem(tooltip, bag, slot)
+	ItemRack.ListSetsHavingItem(tooltip, ItemRack.GetID(bag, slot))
+end
+
+function ItemRack.OnSetInventoryItem(tooltip, unit, inv_slot)
+	ItemRack.ListSetsHavingItem(tooltip, ItemRack.GetID(inv_slot))
+end
+
+function ItemRack.OnSetHyperlink(tooltip, link)
+	ItemRack.ListSetsHavingItem(tooltip, link:match("item:(.+)"))
+end
+
+do
+	local data = {}
+
+	function ItemRack.ListSetsHavingItem(tooltip, id)
+		local same_ids = ItemRack.SameID
+		if not id or id == 0 then return end
+		for name, set in pairs(ItemRackUser.Sets) do
+			for _, item in pairs(set.equip) do
+				if same_ids(item, id) then
+					data[name] = true
+				end
+			end
+		end
+		for name in pairs(data) do
+			tooltip:AddDoubleLine("ItemRack Set: ", name, 0,.6,1, 0,.6,1)
+			data[name] = nil
+		end
+		tooltip:Show()
+	end
+end
+
 function ItemRack.InitCore()
 	ItemRackUser.Sets["~Unequip"] = { equip={} }
 	ItemRackUser.Sets["~CombatQueue"] = { equip={} }
@@ -348,6 +381,9 @@ function ItemRack.InitCore()
 	hooksecurefunc("UseAction",ItemRack.newUseAction)
 	hooksecurefunc("UseItemByName",ItemRack.newUseItemByName)
 	hooksecurefunc("PaperDollFrame_OnShow",ItemRack.newPaperDollFrame_OnShow)
+	hooksecurefunc(GameTooltip, "SetBagItem", ItemRack.OnSetBagItem)
+	hooksecurefunc(GameTooltip, "SetInventoryItem", ItemRack.OnSetInventoryItem)
+	hooksecurefunc(GameTooltip, "SetHyperlink", ItemRack.OnSetHyperlink)
 
 	ItemRackFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
 	ItemRackFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
@@ -360,14 +396,14 @@ function ItemRack.InitCore()
 	-- ItemRackFrame:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
 	-- ItemRackFrame:RegisterEvent("PET_BATTLE_OPENING_START")
 	-- ItemRackFrame:RegisterEvent("PET_BATTLE_CLOSE")
-	if not disable_delayed_swaps then
+	--if not disable_delayed_swaps then
 		-- in the event delayed swaps while casting don't work well,
 		-- make disable_delayed_swaps=1 at top of this file to disable it
 		-- ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_START")
 		-- ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_STOP")
 		-- ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 		-- ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
-	end
+	--end
 	ItemRack.StartTimer("CooldownUpdate")
 	ItemRack.MoveMinimap()
 	ItemRack.ReflectAlpha()
