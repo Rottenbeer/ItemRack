@@ -990,7 +990,6 @@ function ItemRack.BuildMenu(id,menuInclude)
 			button = ItemRack.CreateMenuButton(i,ItemRack.Menu[i]) or ItemRackButtonMenu
 			button:SetPoint("TOPLEFT",ItemRackMenuFrame,ItemRack.menuDock,xpos,ypos)
 			button:SetFrameLevel(ItemRackMenuFrame:GetFrameLevel()+1)
-			button:SetFrameStrata("TOOLTIP")
 			if ItemRack.menuOrient=="VERTICAL" then
 				xpos = xpos + ItemRack.DockInfo[ItemRack.currentDock].xdir*40
 				col = col + 1
