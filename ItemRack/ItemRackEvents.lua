@@ -368,6 +368,18 @@ function ItemRack.ProcessZoneEvent()
 	end
 end
 
+--here we observe mounted status and raise an event should it change. UNIT_AURA event seems unreliable for this
+local _lastStateMounted = IsMounted() and not UnitOnTaxi("player")
+function ItemRack.CheckForMountedEvents()
+	if UnitIsDeadOrGhost("player") then return end
+	
+	local isPlayerMounted = IsMounted() and not UnitOnTaxi("player")
+	if isPlayerMounted ~= _lastStateMounted then
+		_lastStateMounted = isPlayerMounted
+		ItemRack.ProcessBuffEvent()
+	end
+end
+
 function ItemRack.ProcessBuffEvent()
 	local enabled = ItemRackUser.Events.Enabled
 	local events = ItemRackEvents
