@@ -1372,17 +1372,17 @@ function ItemRack.UpdateCombatQueue()
 			queue:Hide()
 		end
 	end
-	if PaperDollFrame:IsVisible() then
-		for i=1,19 do
-			queue = _G["Character"..ItemRack.SlotInfo[i].name.."Queue"]
-			if ItemRack.CombatQueue[i] then
-				queue:SetTexture(select(2,ItemRack.GetInfoByID(ItemRack.CombatQueue[i])))
-				queue:Show()
-			else
-				queue:Hide()
-			end
+
+	for i=1,19 do
+		queue = _G["Character"..ItemRack.SlotInfo[i].name.."Queue"]
+		if ItemRack.CombatQueue[i] then
+			queue:SetTexture(select(2,ItemRack.GetInfoByID(ItemRack.CombatQueue[i])))
+			queue:Show()
+		else
+			queue:Hide()
 		end
 	end
+
 end
 
 --[[ Tooltip ]]
