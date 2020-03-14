@@ -280,7 +280,8 @@ function ItemRack.ProcessingFrameOnEvent(self,event,...)
 		elseif event=="ZONE_CHANGED_NEW_AREA" and eventType=="Zone" then
 			startZone = 1
 		elseif eventType=="Script" and events[eventName].Trigger==event then
-			RunScript(events[eventName].Script)
+			local method = loadstring(events[eventName].Script)
+			pcall(method, ...)
 		end
 	end
 	if startStance then

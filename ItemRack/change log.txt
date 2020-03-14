@@ -1,3 +1,7 @@
+__ New in 3.26 - By Cactus __
+
+* Added Events parameters to scripts
+
 __ New in 3.08 - By Kharthus __
 
 * Bug fixes for event and queue errors
