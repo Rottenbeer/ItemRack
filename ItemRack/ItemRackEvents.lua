@@ -372,7 +372,13 @@ end
 --here we observe mounted status and raise an event should it change. UNIT_AURA event seems unreliable for this
 local _lastStateMounted = IsMounted() and not UnitOnTaxi("player")
 function ItemRack.CheckForMountedEvents()
-	if UnitIsDeadOrGhost("player") then return end
+	if UnitIsDeadOrGhost("player") then
+		return
+	end
+
+	if ItemRackUser.EnableEvents=="OFF" then
+		return
+	end
 	
 	local isPlayerMounted = IsMounted() and not UnitOnTaxi("player")
 	if isPlayerMounted ~= _lastStateMounted then
