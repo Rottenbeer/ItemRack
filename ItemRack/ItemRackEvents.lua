@@ -382,6 +382,14 @@ function ItemRack.CheckForMountedEvents()
 	
 	local isPlayerMounted = IsMounted() and not UnitOnTaxi("player")
 	if isPlayerMounted ~= _lastStateMounted then
+		-- Disable queues if mounted, re-enable them when dismounted
+		-- This allows users to use priority-queues for their non-mount slots and allow ItemRack to equip the correct non-mount gear after a dismount
+		if isPlayerMounted == false then
+			ItemRackUser.EnableQueues="ON"
+		else
+			ItemRackUser.EnableQueues="OFF"
+		end
+		
 		_lastStateMounted = isPlayerMounted
 		ItemRack.ProcessBuffEvent()
 	end
