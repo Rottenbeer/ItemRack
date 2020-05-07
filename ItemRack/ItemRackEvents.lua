@@ -63,24 +63,25 @@ ItemRack.DefaultEvents = {
 	},
 	["Mounted"] = { Type = "Buff", Unequip = 1, Anymount = 1 },
 	["Drinking"] = { Type = "Buff", Unequip = 1, Buff = "Drink" },
-	["Evocation"] = { Type = "Buff", Unequip = 1, Buff = "Evocation" },
 
-	["Warrior Battle"] = { Type = "Stance", Stance = 1 },
-	["Warrior Defensive"] = { Type = "Stance", Stance = 2 },
-	["Warrior Berserker"] = { Type = "Stance", Stance = 3 },
+	["Evocation"] = { Class = "MAGE", Type = "Buff", Unequip = 1, Buff = "Evocation" },
 
-	["Priest Shadowform"] = { Type = "Stance", Unequip = 1, Stance = 1 },
+	["Warrior Battle"] = { Class = "WARRIOR", Type = "Stance", Stance = 1 },
+	["Warrior Defensive"] = { Class = "WARRIOR", Type = "Stance", Stance = 2 },
+	["Warrior Berserker"] = { Class = "WARRIOR", Type = "Stance", Stance = 3 },
 
-	["Druid Humanoid"] = { Type = "Stance", Stance = 0 },
-	["Druid Bear"] = { Type = "Stance", Stance = 1 },
-	["Druid Aquatic"] = { Type = "Stance", Stance = 2 },
-	["Druid Cat"] = { Type = "Stance", Stance = 3 },
-	["Druid Travel"] = { Type = "Stance", Stance = 4 },
-	["Druid Moonkin"] = { Type = "Stance", Stance = "Moonkin Form" },
+	["Priest Shadowform"] = { Class = "PRIEST", Type = "Stance", Unequip = 1, Stance = 1 },
 
-	["Rogue Stealth"] = { Type = "Stance", Unequip = 1, Stance = 1 },
+	["Druid Humanoid"] = { Class = "DRUID", Type = "Stance", Stance = 0 },
+	["Druid Bear"] = { Class = "DRUID", Type = "Stance", Stance = 1 },
+	["Druid Aquatic"] = { Class = "DRUID", Type = "Stance", Stance = 2 },
+	["Druid Cat"] = { Class = "DRUID", Type = "Stance", Stance = 3 },
+	["Druid Travel"] = { Class = "DRUID", Type = "Stance", Stance = 4 },
+	["Druid Moonkin"] = { Class = "DRUID", Type = "Stance", Stance = "Moonkin Form" },
 
-	["Shaman Ghostwolf"] = { Type = "Stance", Unequip = 1, Stance = 1 },
+	["Rogue Stealth"] = { Class = "ROGUE", Type = "Stance", Unequip = 1, Stance = 1 },
+
+	["Shaman Ghostwolf"] = { Class = "SHAMAN", Type = "Stance", Unequip = 1, Stance = 1 },
 
 	["Swimming"] = {
 		["Trigger"] = "MIRROR_TIMER_START",
@@ -112,7 +113,9 @@ ItemRack.DefaultEvents = {
 -- resetDefault to reload/update default events, resetAll to wipe all events and recreate them
 function ItemRack.LoadEvents(resetDefault,resetAll)
 
+	local _, playerClass = UnitClass("player")
 	local version = tonumber(ItemRackSettings.EventsVersion) or 0
+
 	if ItemRack.EventsVersion > version then
 		resetDefault = 1 -- force a load of default events (leaving custom ones intact)
 		ItemRackSettings.EventsVersion = ItemRack.EventsVersion
@@ -131,7 +134,11 @@ function ItemRack.LoadEvents(resetDefault,resetAll)
 
 	if resetDefault or resetAll then
 		for i in pairs(ItemRack.DefaultEvents) do
-			ItemRack.CopyDefaultEvent(i)
+			local eventClass = ItemRack.DefaultEvents[i].Class
+
+			if not eventClass or eventClass == playerClass then
+				ItemRack.CopyDefaultEvent(i)
+			end
 		end
 	end
 
