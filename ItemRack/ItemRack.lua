@@ -377,14 +377,14 @@ function ItemRack.InitCore()
 
 	-- pattern splitter by Maldivia http://forums.worldofwarcraft.com/thread.html?topicId=6441208576
 	local function split(str, t)
-	    local start, stop, single, plural = str:find("\1244(.-):(.-);")
-	    if start then
-	        split(str:sub(1, start - 1) .. single .. str:sub(stop + 1), t)
-	        split(str:sub(1, start - 1) .. plural .. str:sub(stop + 1), t)
-	    else
-	        tinsert(t, (str:gsub("%%d","%%d+")))
-	    end
-	    return t
+		local start, stop, single, plural = str:find("\1244(.-):(.-);")
+		if start then
+			split(str:sub(1, start - 1) .. single .. str:sub(stop + 1), t)
+			split(str:sub(1, start - 1) .. plural .. str:sub(stop + 1), t)
+		else
+			tinsert(t, (str:gsub("%%d","%%d+")))
+		end
+		return t
 	end
 	ItemRack.CHARGES_PATTERNS = {}
 	split(ITEM_SPELL_CHARGES,ItemRack.CHARGES_PATTERNS)
