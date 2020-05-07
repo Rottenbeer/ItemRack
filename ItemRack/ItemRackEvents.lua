@@ -28,7 +28,7 @@
 ]]
 
 -- increment this value when default events are changed to deploy them to existing events
-ItemRack.EventsVersion = 15
+ItemRack.EventsVersion = 16
 
 -- default events, loaded when no events exist or ItemRack.EventsVersion is increased
 ItemRack.DefaultEvents = {
@@ -98,6 +98,14 @@ ItemRack.DefaultEvents = {
 		Type = "Script",
 		Trigger = "UNIT_SPELLCAST_SUCCEEDED",
 		Script = "local spell = \"Name of spell\"\nlocal set = \"Name of set\"\nif arg1==\"player\" and arg2==spell then\n  EquipSet(set)\nend\n\n--[[This event will equip \"Name of set\" when \"Name of spell\" has finished casting.  Change the names for your own use.]]",
+	},
+
+	["Nefarian's Lair"] = {
+		Type = "Zone",
+		Unequip = 1,
+		Zones = {
+			["Nefarian's Lair"] = 1,
+		}
 	},
 }
 
