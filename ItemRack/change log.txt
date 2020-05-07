@@ -1,3 +1,14 @@
+__ New in 3.31 - By Mikinho/Iblis/Sut/Reddsiq __
+
+* Bug fix for Hunter trinket swap when feign death.
+
+Note: Requires below Hunter macro
+
+```
+/petpassive
+/cast Feign Death
+```
+
 __ New in 3.26 - By Cactus __
 
 * Added Events parameters to scripts
