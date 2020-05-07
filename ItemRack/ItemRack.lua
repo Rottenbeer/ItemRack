@@ -263,7 +263,8 @@ function ItemRack.OnLeavingCombatOrDeath()
 		ItemRack.UpdateCombatQueue()
 		ItemRack.EquipSet("~CombatQueue")
 	end
-	if event=="PLAYER_REGEN_ENABLED" then
+	local inLockdown = InCombatLockdown()
+	if not inLockdown then
 		ItemRack.inCombat = nil
 		if ItemRackOptFrame and ItemRackOptFrame:IsVisible() then
 			ItemRackOpt.ListScrollFrameUpdate()
@@ -1335,16 +1336,8 @@ end
 
 function ItemRack.IsPlayerReallyDead()
 	local dead = UnitIsDeadOrGhost("player")
-	if select(2,UnitClass("player"))=="HUNTER" then
-		if GetLocale()=="enUS" and AuraUtil.FindAuraByName("Feign Death", "player") then
-			return nil
-		else
-			for i=1,40 do
-				if select(2,UnitBuff("player",i))==GetFileIDFromPath("Interface\\Icons\\Ability_Rogue_FeignDeath") then
-					return nil
-				end
-			end
-		end
+	if UnitIsFeignDeath("player") then
+		dead = false
 	end
 	return dead
 end
