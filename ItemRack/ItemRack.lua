@@ -3,7 +3,7 @@ ItemRack = {}
 local disable_delayed_swaps = nil -- temporary. change nil to 1 to stop attempting to delay set swaps while casting
 local _
 
-ItemRack.Version = "3.27"
+ItemRack.Version = "3.30"
 
 ItemRackUser = {
 	Sets = {}, -- user's sets
@@ -394,7 +394,6 @@ function ItemRack.InitCore()
 	ItemRack.CreateTimer("MenuMouseover",ItemRack.MenuMouseover,.25,1)
 	ItemRack.CreateTimer("TooltipUpdate",ItemRack.TooltipUpdate,1,1)
 	ItemRack.CreateTimer("CooldownUpdate",ItemRack.CooldownUpdate,1,1)
-	ItemRack.CreateTimer("CheckForMountedEvents",ItemRack.CheckForMountedEvents,.5,1)
 	ItemRack.CreateTimer("MinimapDragging",ItemRack.MinimapDragging,0,1)
 	ItemRack.CreateTimer("LocksChanged",ItemRack.LocksChanged,.2)
 	ItemRack.CreateTimer("MinimapShine",ItemRack.MinimapShineUpdate,0,1)
@@ -431,7 +430,6 @@ function ItemRack.InitCore()
 		-- ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
 	--end
 	ItemRack.StartTimer("CooldownUpdate")
-	ItemRack.StartTimer("CheckForMountedEvents")
 	ItemRack.MoveMinimap()
 	ItemRack.ReflectAlpha()
 	ItemRack.SetSetBindings()
@@ -1367,17 +1365,17 @@ function ItemRack.UpdateCombatQueue()
 			queue:Hide()
 		end
 	end
-	if PaperDollFrame:IsVisible() then
-		for i=1,19 do
-			queue = _G["Character"..ItemRack.SlotInfo[i].name.."Queue"]
-			if ItemRack.CombatQueue[i] then
-				queue:SetTexture(select(2,ItemRack.GetInfoByID(ItemRack.CombatQueue[i])))
-				queue:Show()
-			else
-				queue:Hide()
-			end
+
+	for i=1,19 do
+		queue = _G["Character"..ItemRack.SlotInfo[i].name.."Queue"]
+		if ItemRack.CombatQueue[i] then
+			queue:SetTexture(select(2,ItemRack.GetInfoByID(ItemRack.CombatQueue[i])))
+			queue:Show()
+		else
+			queue:Hide()
 		end
 	end
+
 end
 
 --[[ Tooltip ]]

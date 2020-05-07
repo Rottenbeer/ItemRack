@@ -201,8 +201,9 @@ end
 function ItemRack.InitEvents()
 	ItemRack.LoadEvents()
 
-	ItemRack.CreateTimer("EventsBuffTimer",ItemRack.ProcessBuffEvent,.50)
-	ItemRack.CreateTimer("EventsZoneTimer",ItemRack.ProcessZoneEvent,.33)
+	ItemRack.CreateTimer("EventsBuffTimer",ItemRack.ProcessBuffEvent,.15)
+	ItemRack.CreateTimer("EventsZoneTimer",ItemRack.ProcessZoneEvent,.16)
+	ItemRack.CreateTimer("CheckForMountedEvents",ItemRack.CheckForMountedEvents,.5,1)
 
 	if ItemRackButton20Queue then
 		ItemRackButton20Queue:SetTexture("Interface\\AddOns\\ItemRack\\ItemRackGear")
@@ -216,6 +217,7 @@ end
 function ItemRack.RegisterEvents()
 	local frame = ItemRackEventProcessingFrame
 	frame:UnregisterAllEvents()
+	ItemRack.StopTimer("CheckForMountedEvents")
 	ItemRack.ReflectEventsRunning()
 	if ItemRackUser.EnableEvents=="OFF" then
 		return
@@ -243,6 +245,8 @@ function ItemRack.RegisterEvents()
 			end
 		end
 	end
+	ItemRack.StartTimer("CheckForMountedEvents")
+
 	ItemRack.ProcessStanceEvent()
 	ItemRack.ProcessZoneEvent()
 	ItemRack.ProcessBuffEvent()
