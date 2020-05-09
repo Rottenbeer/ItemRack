@@ -1,3 +1,6 @@
+__ New in 3.36 - By Rottenbeer __
+* Manual changelog on curseforge
+
 __ New in 3.35 - By Rottenbeer __
 
 * Automatic packaging for curseforge

@@ -4,3 +4,4 @@ move-folders:
     ItemRack/ItemRackOptions: ItemRackOptions
 ignore:
     - README.md
+manual-changelog: ItemRack/Changelog.txt
