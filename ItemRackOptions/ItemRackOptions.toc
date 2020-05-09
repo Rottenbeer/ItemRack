@@ -3,5 +3,6 @@
 ## Notes: Load-On-Demand modules for ItemRack
 ## Dependencies: ItemRack, Blizzard_MacroUI
 ## LoadOnDemand: 1
+## X-Curse-Project-ID: 340903
 ItemRackOptions.lua
 ItemRackOptions.xml
