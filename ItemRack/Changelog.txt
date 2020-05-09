@@ -1,3 +1,7 @@
+__ New in 3.35 - By Rottenbeer __
+
+* Automatic packaging for curseforge
+
 __ New in 3.32 - By Mikinho/Iblis/Sut/Reddsiq __
 
 * Added new default event "Nefarian's Lair" so players can auto swap Onyxia Scale Cloak easily.
@@ -13,9 +17,65 @@ Note: Requires below Hunter macro
 /cast Feign Death
 ```
 
+__ New in 3.30 __
+
+* Fixed queue icon not disappearing after combat
+* Update UI Version
+
+Thanks to blastehh for the PR
+
+__ New in 3.29 __
+
+* Decrease delay until gear is swapped for buff and zone
+Suggested by ysaliens
+
+__ New in 3.28 __
+
+* Enabling events also starts the mounted event timer and vice versa
+* Moved all logic of the mounted event timer to ItemRackEvents.lua
+
+Thanks to seidhrhealz for the PR
+
+__ New in 3.27 __
+
+* Check if events are enabled before switching mounted gear
+
 __ New in 3.26 - By Cactus __
 
 * Added Events parameters to scripts
+* Integrate itemrackautoridinggear to make mounting events more reliable. Thanks
+* to seidhrhealz for the PR
+* Fixed a problem with scripts not receiving event parameters. Thanks to
+* plchampigny for the PR
+
+__ New in 3.25 __
+
+* Revert Raised minimap button strata, so it is visible with SpartanUI (or other
+overhauls), since it breaks broker functionality
+
+__ New in 3.24 __
+
+* Raised minimap button strate, so it is visible with SpartanUI (or other
+overhauls).
+
+Thanks to poptix for the PR
+
+__ New in 3.23 __
+
+* Added possibility for AdiBags to create rules.
+Thanks to Andrew Potter for the PR
+
+__ New in 3.22 __
+
+* Add option to disable set info in toolstips
+* Add combat swap for sets with hotkeys
+* EquipSet events triggered by hotkeys will now be able to swap weapons in
+combat.
+
+__ New in 3.20 __
+
+* Display set info in tooltip
+* Remove leftover retail functions
 
 __ New in 3.08 - By Kharthus __
 
