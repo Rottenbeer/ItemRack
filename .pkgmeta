@@ -1,0 +1,6 @@
+package-as: ItemRack
+move-folders: 
+    ItemRack/ItemRack: ItemRack
+    ItemRack/ItemRackOptions: ItemRackOptions
+ignore:
+    - README.md
