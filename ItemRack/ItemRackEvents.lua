@@ -431,7 +431,7 @@ function ItemRack.ProcessBuffEvent()
 				isSetEquipped = ItemRack.IsSetEquipped(setname)
 				if buff and not isSetEquipped then
 					ItemRack.EquipSet(setname)
-				elseif not buff and isSetEquipped then
+				elseif not buff and isSetEquipped and events[eventName].Unequip then
 					ItemRack.UnequipSet(setname)
 				end
 			end
