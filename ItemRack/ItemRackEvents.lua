@@ -2,7 +2,7 @@
 
 	Events can be one of four types:
 		Buff : Triggered by PLAYER_AURAS_CHANGED and delayed .3 sec
-		Zone : Triggered by ZONE_CHANGED_NEW_AREA and delayed .5 sec
+		Zone : Triggered by ZONE_CHANGED_NEW_AREA or ZONE_CHANGED_INDOORS and delayed .5 sec
 		Stance : Triggered by UPDATE_SHAPESHIFT_FORM and not delayed
 		Script : User-defined trigger
 
@@ -28,7 +28,7 @@
 ]]
 
 -- increment this value when default events are changed to deploy them to existing events
-ItemRack.EventsVersion = 16
+ItemRack.EventsVersion = 17
 
 -- default events, loaded when no events exist or ItemRack.EventsVersion is increased
 ItemRack.DefaultEvents = {
@@ -254,6 +254,9 @@ function ItemRack.RegisterEvents()
 			if not frame:IsEventRegistered("ZONE_CHANGED_NEW_AREA") then
 				frame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 			end
+			if not frame:IsEventRegistered("ZONE_CHANGED_INDOORS") then
+				frame:RegisterEvent("ZONE_CHANGED_INDOORS")
+			end
 		elseif eventType=="Script" then
 			if not frame:IsEventRegistered(events[eventName].Trigger) then
 				frame:RegisterEvent(events[eventName].Trigger)
@@ -296,7 +299,7 @@ function ItemRack.ProcessingFrameOnEvent(self,event,...)
 			startBuff = 1
 		elseif event=="UPDATE_SHAPESHIFT_FORM" and eventType=="Stance" then
 			startStance = 1
-		elseif event=="ZONE_CHANGED_NEW_AREA" and eventType=="Zone" then
+		elseif (event=="ZONE_CHANGED_NEW_AREA" or event=="ZONE_CHANGED_INDOORS")  and eventType=="Zone" then
 			startZone = 1
 		elseif eventType=="Script" and events[eventName].Trigger==event then
 			local method = loadstring(events[eventName].Script)
@@ -368,14 +371,15 @@ function ItemRack.ProcessZoneEvent()
 	local events = ItemRackEvents
 
 	local currentZone = GetRealZoneText()
+	local currentSubZone = GetSubZoneText()
 	local setToEquip, setToUnequip, setname
 
 	for eventName in pairs(enabled) do
 		if events[eventName].Type=="Zone" then
 			setname = ItemRackUser.Events.Set[eventName]
-			if events[eventName].Zones[currentZone] and not ItemRack.IsSetEquipped(setname) then
+			if (events[eventName].Zones[currentZone] or events[eventName].Zones[currentSubZone]) and not ItemRack.IsSetEquipped(setname) then
 				setToEquip = setname
-			elseif not events[eventName].Zones[currentZone] and events[eventName].Unequip and ItemRack.IsSetEquipped(setname) then
+			elseif not (events[eventName].Zones[currentZone] or events[eventName].Zones[currentSubZone]) and events[eventName].Unequip and ItemRack.IsSetEquipped(setname) then
 				setToUnequip = setname
 			end
 		end
