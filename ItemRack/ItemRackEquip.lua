@@ -122,7 +122,7 @@ end
 
 function ItemRack.AnythingLocked()
 	local isLocked = nil
-	for i=1,19 do
+	for i=0,19 do
 		if IsInventoryItemLocked(i) then
 			return 1
 		end
