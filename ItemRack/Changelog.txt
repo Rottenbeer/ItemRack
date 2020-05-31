@@ -1,3 +1,6 @@
+__ New in 3.40 - By Rottenbeer __
+* version bump for curseforge
+
 __ New in 3.39 - By Rottenbeer __
 * ZoneEvents: check for subzones and indoor area changes
 
