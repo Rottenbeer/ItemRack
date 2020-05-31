@@ -1,3 +1,6 @@
+__ New in 3.39 - By Rottenbeer __
+* ZoneEvents: check for subzones and indoor area changes
+
 __ New in 3.38 - By Rottenbeer __
 * Prevent unequipping sets that are not marked to unequip for buff events
 Thanks to davismj for the pull request
