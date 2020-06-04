@@ -6,8 +6,10 @@ function ItemRack.PeriodicQueueCheck()
 		return
 	end
 	if ItemRackUser.EnableQueues=="ON" then
-		for i in pairs(ItemRackUser.QueuesEnabled) do
-			ItemRack.ProcessAutoQueue(i)
+		for i,v in pairs(ItemRackUser.QueuesEnabled) do
+			if v and v == true then
+				ItemRack.ProcessAutoQueue(i)
+			end
 		end
 	end
 end
