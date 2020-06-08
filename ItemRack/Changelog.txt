@@ -1,3 +1,9 @@
+__ New in 3.41 - By Rottenbeer __
+* Fix individual slot queue toggle
+The addon currently tries to queue all slots and ignores the checkbox "Auto queue this slot"
+This will make it check the table to see if the box was actually ticked before queuing a slot.
+
+Thanks to blastehh
 __ New in 3.40 - By Rottenbeer __
 * version bump for curseforge
 
