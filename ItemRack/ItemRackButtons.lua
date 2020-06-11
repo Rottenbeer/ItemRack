@@ -506,7 +506,7 @@ function ItemRack.ButtonPostClick(self,button)
 				ItemRackOpt.TabOnClick(self,4)
 				ItemRackOpt.SetupQueue(id)
 			end
-			ItemRackUser.QueuesEnabled[id] = not ItemRackUser.QueuesEnabled[id] and 1 or nil
+			ItemRackUser.QueuesEnabled[id] = not ItemRackUser.QueuesEnabled[id]
 			if ItemRackOptSubFrame7 and ItemRackOptSubFrame7:IsVisible() and ItemRackOpt.SelectedSlot==id then
 				ItemRackOptQueueEnable:SetChecked(ItemRackUser.QueuesEnabled[id])
 			end
