@@ -108,7 +108,7 @@ function ItemRack.SetQueue(slot,newQueue)
 				ItemRackOpt.UpdateInv()
 			end
 		end
-		ItemRackUser.QueuesEnabled[slot] = 1
+		ItemRackUser.QueuesEnabled[slot] = true
 	end
 	ItemRack.UpdateCombatQueue()
 end
