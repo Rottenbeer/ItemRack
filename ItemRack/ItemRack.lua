@@ -3,7 +3,7 @@ ItemRack = {}
 local disable_delayed_swaps = nil -- temporary. change nil to 1 to stop attempting to delay set swaps while casting
 local _
 
-ItemRack.Version = "3.41"
+ItemRack.Version = "3.42"
 
 ItemRackUser = {
 	Sets = {}, -- user's sets

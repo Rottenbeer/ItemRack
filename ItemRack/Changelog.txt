@@ -1,3 +1,8 @@
+__ New in 3.42 - By Rottenbeer __
+* Fix for alt+click queue toggle
+Auto queue wasn't working due to mismatching usage of 'true' and '1'
+
+Thanks to blastehh!
 __ New in 3.41 - By Rottenbeer __
 * Fix individual slot queue toggle
 The addon currently tries to queue all slots and ignores the checkbox "Auto queue this slot"
