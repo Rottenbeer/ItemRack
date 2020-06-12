@@ -218,8 +218,11 @@ function ItemRack.OnCastingStop(self,event,unit)
 			return
 		else
 			ItemRack.NowCasting = nil
+			-- This check is in the event that a successful spellcast puts you in combat
 			if event ~= "UNIT_SPELLCAST_SUCCEEDED" and not ItemRack.inCombat then
 				ItemRack.ProcessCombatQueue()
+			else
+				ItemRack.OnSpellSucceed()
 			end
 			--[[
 			if #(ItemRack.SetsWaiting)>0 and not ItemRack.AnythingLocked() then
@@ -233,6 +236,17 @@ end
 function ItemRack.OnItemLockChanged()
 	ItemRack.StartTimer("LocksChanged")
 	ItemRack.LocksHaveChanged = 1
+end
+
+function ItemRack.OnSpellSucceed()
+	ItemRack.StartTimer("DelayedCombatQueue")
+end
+
+function ItemRack.DelayedCombatQueue()
+	if ItemRack.inCombat then
+		return
+	end
+	ItemRack.ProcessCombatQueue()
 end
 
 function ItemRack.OnUnitInventoryChanged(self,event,unit)
@@ -410,7 +424,8 @@ function ItemRack.InitCore()
 	ItemRack.CreateTimer("MinimapDragging",ItemRack.MinimapDragging,0,1)
 	ItemRack.CreateTimer("LocksChanged",ItemRack.LocksChanged,.2)
 	ItemRack.CreateTimer("MinimapShine",ItemRack.MinimapShineUpdate,0,1)
-
+	ItemRack.CreateTimer("DelayedCombatQueue",ItemRack.DelayedCombatQueue,.1)
+	
 	for i=-2,11 do
 		ItemRack.LockList[i] = {}
 	end
@@ -1262,7 +1277,7 @@ function ItemRack.EquipItemByID(id,slot)
 	if not id then return end
 	if ItemRack.NowCasting or (not ItemRack.SlotInfo[slot].swappable and (UnitAffectingCombat("player") or ItemRack.IsPlayerReallyDead()) ) then
 		ItemRack.AddToCombatQueue(slot,id)
-	elseif not GetCursorInfo() then
+	elseif not GetCursorInfo() and not SpellIsTargeting() then
 		if id~=0 then -- not an empty slot
 			local _,b,s = ItemRack.FindItem(id)
 			if b then
