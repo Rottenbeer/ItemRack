@@ -20,7 +20,7 @@ function ItemRack.ProcessAutoQueue(slot)
 	end
 
 	local start,duration,enable = GetInventoryItemCooldown("player",slot)
-	local timeLeft = GetTime()-start
+	local timeLeft = math.max(start + duration - GetTime(),0)
 	local baseID = ItemRack.GetIRString(GetInventoryItemLink("player",slot),true,true)
 	local icon = _G["ItemRackButton"..slot.."Queue"]
 
@@ -28,8 +28,8 @@ function ItemRack.ProcessAutoQueue(slot)
 
 	local buff = GetItemSpell(baseID)
 	if buff then
-		if AuraUtil.FindAuraByName(buff,"player") or (start>0 and (duration-timeLeft)>30 and timeLeft<1) then
-			icon:SetDesaturated(1)
+		if AuraUtil.FindAuraByName(buff,"player") then
+			icon:SetDesaturated(true)
 			return
 		end
 	end
@@ -40,14 +40,14 @@ function ItemRack.ProcessAutoQueue(slot)
 			return -- leave if .keep flag set on this item
 		end
 		if ItemRackItems[baseID].delay then
-			-- leave if currently equipped trinket is on cooldown for less than its delay
-			if start>0 and (duration-timeLeft)>30 and timeLeft<ItemRackItems[baseID].delay then
-				icon:SetDesaturated(1)
+			-- Leave item equipped if remaining cd for the item is less than its delay
+			if start>0 and timeLeft>30 and timeLeft<=ItemRackItems[baseID].delay then
+				icon:SetDesaturated(true)
 				return
 			end
 		end
 	end
-	icon:SetDesaturated(0)
+	icon:SetDesaturated(false)
 	icon:SetVertexColor(1,1,1)
 
 	local ready = ItemRack.ItemNearReady(baseID)
@@ -85,8 +85,8 @@ end
 
 function ItemRack.ItemNearReady(id)
 	local start,duration = GetItemCooldown(id)
-	if start==0 or duration-(GetTime()-start)<30 then
-		return 1
+	if start==0 or math.max(start + duration - GetTime(),0)<30 then
+		return true
 	end
 end
 
