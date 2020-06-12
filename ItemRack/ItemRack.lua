@@ -1,6 +1,5 @@
 ItemRack = {}
 
-local disable_delayed_swaps = nil -- temporary. change nil to 1 to stop attempting to delay set swaps while casting
 local _
 
 ItemRack.Version = "3.42"
@@ -243,7 +242,7 @@ function ItemRack.OnSpellSucceed()
 end
 
 function ItemRack.DelayedCombatQueue()
-	if ItemRack.inCombat then
+	if ItemRack.inCombat or ItemRack.NowCasting then
 		return
 	end
 	ItemRack.ProcessCombatQueue()
@@ -425,7 +424,7 @@ function ItemRack.InitCore()
 	ItemRack.CreateTimer("LocksChanged",ItemRack.LocksChanged,.2)
 	ItemRack.CreateTimer("MinimapShine",ItemRack.MinimapShineUpdate,0,1)
 	ItemRack.CreateTimer("DelayedCombatQueue",ItemRack.DelayedCombatQueue,.1)
-	
+
 	for i=-2,11 do
 		ItemRack.LockList[i] = {}
 	end
