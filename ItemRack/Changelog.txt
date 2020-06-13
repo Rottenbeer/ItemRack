@@ -1,3 +1,10 @@
+__ New in 3.43 - By Rottenbeer __
+* Fixed item swap failure during casting
+Attempting to item swap during casting will now wait for an end-combat, or cancel-casting event before swapping instead of failing.
+A known bug is it won't finish the swap if you complete a cast but do not enter combat (e.g. autoqueue item comes off cd while you are mounting)
+
+Thanks to blastehh!
+
 __ New in 3.42 - By Rottenbeer __
 * Fix for alt+click queue toggle
 Auto queue wasn't working due to mismatching usage of 'true' and '1'
