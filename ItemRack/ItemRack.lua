@@ -192,6 +192,7 @@ function ItemRack.OnPlayerLogin()
 	handler.UNIT_SPELLCAST_STOP = ItemRack.OnCastingStop
 	handler.UNIT_SPELLCAST_SUCCEEDED = ItemRack.OnCastingStop
 	handler.UNIT_SPELLCAST_INTERRUPTED = ItemRack.OnCastingStop
+	handler.UNIT_SPELLCAST_FAILED = ItemRack.OnCastingStop
 	handler.CHARACTER_POINTS_CHANGED = ItemRack.UpdateClassSpecificStuff
 	handler.PLAYER_TALENT_UPDATE = ItemRack.UpdateClassSpecificStuff
 --	handler.ACTIVE_TALENT_GROUP_CHANGED = ItemRack.UpdateClassSpecificStuff
@@ -455,6 +456,7 @@ function ItemRack.InitCore()
 	ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_STOP")
 	ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 	ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
+	ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_FAILED")
 	--end
 	ItemRack.StartTimer("CooldownUpdate")
 	ItemRack.MoveMinimap()
