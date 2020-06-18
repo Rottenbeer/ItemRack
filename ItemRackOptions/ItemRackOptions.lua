@@ -76,6 +76,7 @@ function ItemRackOpt.OnLoad(self)
 		{type="check",optset=ItemRackUser,variable="Locked",label="Lock Buttons",tooltip="Prevent buttons and menus from being moved."},
 		{type="check",optset=ItemRackUser,variable="EnableEvents",label="Enable events",tooltip="Enable events to automatically swap gear."},
 		{type="check",optset=ItemRackUser,variable="EnableQueues",label="Enable auto queues",tooltip="Enables auto queues to automatically swap gear."},
+		{type="check",optset=ItemRackUser,variable="EnablePerSetQueues",depend="EnableQueues",label="Enable per-set queues",tooltip="Enable individual auto queues per set."},
 		{type="number",optset=ItemRackUser,variable="ButtonSpacing",button=ItemRackOptButtonSpacing,label="Button spacing",tooltip="Padding distance between buttons.",combatlock=1},
 		{type="slider",button=ItemRackOptButtonSpacingSlider,variable="ButtonSpacing",label="Button spacing",tooltip="Padding distance between buttons.", min=0, max=24, step=1, form="%d",combatlock=1},
 		{type="number",optset=ItemRackUser,variable="Alpha",button=ItemRackOptAlpha,label="Transparency",tooltip="Transparency (alpha) of the buttons and menu."},
@@ -779,7 +780,7 @@ function ItemRackOpt.OptListCheckButtonOnClick(self,override)
 		ItemRack.ReflectCooldownFont()
 	elseif opt.variable=="ShowMinimap" or opt.variable=="SquareMinimap" then
 		ItemRack.MoveMinimap()
-	elseif opt.variable=="EnableQueues" then
+	elseif opt.variable=="EnableQueues" or opt.variable=="EnablePerSetQueues" then
 		ItemRack.UpdateCombatQueue()
 	elseif opt.variable=="ShowHotKeys" then
 		ItemRack.KeyBindingsChanged()
@@ -1075,6 +1076,16 @@ function ItemRackOpt.SetupQueue(id)
 	if not ItemRackUser.Queues[id] then
 		ItemRackUser.Queues[id] = {}
 	end
+	for name, set in pairs(ItemRackUser.Sets) do
+		if not set.Queues then
+			set.Queues = {}
+		end
+	
+		if not set.Queues[id] then
+			set.Queues[id] = {}
+		end
+	end
+	
 	ItemRackOpt.SelectedSlot = id
 	ItemRackOpt.SortSelected = nil
 	ItemRackOptSlotQueueName:SetText(ItemRack.SlotInfo[id].real)
@@ -1084,7 +1095,7 @@ function ItemRackOpt.SetupQueue(id)
 end
 
 function ItemRackOpt.PopulateSortList(slot)
-	local sortList = ItemRackUser.Queues[slot]
+	local sortList = ItemRack.GetQueues()[slot]
 	ItemRack.DockWindows("TOPLEFT",ItemRackOptInv1,"TOPRIGHT")
 	ItemRack.BuildMenu(slot,1) -- make a dummy menu to fetch all wearable items for that slot
 	ItemRackMenuFrame:Hide()
@@ -1109,7 +1120,7 @@ function ItemRackOpt.SortListScrollFrameUpdate()
 
 	local item, name, texture, quality, idx
 	local slot = ItemRackOpt.SelectedSlot
-	local sortList = slot and ItemRackUser.Queues[slot]
+	local sortList = slot and ItemRack.GetQueues()[slot]
 	local offset = FauxScrollFrame_GetOffset(ItemRackOptSortListScrollFrame)
 
 	FauxScrollFrame_Update(ItemRackOptSortListScrollFrame, sortList and #(sortList) or 0, 11, 24)
@@ -1166,7 +1177,7 @@ end
 
 function ItemRackOpt.ValidateSortButtons()
 	local selected = ItemRackOpt.SortSelected
-	local list = ItemRackUser.Queues[ItemRackOpt.SelectedSlot]
+	local list = ItemRack.GetQueues()[ItemRackOpt.SelectedSlot]
 	ItemRackOptSortMoveTop:Enable()
 	ItemRackOptSortMoveUp:Enable()
 	ItemRackOptSortMoveDown:Enable()
@@ -1213,12 +1224,12 @@ function ItemRackOpt.ValidateSortButtons()
 			PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON);
 		end
 	end
-	ItemRackOptQueueEnable:SetChecked(ItemRackUser.QueuesEnabled[ItemRackOpt.SelectedSlot])
+	ItemRackOptQueueEnable:SetChecked(ItemRack.GetQueuesEnabled()[ItemRackOpt.SelectedSlot])
 end
 
 function ItemRackOpt.SortMove(self)
 	local dir = ((self==ItemRackOptSortMoveUp) and -1) or ((self==ItemRackOptSortMoveTop) and "top") or ((self==ItemRackOptSortMoveDown) and 1) or ((self==ItemRackOptSortMoveBottom) and "bottom")
-	local list = ItemRackUser.Queues[ItemRackOpt.SelectedSlot]
+	local list = ItemRack.GetQueues()[ItemRackOpt.SelectedSlot]
 	local idx1 = ItemRackOpt.SortSelected
 	if dir then
 		local idx2 = ((dir=="top") and 1) or ((dir=="bottom") and #(list)) or idx1+dir
@@ -1245,7 +1256,7 @@ end
 function ItemRackOpt.SortListOnEnter(self)
 	_G[self:GetName().."Highlight"]:Show()
 	local idx = FauxScrollFrame_GetOffset(ItemRackOptSortListScrollFrame) + self:GetID()
-	local list = ItemRackUser.Queues[ItemRackOpt.SelectedSlot]
+	local list = ItemRack.GetQueues()[ItemRackOpt.SelectedSlot]
 	if list[idx] then
 		if list[idx]==0 then
 			ItemRack.OnTooltip(self,"Stop Queue Here","Move this to mark an explicit end to an order. ie, if you have a clickable trinket with a passive effect, and would like to use the passive effect if no better trinkets are off cooldown.")
@@ -1273,7 +1284,7 @@ function ItemRackOpt.ItemStatsCleanup(id)
 end
 
 function ItemRackOpt.ItemStatsDelayOnTextChanged(self)
-	local baseID = ItemRack.GetIRString(ItemRackUser.Queues[ItemRackOpt.SelectedSlot][ItemRackOpt.SortSelected],true)
+	local baseID = ItemRack.GetIRString(ItemRack.GetQueues()[ItemRackOpt.SelectedSlot][ItemRackOpt.SortSelected],true)
 	local value = tonumber(self:GetText() or "") or 0
 	if value~=0 then
 		if not ItemRackItems[baseID] then
@@ -1289,7 +1300,7 @@ function ItemRackOpt.ItemStatsDelayOnTextChanged(self)
 end
 
 function ItemRackOpt.ItemStatsCheckOnClick(self)
-	local baseID = ItemRack.GetIRString(ItemRackUser.Queues[ItemRackOpt.SelectedSlot][ItemRackOpt.SortSelected],true)
+	local baseID = ItemRack.GetIRString(ItemRack.GetQueues()[ItemRackOpt.SelectedSlot][ItemRackOpt.SortSelected],true)
 	local value = self:GetChecked()
 	local which = self==ItemRackOptItemStatsPriority and "priority" or "keep"
 	if value then
@@ -1306,7 +1317,7 @@ function ItemRackOpt.ItemStatsCheckOnClick(self)
 end
 
 function ItemRackOpt.QueueEnableSlotOnClick(self)
-	ItemRackUser.QueuesEnabled[ItemRackOpt.SelectedSlot] = self:GetChecked()
+	ItemRack.GetQueuesEnabled()[ItemRackOpt.SelectedSlot] = self:GetChecked()
 	ItemRack.UpdateCombatQueue()
 end
 
