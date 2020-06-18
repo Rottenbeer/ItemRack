@@ -250,6 +250,8 @@ function ItemRack.EndSetSwap(setname)
 		if ItemRackOptFrame and ItemRackOptFrame:IsVisible() then
 			ItemRackOpt.ChangeEditingSet()
 		end
+		
+		ItemRack.UpdateCombatQueue() -- update button gear icon if per set queues is active
 	end
 --	ItemRack.Print("End of set swap. CurrentSet: "..tostring(ItemRackUser.CurrentSet))
 end

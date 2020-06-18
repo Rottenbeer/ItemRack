@@ -13,6 +13,7 @@ ItemRackUser = {
 	Locked = "OFF", -- buttons locked
 	EnableEvents = "ON", -- whether all events enabled
 	EnableQueues = "ON", -- whether all auto queues enabled
+	EnablePerSetQueues = "OFF",
 	ButtonSpacing = 4, -- padding between docked buttons
 	Alpha = 1, -- alpha of buttons
 	MainScale = 1, -- scale of the dockable buttons
@@ -1386,7 +1387,7 @@ function ItemRack.UpdateCombatQueue()
 			queue:SetTexture(select(2,ItemRack.GetInfoByID(ItemRack.CombatQueue[i])))
 			queue:SetAlpha(1)
 			queue:Show()
-		elseif ItemRackUser.QueuesEnabled[i] then
+		elseif ItemRack.GetQueuesEnabled()[i] then
 			queue:SetTexture("Interface\\AddOns\\ItemRack\\ItemRackGear")
 			queue:SetAlpha(ItemRackUser.EnableQueues=="ON" and 1 or .5)
 			queue:Show()
@@ -2068,5 +2069,39 @@ function ItemRack.ProfileFuncs()
 			info = info..t[i].."\n"
 		end
 		table.insert(TinyPadPages,info)
+	end
+end
+
+-- returns Queues for the current set if EnablePerSetQueues is enabled, otherwise the global Queues
+function ItemRack.GetQueues()
+	if ItemRackUser.EnablePerSetQueues == "ON" then
+		if not (ItemRackUser.CurrentSet and ItemRackUser.Sets[ItemRackUser.CurrentSet]) then
+			return ItemRackUser.Queues
+		end
+		
+		local currentSet = ItemRackUser.Sets[ItemRackUser.CurrentSet]
+		if not currentSet.Queues then
+			currentSet.Queues = {}
+		end
+		return currentSet.Queues
+	else
+		return ItemRackUser.Queues
+	end
+end
+
+-- returns QueuesEnabled for the current set if EnablePerSetQueues is enabled, otherwise the global QueuesEnabled
+function ItemRack.GetQueuesEnabled()
+	if ItemRackUser.EnablePerSetQueues == "ON" then
+		if not (ItemRackUser.CurrentSet and ItemRackUser.Sets[ItemRackUser.CurrentSet]) then
+			return ItemRackUser.QueuesEnabled
+		end
+		
+		local currentSet = ItemRackUser.Sets[ItemRackUser.CurrentSet]
+		if not currentSet.QueuesEnabled then
+			currentSet.QueuesEnabled = {}
+		end
+		return currentSet.QueuesEnabled
+	else
+		return ItemRackUser.QueuesEnabled
 	end
 end

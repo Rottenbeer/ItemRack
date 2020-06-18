@@ -6,7 +6,7 @@ function ItemRack.PeriodicQueueCheck()
 		return
 	end
 	if ItemRackUser.EnableQueues=="ON" then
-		for i,v in pairs(ItemRackUser.QueuesEnabled) do
+		for i,v in pairs(ItemRack.GetQueuesEnabled()) do
 			if v and v == true then
 				ItemRack.ProcessAutoQueue(i)
 			end
@@ -56,7 +56,7 @@ function ItemRack.ProcessAutoQueue(slot)
 		ItemRack.UpdateCombatQueue()
 	end
 
-	local list,rank = ItemRackUser.Queues[slot]
+	local list,rank = ItemRack.GetQueues()[slot]
 
 	local candidate,bag,s
 	for i=1,#(list) do
@@ -92,14 +92,14 @@ end
 
 function ItemRack.SetQueue(slot,newQueue)
 	if not newQueue then
-		ItemRackUser.QueuesEnabled[slot] = nil
+		ItemRack.GetQueuesEnabled()[slot] = nil
 	elseif type(newQueue)=="table" then
-		ItemRackUser.Queues[slot] = ItemRackUser.Queues[slot] or {}
-		for i in pairs(ItemRackUser.Queues[slot]) do
-			ItemRackUser.Queues[slot][i] = nil
+		ItemRack.GetQueues()[slot] = ItemRack.GetQueues()[slot] or {}
+		for i in pairs(ItemRack.GetQueues()[slot]) do
+			ItemRack.GetQueues()[slot][i] = nil
 		end
 		for i=1,#(newQueue) do
-			table.insert(ItemRackUser.Queues[slot],newQueue[i])
+			table.insert(ItemRack.GetQueues()[slot],newQueue[i])
 		end
 		if ItemRackOptFrame:IsVisible() then
 			if ItemRackOptSubFrame7:IsVisible() and ItemRackOpt.SelectedSlot==slot then
@@ -108,7 +108,7 @@ function ItemRack.SetQueue(slot,newQueue)
 				ItemRackOpt.UpdateInv()
 			end
 		end
-		ItemRackUser.QueuesEnabled[slot] = true
+		ItemRack.GetQueuesEnabled()[slot] = true
 	end
 	ItemRack.UpdateCombatQueue()
 end

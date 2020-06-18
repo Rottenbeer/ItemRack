@@ -500,15 +500,15 @@ function ItemRack.ButtonPostClick(self,button)
 		end
 	elseif IsAltKeyDown() then
 		if id<20 and ItemRackSettings.DisableAltClick=="OFF" then
-			if not ItemRackUser.Queues[id] then
+			if not ItemRack.GetQueues()[id] then
 				LoadAddOn("ItemRackOptions")
 				ItemRackOptFrame:Show()
 				ItemRackOpt.TabOnClick(self,4)
 				ItemRackOpt.SetupQueue(id)
 			end
-			ItemRackUser.QueuesEnabled[id] = not ItemRackUser.QueuesEnabled[id]
+			ItemRack.GetQueuesEnabled()[id] = not ItemRack.GetQueuesEnabled()[id]
 			if ItemRackOptSubFrame7 and ItemRackOptSubFrame7:IsVisible() and ItemRackOpt.SelectedSlot==id then
-				ItemRackOptQueueEnable:SetChecked(ItemRackUser.QueuesEnabled[id])
+				ItemRackOptQueueEnable:SetChecked(ItemRack.GetQueuesEnabled()[id])
 			end
 			ItemRack.UpdateCombatQueue()
 		elseif id==20 then
