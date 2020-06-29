@@ -17,6 +17,8 @@ ItemRack.CheckButtonLabels = {
 	["ItemRackOptItemStatsKeepEquippedText"] = "Pause Queue",
 	["ItemRackOptQueueEnableText"] = "Auto Queue This Slot",
 	["ItemRackOptSetsHideCheckButtonText"] = "Hide",
+	["ItemRackOptShowHelmText"] = "Helm",
+	["ItemRackOptShowCloakText"] = "Cloak",
 	["ItemRackOptEventEditBuffAnyMountText"] = "Any mount",
 	["ItemRackOptEventEditBuffUnequipText"] = "Unequip when buff fades",
 	["ItemRackOptEventEditBuffNotInPVPText"] = "Except in PVP instances",
@@ -138,6 +140,8 @@ function ItemRackOpt.OnLoad(self)
 		_G[i]:SetTextColor(1,1,1,1)
 	end
 
+	ItemRackOpt.TriStateCheckSetState(ItemRackOptShowHelm,nil)
+	ItemRackOpt.TriStateCheckSetState(ItemRackOptShowCloak,nil)
 end
 
 function ItemRackOpt.InitializeSliders()
@@ -416,6 +420,11 @@ function ItemRackOpt.ValidateSetButtons()
 	ItemRackOptSetsHideCheckButton:Disable()
 	ItemRackOptSetsHideCheckButtonText:SetTextColor(.5,.5,.5,1)
 	ItemRackOptSetsHideCheckButton:SetChecked(false)
+	ItemRackOpt.TriStateCheckSetState(ItemRackOptShowHelm,nil)
+	ItemRackOpt.TriStateCheckSetState(ItemRackOptShowCloak,nil)
+	ItemRackOptShowHelm:Disable()
+	ItemRackOptShowCloak:Disable()
+
 	local setname = ItemRackOptSetsName:GetText()
 	if string.len(setname)>0 then
 		for i=0,19 do
@@ -431,9 +440,45 @@ function ItemRackOpt.ValidateSetButtons()
 		ItemRackOptSetsHideCheckButton:Enable()
 		ItemRackOptSetsHideCheckButtonText:SetTextColor(1,1,1,1)
 		ItemRackOptSetsHideCheckButton:SetChecked(ItemRack.IsHidden(setname))
+
+		ItemRackOpt.TriStateCheckSetState(ItemRackOptShowHelm,ItemRackUser.Sets[setname].ShowHelm)
+		ItemRackOpt.TriStateCheckSetState(ItemRackOptShowCloak,ItemRackUser.Sets[setname].ShowCloak)
+		ItemRackOptShowHelm:Enable()
+		ItemRackOptShowCloak:Enable()
+
 		ItemRackOptSetsCurrentSetIcon:SetTexture(ItemRackUser.Sets[setname].icon)
 	end
 end
+
+function ItemRackOpt.ShowCloakHelm()
+	local setname = ItemRackOptSetsName:GetText()
+
+	if setname ~= ItemRackUser.CurrentSet then
+		return
+	end
+
+	if ItemRackUser.Sets[setname] == nil then
+		return
+	end
+
+	if ItemRackUser.Sets[setname].ShowHelm ~= nil then
+		if ItemRackUser.Sets[setname].ShowHelm == 1 then
+			ShowHelm(true)
+		else
+			ShowHelm(false)
+		end
+	end
+
+	if ItemRackUser.Sets[setname].ShowCloak ~= nil then
+		if ItemRackUser.Sets[setname].ShowCloak == 1 then
+			ShowCloak(true)
+		else
+			ShowCloak(false)
+		end
+	end
+end
+
+
 
 function ItemRackOpt.LoadSet()
 	ItemRackOptSetsName:ClearFocus()
@@ -1308,6 +1353,52 @@ end
 function ItemRackOpt.QueueEnableSlotOnClick(self)
 	ItemRackUser.QueuesEnabled[ItemRackOpt.SelectedSlot] = self:GetChecked()
 	ItemRack.UpdateCombatQueue()
+end
+
+--[[ Show/Hide/Ignore Helm/Cloak tristate checkbuttons ]]
+
+-- sets the state of a checkbutton to nil, 0 or 1
+function ItemRackOpt.TriStateCheckSetState(button,value)
+	local label = _G[button:GetName().."Text"]
+	button.tristate = value
+	if not value then
+		button:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-Up")
+		button:SetChecked(false)
+		label:SetTextColor(.5,.5,.5)
+	elseif value==0 then
+		button:SetCheckedTexture("Interface\\RAIDFRAME\\ReadyCheck-NotReady")
+		button:SetChecked(true)
+		label:SetTextColor(1,1,1)
+	elseif value==1 then
+		button:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check")
+		button:SetChecked(true)
+		label:SetTextColor(1,1,1)
+	end
+end
+
+-- rotates a checkbutton from indeterminate->unchecked->checked (for show helm/cloak)
+function ItemRackOpt.TriStateCheckOnClick(self)
+	local newstate
+	if not self.tristate then
+		newstate = 1 -- nil->1 (show)
+	elseif self.tristate==0 then
+		newstate = nil -- 0->nil (ignore)
+	elseif self.tristate==1 then
+		newstate = 0 -- 1->0 (hide)
+	end
+	ItemRackOpt.TriStateCheckSetState(self,newstate)
+	local setname = ItemRackOptSetsName:GetText()
+	if setname and ItemRackUser.Sets[setname] then
+		local which = self==ItemRackOptShowHelm and "ShowHelm" or "ShowCloak"
+		ItemRackUser.Sets[setname][which] = newstate
+	end
+	ItemRackOpt.TriStateCheckTooltip(self)
+end
+
+function ItemRackOpt.TriStateCheckTooltip(self)
+	local tristate_names = { ["nil"] = "Ignore", ["0"] = "Hide", ["1"] = "Show" }
+	local which = self==ItemRackOptShowHelm and "Helm" or "Cloak"
+	ItemRack.OnTooltip(self,which..": "..tristate_names[tostring(self.tristate)],"This determines if the "..string.lower(which).." is shown or hidden when equipped.\n\124TInterface\\Buttons\\UI-CheckBox-Up:22\124t = Ignore\n\124TInterface\\Buttons\\UI-CheckBox-Check:22\124t = Show\n\124TInterface\\RAIDFRAME\\ReadyCheck-NotReady:22\124t = Hide")
 end
 
 --[[ Events ]]

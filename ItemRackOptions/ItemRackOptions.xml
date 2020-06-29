@@ -22,6 +22,26 @@
 		</Scripts>
 	</CheckButton>
 
+		<!-- nil/1/0 checkboxes for cloak/helm -->
+	<CheckButton name="ItemRackTristateTemplate" inherits="UICheckButtonTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="18" y="18"/>
+		</Size>
+		<Scripts>
+			<OnClick>
+				PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
+				ItemRackOpt.TriStateCheckOnClick(self)
+				ItemRackOpt.ShowCloakHelm()
+			</OnClick>
+			<OnEnter>
+				ItemRackOpt.TriStateCheckTooltip(self)
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide()
+			</OnLeave>
+		</Scripts>
+	</CheckButton>
+
 	<Button name="ItemRackOptEventEditPickTypeTemplate" virtual="true">
 		<Size>
 			<AbsDimension x="150" y="18"/>
@@ -1727,11 +1747,31 @@
 						</Anchors>
 					</Button>
 
+					
+					<CheckButton name="ItemRackOptShowHelm" inherits="ItemRackTristateTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="ItemRackOptSetsIconFrame" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="50" y="-4"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="ItemRackOptShowCloak" inherits="ItemRackTristateTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="ItemRackOptShowHelm" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="4"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+
 					<CheckButton name="ItemRackOptSetsCurrentSet" inherits="ActionButtonTemplate">
 						<Anchors>
 							<Anchor point="TOPLEFT" relativeTo="ItemRackOptSetsIconFrame" relativePoint="BOTTOMLEFT">
 								<Offset>
-									<AbsDimension x="12" y="-8"/>
+									<AbsDimension x="8" y="-8"/>
 								</Offset>
 							</Anchor>
 						</Anchors>
