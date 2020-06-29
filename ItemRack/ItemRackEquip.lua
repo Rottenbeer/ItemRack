@@ -108,6 +108,22 @@ function ItemRack.EquipSet(setname)
 		return
 	end
 
+	if ItemRackUser.Sets[setname].ShowHelm ~= nil then
+		if ItemRackUser.Sets[setname].ShowHelm == 1 then
+			ShowHelm(true)
+		else
+			ShowHelm(false)
+		end
+	end
+	
+	if ItemRackUser.Sets[setname].ShowCloak ~= nil then
+		if ItemRackUser.Sets[setname].ShowCloak == 1 then
+			ShowCloak(true)
+		else
+			ShowCloak(false)
+		end
+	end
+
 	ItemRack.IterateSwapList(setname) -- run SwapList swaps
 	if not next(swap) then
 		ItemRack.EndSetSwap(setname)
