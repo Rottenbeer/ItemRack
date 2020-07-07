@@ -1,3 +1,9 @@
+__ New in 3.44 - By Rottenbeer __
+* Add option for per-set cloak/helm visibility
+* Added the spell fail event  for casting events
+
+Thanks to blastehh and btnmasher!
+
 __ New in 3.43 - By Rottenbeer __
 * Fixed item swap failure during casting
 Attempting to item swap during casting will now wait for an end-combat, or cancel-casting event before swapping instead of failing.

@@ -2,7 +2,7 @@ ItemRack = {}
 
 local _
 
-ItemRack.Version = "3.43"
+ItemRack.Version = "3.44"
 
 ItemRackUser = {
 	Sets = {}, -- user's sets
