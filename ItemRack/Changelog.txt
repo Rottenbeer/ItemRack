@@ -1,3 +1,7 @@
+__ New in 3.46 - By Rottenbeer __
+* Add option to use different auto-queues depending on the active set
+Thanks to brzGatsu for the pull request!
+
 __ New in 3.45 - By Rottenbeer __
 * Updated TOC version to 11305
 
