@@ -267,6 +267,17 @@ function ItemRack.OnUnitInventoryChanged(self,event,unit)
 	end
 end
 
+function ItemRack.OnFeignDeath(self,event,unit)
+	if unit=="player" then
+		for i=1,32 do
+			local _, _, _, _, _, _, _, _, _, spell_id = UnitAura("player", i, "HELPFUL|PLAYER|CANCELABLE")
+			if spell_id == 5384 then -- FD
+				ItemRack.ProcessCombatQueue()
+			end
+		end
+	end
+end
+
 function ItemRack.OnLeavingCombatOrDeath()
 	ItemRack.inCombat = InCombatLockdown()
 	if ItemRack.NowCasting then
@@ -355,6 +366,11 @@ function ItemRack.UpdateClassSpecificStuff()
 
 	if class=="SHAMAN" then
 		ItemRack.CanWearOneHandOffHand = 1
+	end
+
+	if class=="HUNTER" then -- Feign Death specific swapping logic.
+		ItemRackFrame:RegisterEvent("UNIT_AURA")
+		ItemRack.EventHandlers.UNIT_AURA = ItemRack.OnFeignDeath
 	end
 end
 
