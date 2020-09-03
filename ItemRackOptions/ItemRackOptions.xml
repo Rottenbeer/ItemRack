@@ -2695,12 +2695,20 @@
 									<Anchor point="TOPLEFT" relativeTo="ItemRackOptEventEditBuffAnyMount" relativePoint="BOTTOMLEFT"/>
 								</Anchors>
 							</CheckButton>
-							<CheckButton name="ItemRackOptEventEditBuffUnequip" inherits="ItemRackOptSimpleCheckButton">
+							<CheckButton name="ItemRackOptEventEditBuffNotInPVE" inherits="ItemRackOptSimpleCheckButton">
 								<Size>
 									<AbsDimension x="26" y="26"/>
 								</Size>
 								<Anchors>
 									<Anchor point="TOPLEFT" relativeTo="ItemRackOptEventEditBuffNotInPVP" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</CheckButton>
+							<CheckButton name="ItemRackOptEventEditBuffUnequip" inherits="ItemRackOptSimpleCheckButton">
+								<Size>
+									<AbsDimension x="26" y="26"/>
+								</Size>
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="ItemRackOptEventEditBuffNotInPVE" relativePoint="BOTTOMLEFT"/>
 								</Anchors>
 							</CheckButton>
 						</Frames>

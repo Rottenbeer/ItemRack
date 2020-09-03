@@ -22,6 +22,7 @@ ItemRack.CheckButtonLabels = {
 	["ItemRackOptEventEditBuffAnyMountText"] = "Any mount",
 	["ItemRackOptEventEditBuffUnequipText"] = "Unequip when buff fades",
 	["ItemRackOptEventEditBuffNotInPVPText"] = "Except in PVP instances",
+	["ItemRackOptEventEditBuffNotInPVEText"] = "Except in PVE instances",
 	["ItemRackOptEventEditStanceUnequipText"] = "Unequip on leaving stance",
 	["ItemRackOptEventEditZoneUnequipText"] = "Unequip on leaving zone",
 	["ItemRackOptEventEditStanceNotInPVPText"] = "Except in PVP instances",
@@ -1641,6 +1642,7 @@ function ItemRackOpt.EventEditClearFrame()
 	ItemRackOptEventEditBuffAnyMount:SetChecked(false)
 	ItemRackOptEventEditBuffUnequip:SetChecked(false)
 	ItemRackOptEventEditBuffNotInPVP:SetChecked(false)
+	ItemRackOptEventEditBuffNotInPVE:SetChecked(false)
 	ItemRackOptEventEditStanceName:SetText("")
 	ItemRackOptEventEditStanceUnequip:SetChecked(false)
 	ItemRackOptEventEditStanceNotInPVP:SetChecked(false)
@@ -1667,6 +1669,7 @@ function ItemRackOpt.EventEditPopulateFrame()
 		end
 		ItemRackOptEventEditBuffUnequip:SetChecked(event.Unequip)
 		ItemRackOptEventEditBuffNotInPVP:SetChecked(event.NotInPVP)
+		ItemRackOptEventEditBuffNotInPVE:SetChecked(event.NotInPVE)
 		ItemRackOptEventEditStanceName:SetText(event.Stance or "")
 		ItemRackOptEventEditStanceUnequip:SetChecked(event.Unequip)
 		ItemRackOptEventEditStanceNotInPVP:SetChecked(event.NotInPVP)
@@ -1818,6 +1821,7 @@ function ItemRackOpt.EventEditSave(override)
 		event.Buff = ItemRackOptEventEditBuffName:GetText()
 		event.Unequip = ItemRackOptEventEditBuffUnequip:GetChecked()
 		event.NotInPVP = ItemRackOptEventEditBuffNotInPVP:GetChecked()
+		event.NotInPVE = ItemRackOptEventEditBuffNotInPVE:GetChecked()
 	elseif event.Type=="Stance" then
 		event.Stance = ItemRackOptEventEditStanceName:GetText()
 		if tonumber(event.Stance) then
