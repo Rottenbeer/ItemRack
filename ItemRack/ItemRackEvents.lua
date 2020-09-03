@@ -425,6 +425,12 @@ function ItemRack.ProcessBuffEvent()
 					skip = 1
 				end
 			end
+			if events[eventName].NotInPVE then
+				local _,instanceType = IsInInstance()
+				if instanceType=="party" or instanceType=="raid" then
+					skip = 1
+				end
+			end
 			if not skip then
 				if events[eventName].Anymount then
 					buff = IsMounted() and not UnitOnTaxi("player")
