@@ -2,7 +2,7 @@ ItemRack = {}
 
 local _
 
-ItemRack.Version = "3.46"
+ItemRack.Version = "3.47"
 
 ItemRackUser = {
 	Sets = {}, -- user's sets
@@ -1888,26 +1888,31 @@ end
 --[[ Key bindings ]]
 
 function ItemRack.SetSetBindings()
-	local buttonName,button
-	for i in pairs(ItemRackUser.Sets) do
-		if ItemRackUser.Sets[i].key then
-			buttonName = "ItemRack"..UnitName("player")..GetRealmName()..i
-			button = _G[buttonName] or CreateFrame("Button",buttonName,nil,"SecureActionButtonTemplate")
-			button:SetAttribute("type","macro")
-			local macrotext = "/script ItemRack.RunSetBinding(\""..i.."\")\n"
-			for slot = 16, 18 do
-				if ItemRackUser.Sets[i].equip[slot] then
-					local name,_,_,_,_,_,_,_,_,_ = GetItemInfo("item:"..ItemRackUser.Sets[i].equip[slot])
-					if name then
-						macrotext = macrotext .. "/equipslot [combat]" .. slot .. " " .. name .. "\n";
+	local inLockdown = InCombatLockdown()
+	if not inLockdown then
+		local buttonName,button
+		for i in pairs(ItemRackUser.Sets) do
+			if ItemRackUser.Sets[i].key then
+				buttonName = "ItemRack"..UnitName("player")..GetRealmName()..i
+				button = _G[buttonName] or CreateFrame("Button",buttonName,nil,"SecureActionButtonTemplate")
+				button:SetAttribute("type","macro")
+				local macrotext = "/script ItemRack.RunSetBinding(\""..i.."\")\n"
+				for slot = 16, 18 do
+					if ItemRackUser.Sets[i].equip[slot] then
+						local name,_,_,_,_,_,_,_,_,_ = GetItemInfo("item:"..ItemRackUser.Sets[i].equip[slot])
+						if name then
+							macrotext = macrotext .. "/equipslot [combat]" .. slot .. " " .. name .. "\n";
+						end
 					end
 				end
+				button:SetAttribute("macrotext",macrotext)
+				SetBindingClick(ItemRackUser.Sets[i].key,buttonName)
 			end
-			button:SetAttribute("macrotext",macrotext)
-			SetBindingClick(ItemRackUser.Sets[i].key,buttonName)
 		end
+		AttemptToSaveBindings(GetCurrentBindingSet())
+	else
+		ItemRack.Print("Cannot save hotkeys in combat, please try again out of combat!")
 	end
-	AttemptToSaveBindings(GetCurrentBindingSet())
 end
 
 function ItemRack.RunSetBinding(setname)
