@@ -1,3 +1,8 @@
+__ New in 3.48 - By Rottenbeer __
+* Add PVE instance disable flag for events to prevent mounted events to
+trigger in AQ
+Thanks to root and lindleywhite for the pull request
+
 __ New in 3.47 - By Rottenbeer __
 * Fix lua error when saving hotkey bindings in combat
 
