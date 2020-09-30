@@ -1,3 +1,6 @@
+__ New in 3.49 - By Rottenbeer __
+* Version bump to sync with the shown ingame version
+
 __ New in 3.48 - By Rottenbeer __
 * Add PVE instance disable flag for events to prevent mounted events to
 trigger in AQ
