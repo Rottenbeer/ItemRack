@@ -293,9 +293,6 @@ function ItemRack.ProcessingFrameOnEvent(self,event,...)
 	local startBuff, startZone, startStance, eventType
 	local arg1, arg2 = ...;
 
-	--  I'm try to prevent toggle set change when player change subzone but not in raid instance. it caused trinkets get 30s cooldown frequently.
-	local _, instanceType = IsInInstance()
-	
 	for eventName in pairs(enabled) do
 		eventType = events[eventName].Type
 		if event=="UNIT_AURA" and eventType=="Buff" and arg1=="player" then
@@ -304,7 +301,7 @@ function ItemRack.ProcessingFrameOnEvent(self,event,...)
 			startStance = 1
 		elseif event=="ZONE_CHANGED_NEW_AREA" and eventType=="Zone" then -- if player move to a new area, toggle set change.
 			startZone = 1
-		elseif event == "ZONE_CHANGED_INDOORS" and eventType == "Zone" and instanceType == "raid" then -- if player change subzone in raid instance, toggle set change, else not.
+		elseif event == "ZONE_CHANGED_INDOORS" and eventType == "Zone" and select(2, IsInInstance()) == "raid" then -- if player change subzone in raid instance, toggle set change, else not.
 			startZone = 1
 		elseif eventType=="Script" and events[eventName].Trigger==event then
 			local method = loadstring(events[eventName].Script)
