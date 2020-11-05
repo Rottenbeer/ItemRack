@@ -1,3 +1,7 @@
+__ New in 3.50 - By Rottenbeer __
+* Prevent toggle set change when player change subzone but not in raid instance.
+Thanks to Cyanokaze for implementing it!
+
 __ New in 3.49 - By Rottenbeer __
 * Version bump to sync with the shown ingame version
 
