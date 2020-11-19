@@ -3,6 +3,7 @@
 ## Author: Gello - Updated for Classic by Rottenbeer
 ## SavedVariables: ItemRackSettings, ItemRackItems, ItemRackEvents
 ## SavedVariablesPerCharacter: ItemRackUser
+## OptionalDeps: Masque
 ## X-Curse-Project-ID: 340903
 ItemRack.lua
 ItemRack.xml

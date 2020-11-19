@@ -153,6 +153,17 @@ end
 ItemRack.EventHandlers = {}
 ItemRack.ExternalEventHandlers = {}
 
+do
+	local Masque = LibStub("Masque", true) or (LibMasque and LibMasque("Button"))
+	if Masque then
+		ItemRack.MasqueGroups = {}
+		ItemRack.MasqueGroups[1] = Masque:Group("ItemRack", "On screen panels")
+		ItemRack.MasqueGroups[2] = Masque:Group("ItemRack", "On screen menus")
+		ItemRack.MasqueGroups[3] = Masque:Group("ItemRack", "Character info menus")
+		ItemRack.MasqueGroups[4] = Masque:Group("ItemRack", "Map icon menu")
+	end
+end
+
 function ItemRack.OnEvent(self,event,...)
 	ItemRack.EventHandlers[event](self,event,...)
 end
@@ -929,7 +940,7 @@ end
 -- id = 0-19 for inventory slots, or 20 for set, or nil for last defined slot/set menu (ItemRack.menuOpen)
 -- before calling ItemRack.BuildMenu, you should call ItemRack.DockWindows
 -- if menuInclude, then also include the worn item(s) in the menu
-function ItemRack.BuildMenu(id,menuInclude)
+function ItemRack.BuildMenu(id,menuInclude,masqueGroup)
 	if id then
 		ItemRack.menuOpen = id
 		ItemRack.menuInclude = menuInclude
@@ -1021,6 +1032,17 @@ function ItemRack.BuildMenu(id,menuInclude)
 			button = ItemRack.CreateMenuButton(i,ItemRack.Menu[i]) or ItemRackButtonMenu
 			button:SetPoint("TOPLEFT",ItemRackMenuFrame,ItemRack.menuDock,xpos,ypos)
 			button:SetFrameLevel(ItemRackMenuFrame:GetFrameLevel()+1)
+
+			if ItemRack.MasqueGroups then
+				for _, group in pairs(ItemRack.MasqueGroups) do
+					group:RemoveButton(button)
+				end
+
+				if ItemRack.MasqueGroups[masqueGroup] then
+					ItemRack.MasqueGroups[masqueGroup]:AddButton(button)
+				end
+			end
+
 			if ItemRack.menuOrient=="VERTICAL" then
 				xpos = xpos + ItemRack.DockInfo[ItemRack.currentDock].xdir*40
 				col = col + 1
@@ -1685,7 +1707,7 @@ function ItemRack.DockMenuToCharacterSheet(self)
 			end
 			ItemRack.DockWindows("TOPLEFT",self,"TOPRIGHT","HORIZONTAL")
 		end
-		ItemRack.BuildMenu(slot)
+		ItemRack.BuildMenu(slot, nil, 3)
 	end
 end
 
@@ -1740,7 +1762,7 @@ function ItemRack.MinimapOnClick(self,button)
 			else
 				ItemRack.DockWindows("BOTTOMRIGHT",ItemRackMinimapFrame,"TOPRIGHT","VERTICAL")
 			end
-			ItemRack.BuildMenu(20)
+			ItemRack.BuildMenu(20, nil, 4)
 		end
 	else
 		ItemRack.ToggleOptions(self)
