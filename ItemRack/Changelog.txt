@@ -1,3 +1,7 @@
+__ New in 3.51 - By Rottenbeer __
+* Masque support
+Thanks to pshurgal for implementing it!
+
 __ New in 3.50 - By Rottenbeer __
 * Prevent toggle set change when player change subzone but not in raid instance.
 Thanks to Cyanokaze for implementing it!
