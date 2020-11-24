@@ -1,3 +1,6 @@
+__ New in 3.52 - By Rottenbeer __
+* Provide LibStub which is needed for Masque support
+
 __ New in 3.51 - By Rottenbeer __
 * Masque support
 Thanks to pshurgal for implementing it!
