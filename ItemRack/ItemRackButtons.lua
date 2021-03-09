@@ -16,6 +16,11 @@ ItemRack.LockedButtons = {} -- buttons locked (desaturated)
 ItemRack.NewAnchor = nil
 
 function ItemRack.InitButtons()
+	if InCombatLockdown() then
+		table.insert(ItemRack.RunAfterCombat, "InitButtons")
+		return
+	end
+
 	ItemRackUser.Buttons = ItemRackUser.Buttons or {}
 
 	ItemRack.oldPaperDollItemSlotButton_OnModifiedClick = PaperDollItemSlotButton_OnModifiedClick
@@ -55,7 +60,7 @@ function ItemRack.InitButtons()
 	ItemRackMenuFrame:SetScript("OnMouseUp",ItemRack.MenuFrameOnMouseUp)
 	ItemRackMenuFrame:EnableMouse(true)
 
-	ItemRack.CreateTimer("ReflectClickedUpdate",ItemRack.ReflectClickedUpdate,.2,1)		
+	ItemRack.CreateTimer("ReflectClickedUpdate",ItemRack.ReflectClickedUpdate,.2,1)
 
 	ItemRackFrame:RegisterEvent("UNIT_INVENTORY_CHANGED")
 	ItemRackFrame:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN")

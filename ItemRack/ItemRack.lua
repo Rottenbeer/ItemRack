@@ -2,7 +2,7 @@ ItemRack = {}
 
 local _
 
-ItemRack.Version = "3.52"
+ItemRack.Version = "3.53"
 
 ItemRackUser = {
 	Sets = {}, -- user's sets
@@ -175,7 +175,7 @@ function ItemRack.RegisterExternalEventListener(self,event,handler)
 		handlers = {}
 		ItemRack.ExternalEventHandlers[event] = handlers
 	end
-	
+
 	table.insert(handlers, handler)
 end
 
@@ -473,7 +473,11 @@ function ItemRack.InitCore()
 	ItemRack.StartTimer("CooldownUpdate")
 	ItemRack.MoveMinimap()
 	ItemRack.ReflectAlpha()
-	ItemRack.SetSetBindings()
+	if InCombatLockdown() then
+		table.insert(ItemRack.RunAfterCombat, "SetSetBindings")
+	else
+		ItemRack.SetSetBindings()
+	end
 
 	SlashCmdList["ItemRack"] = ItemRack.SlashHandler
 	SLASH_ItemRack1 = "/itemrack"
@@ -842,7 +846,7 @@ end
 -- func = function to run when the delay finishes
 -- delay = time (in seconds) after the timer is started before func is run
 -- rep = nil or 1, whether to repeat the delay once it's reached
--- 
+--
 -- The standard use is to create a timer, and then ItemRack.StartTimer
 -- when you want to run the delayed function.
 --
@@ -1335,7 +1339,7 @@ function ItemRack.EquipItemByID(id,slot)
 			end
 		end
 	end
-end	
+end
 
 --[[ Hooks to capture item use outside the mod ]]
 
@@ -2105,7 +2109,7 @@ function ItemRack.GetQueues()
 		if not (ItemRackUser.CurrentSet and ItemRackUser.Sets[ItemRackUser.CurrentSet]) then
 			return ItemRackUser.Queues
 		end
-		
+
 		local currentSet = ItemRackUser.Sets[ItemRackUser.CurrentSet]
 		if not currentSet.Queues then
 			currentSet.Queues = {}
@@ -2122,7 +2126,7 @@ function ItemRack.GetQueuesEnabled()
 		if not (ItemRackUser.CurrentSet and ItemRackUser.Sets[ItemRackUser.CurrentSet]) then
 			return ItemRackUser.QueuesEnabled
 		end
-		
+
 		local currentSet = ItemRackUser.Sets[ItemRackUser.CurrentSet]
 		if not currentSet.QueuesEnabled then
 			currentSet.QueuesEnabled = {}
