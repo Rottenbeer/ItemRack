@@ -1,4 +1,4 @@
-## Interface: 11305
+## Interface: 11306
 ## Title: ItemRack
 ## Author: Gello - Updated for Classic by Rottenbeer
 ## SavedVariables: ItemRackSettings, ItemRackItems, ItemRackEvents
