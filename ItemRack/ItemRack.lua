@@ -2,7 +2,7 @@ ItemRack = {}
 
 local _
 
-ItemRack.Version = "3.52"
+ItemRack.Version = "3.53"
 
 ItemRackUser = {
 	Sets = {}, -- user's sets
@@ -143,15 +143,32 @@ ItemRack.BankOpen = nil -- 1 if bank is open, nil if not
 
 ItemRack.LastCurrentSet = nil -- last known current set
 
-function ItemRack.OnLoad(self)
-	ItemRack.InitTimers()
-	ItemRack.CreateTimer("OnLogin",ItemRack.OnPlayerLogin,1)
-	ItemRack.StartTimer("OnLogin")
-	-- run ItemRack.OnPlayerLogin 1 second after player in world
-end
+function ItemRack.InitEventHandlers()
+	ItemRack.EventHandlers = {}
+	ItemRack.ExternalEventHandlers = {}
 
-ItemRack.EventHandlers = {}
-ItemRack.ExternalEventHandlers = {}
+	local handler = ItemRack.EventHandlers
+	handler.ITEM_LOCK_CHANGED = ItemRack.OnItemLockChanged
+	handler.ACTIONBAR_UPDATE_COOLDOWN = ItemRack.UpdateButtonCooldowns
+	handler.UNIT_INVENTORY_CHANGED = ItemRack.OnUnitInventoryChanged
+	handler.UPDATE_BINDINGS = ItemRack.KeyBindingsChanged
+	handler.PLAYER_REGEN_ENABLED = ItemRack.OnLeavingCombatOrDeath
+	handler.PLAYER_UNGHOST = ItemRack.OnLeavingCombatOrDeath
+	handler.PLAYER_ALIVE = ItemRack.OnLeavingCombatOrDeath
+	handler.PLAYER_REGEN_DISABLED = ItemRack.OnEnteringCombat
+	handler.BANKFRAME_CLOSED = ItemRack.OnBankClose
+	handler.BANKFRAME_OPENED = ItemRack.OnBankOpen
+	handler.UNIT_SPELLCAST_START = ItemRack.OnCastingStart
+	handler.UNIT_SPELLCAST_STOP = ItemRack.OnCastingStop
+	handler.UNIT_SPELLCAST_SUCCEEDED = ItemRack.OnCastingStop
+	handler.UNIT_SPELLCAST_INTERRUPTED = ItemRack.OnCastingStop
+	handler.UNIT_SPELLCAST_FAILED = ItemRack.OnCastingStop
+	handler.CHARACTER_POINTS_CHANGED = ItemRack.UpdateClassSpecificStuff
+	handler.PLAYER_TALENT_UPDATE = ItemRack.UpdateClassSpecificStuff
+--	handler.ACTIVE_TALENT_GROUP_CHANGED = ItemRack.UpdateClassSpecificStuff
+--	handler.PET_BATTLE_OPENING_START = ItemRack.OnEnteringPetBattle
+--	handler.PET_BATTLE_CLOSE = ItemRack.OnLeavingPetBattle
+end
 
 do
 	local Masque = LibStub("Masque", true) or (LibMasque and LibMasque("Button"))
@@ -175,7 +192,7 @@ function ItemRack.RegisterExternalEventListener(self,event,handler)
 		handlers = {}
 		ItemRack.ExternalEventHandlers[event] = handlers
 	end
-	
+
 	table.insert(handlers, handler)
 end
 
@@ -189,32 +206,18 @@ function ItemRack.FireItemRackEvent(self,event,...)
 end
 
 function ItemRack.OnPlayerLogin()
-	local handler = ItemRack.EventHandlers
-	handler.ITEM_LOCK_CHANGED = ItemRack.OnItemLockChanged
-	handler.ACTIONBAR_UPDATE_COOLDOWN = ItemRack.UpdateButtonCooldowns
-	handler.UNIT_INVENTORY_CHANGED = ItemRack.OnUnitInventoryChanged
-	handler.UPDATE_BINDINGS = ItemRack.KeyBindingsChanged
-	handler.PLAYER_REGEN_ENABLED = ItemRack.OnLeavingCombatOrDeath
-	handler.PLAYER_UNGHOST = ItemRack.OnLeavingCombatOrDeath
-	handler.PLAYER_ALIVE = ItemRack.OnLeavingCombatOrDeath
-	handler.PLAYER_REGEN_DISABLED = ItemRack.OnEnteringCombat
-	handler.BANKFRAME_CLOSED = ItemRack.OnBankClose
-	handler.BANKFRAME_OPENED = ItemRack.OnBankOpen
-	handler.UNIT_SPELLCAST_START = ItemRack.OnCastingStart
-	handler.UNIT_SPELLCAST_STOP = ItemRack.OnCastingStop
-	handler.UNIT_SPELLCAST_SUCCEEDED = ItemRack.OnCastingStop
-	handler.UNIT_SPELLCAST_INTERRUPTED = ItemRack.OnCastingStop
-	handler.UNIT_SPELLCAST_FAILED = ItemRack.OnCastingStop
-	handler.CHARACTER_POINTS_CHANGED = ItemRack.UpdateClassSpecificStuff
-	handler.PLAYER_TALENT_UPDATE = ItemRack.UpdateClassSpecificStuff
---	handler.ACTIVE_TALENT_GROUP_CHANGED = ItemRack.UpdateClassSpecificStuff
---	handler.PET_BATTLE_OPENING_START = ItemRack.OnEnteringPetBattle
---	handler.PET_BATTLE_CLOSE = ItemRack.OnLeavingPetBattle
-
+	-- Normally some of these methods cannot be called in combat without causing errors, but since we run these IMMEDIATELY
+	-- on PLAYER_LOGIN event we get a grace period where it allows us to run secure code in combat.
+	ItemRack.InitEventHandlers()
+	ItemRack.InitTimers()
 	ItemRack.InitCore()
 	ItemRack.InitButtons()
 	ItemRack.InitEvents()
 end
+
+local loader = CreateFrame("Frame") -- need a new temp frame here, ItemRackFrame is not created yet
+loader:RegisterEvent("PLAYER_LOGIN")
+loader:SetScript("OnEvent", ItemRack.OnPlayerLogin)
 
 function ItemRack.OnCastingStart(self,event,unit)
 	if unit=="player" then
@@ -842,7 +845,7 @@ end
 -- func = function to run when the delay finishes
 -- delay = time (in seconds) after the timer is started before func is run
 -- rep = nil or 1, whether to repeat the delay once it's reached
--- 
+--
 -- The standard use is to create a timer, and then ItemRack.StartTimer
 -- when you want to run the delayed function.
 --
@@ -1335,7 +1338,7 @@ function ItemRack.EquipItemByID(id,slot)
 			end
 		end
 	end
-end	
+end
 
 --[[ Hooks to capture item use outside the mod ]]
 
@@ -2105,7 +2108,7 @@ function ItemRack.GetQueues()
 		if not (ItemRackUser.CurrentSet and ItemRackUser.Sets[ItemRackUser.CurrentSet]) then
 			return ItemRackUser.Queues
 		end
-		
+
 		local currentSet = ItemRackUser.Sets[ItemRackUser.CurrentSet]
 		if not currentSet.Queues then
 			currentSet.Queues = {}
@@ -2122,7 +2125,7 @@ function ItemRack.GetQueuesEnabled()
 		if not (ItemRackUser.CurrentSet and ItemRackUser.Sets[ItemRackUser.CurrentSet]) then
 			return ItemRackUser.QueuesEnabled
 		end
-		
+
 		local currentSet = ItemRackUser.Sets[ItemRackUser.CurrentSet]
 		if not currentSet.QueuesEnabled then
 			currentSet.QueuesEnabled = {}
