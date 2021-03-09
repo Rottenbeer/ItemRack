@@ -1,9 +1,6 @@
 <Ui>
 	<Frame name="ItemRackFrame" hidden="true">
 		<Scripts>
-			<OnLoad>
-				ItemRack.OnLoad(self)
-			</OnLoad>
 			<OnEvent>
 				ItemRack.OnEvent(self,event,...)
 			</OnEvent>
