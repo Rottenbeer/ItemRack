@@ -143,10 +143,10 @@ ItemRack.BankOpen = nil -- 1 if bank is open, nil if not
 
 ItemRack.LastCurrentSet = nil -- last known current set
 
-function ItemRack.InitEventHandlers()
-	ItemRack.EventHandlers = {}
-	ItemRack.ExternalEventHandlers = {}
+ItemRack.EventHandlers = {}
+ItemRack.ExternalEventHandlers = {}
 
+function ItemRack.InitEventHandlers()
 	local handler = ItemRack.EventHandlers
 	handler.ITEM_LOCK_CHANGED = ItemRack.OnItemLockChanged
 	handler.ACTIONBAR_UPDATE_COOLDOWN = ItemRack.UpdateButtonCooldowns
