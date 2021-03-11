@@ -1,3 +1,8 @@
+__ New in 3.53 - By Rottenbeer __
+* ItemRack should no longer initiate while in combat
+* Updated TOC version
+Thanks to wardz for the PR
+
 __ New in 3.52 - By Rottenbeer __
 * Provide LibStub which is needed for Masque support
 
