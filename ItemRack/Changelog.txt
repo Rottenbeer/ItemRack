@@ -1,3 +1,6 @@
+__ New in 3.54 - By Rottenbeer __
+* Workaround for a startup race in AdiBags
+
 __ New in 3.53 - By Rottenbeer __
 * ItemRack should no longer initiate while in combat
 * Updated TOC version
