@@ -2,7 +2,7 @@ ItemRack = {}
 
 local _
 
-ItemRack.Version = "3.54"
+ItemRack.Version = "3.61"
 
 ItemRackUser = {
 	Sets = {}, -- user's sets
@@ -215,7 +215,12 @@ function ItemRack.OnPlayerLogin()
 	ItemRack.InitEvents()
 end
 
+--@version-classic@
 local loader = CreateFrame("Frame") -- need a new temp frame here, ItemRackFrame is not created yet
+--@end-version-classic@
+--@version-bcc@
+local loader = CreateFrame("Frame",nil, self, BackdropTemplateMixin and "BackdropTemplate") -- need a new temp frame here, ItemRackFrame is not created yet
+--@end-version-bcc@
 loader:RegisterEvent("PLAYER_LOGIN")
 loader:SetScript("OnEvent", ItemRack.OnPlayerLogin)
 
@@ -1183,7 +1188,12 @@ function ItemRack.CreateMenuButton(idx,itemID)
 	if itemID=="MENU" then return end
 	local button
 	if not _G["ItemRackMenu"..idx] then
+		--@version-classic@
 		button = CreateFrame("CheckButton","ItemRackMenu"..idx,ItemRackMenuFrame,"ActionButtonTemplate")
+		--@end-version-classic@
+		--@version-bcc@
+		button = CreateFrame("CheckButton","ItemRackMenu"..idx,ItemRackMenuFrame,BackdropTemplateMixin and "ActionButtonTemplate")
+		--@end-version-bcc@
 		button:SetID(idx)
 		button:SetFrameStrata("HIGH")
 --		button:SetFrameLevel(ItemRackMenuFrame:GetFrameLevel()+1)
@@ -1191,7 +1201,13 @@ function ItemRack.CreateMenuButton(idx,itemID)
 		button:SetScript("OnClick",ItemRack.MenuOnClick)
 		button:SetScript("OnEnter",ItemRack.MenuTooltip)
 		button:SetScript("OnLeave",ItemRack.ClearTooltip)
+		--@version-classic@
 		CreateFrame("Frame",nil,button,"ItemRackTimeTemplate")
+		--@end-version-classic@
+		--@version-bcc@
+		CreateFrame("Frame",nil,button,BackdropTemplateMixin and "ItemRackTimeTemplate")
+		--@end-version-bcc@
+
 		ItemRack.SetFont("ItemRackMenu"..idx)
 --		local font = button:CreateFontString("ItemRackMenu"..idx.."Time","OVERLAY","NumberFontNormal")
 --		font:SetJustifyH("CENTER")
@@ -1816,12 +1832,27 @@ function ItemRack.ToggleOptions(self,tab)
 end
 
 function ItemRack.ReflectLock(override)
+	--@version-bcc@
+	Mixin(ItemRackMenuFrame, BackdropTemplateMixin)
+	--@end-version-bcc@
 	if ItemRackUser.Locked=="ON" or override then
 		ItemRackMenuFrame:EnableMouse(0)
+		--@version-bcc@
+		ItemRackMenuFrame:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background", 
+                                            edgeFile = "Interface/Tooltips/UI-Tooltip-Border", 
+                                            tile = true, tileSize = 16, edgeSize = 16, 
+                                            insets = { left = 4, right = 4, top = 4, bottom = 4 }});
+		--@end-version-bcc@
 		ItemRackMenuFrame:SetBackdropBorderColor(0,0,0,0)
 		ItemRackMenuFrame:SetBackdropColor(0,0,0,0)
 	else
 		ItemRackMenuFrame:EnableMouse(1)
+		--@version-bcc@
+		ItemRackMenuFrame:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background", 
+                                            edgeFile = "Interface/Tooltips/UI-Tooltip-Border", 
+                                            tile = true, tileSize = 16, edgeSize = 16, 
+                                            insets = { left = 4, right = 4, top = 4, bottom = 4 }});
+		--@end-version-bcc@
 		ItemRackMenuFrame:SetBackdropBorderColor(.3,.3,.3,1)
 		ItemRackMenuFrame:SetBackdropColor(1,1,1,1)
 	end
@@ -1919,7 +1950,13 @@ function ItemRack.SetSetBindings()
 		for i in pairs(ItemRackUser.Sets) do
 			if ItemRackUser.Sets[i].key then
 				buttonName = "ItemRack"..UnitName("player")..GetRealmName()..i
+				--@version-classic@
 				button = _G[buttonName] or CreateFrame("Button",buttonName,nil,"SecureActionButtonTemplate")
+				--@end-version-classic@
+				--@version-bcc@
+				button = _G[buttonName] or CreateFrame("Button",buttonName,nil,BackdropTemplateMixin and "SecureActionButtonTemplate")
+				--@end-version-bcc@
+				
 				button:SetAttribute("type","macro")
 				local macrotext = "/script ItemRack.RunSetBinding(\""..i.."\")\n"
 				for slot = 16, 18 do
@@ -1934,7 +1971,12 @@ function ItemRack.SetSetBindings()
 				SetBindingClick(ItemRackUser.Sets[i].key,buttonName)
 			end
 		end
+		--@version-classic@
 		AttemptToSaveBindings(GetCurrentBindingSet())
+		--@end-version-classic@
+		--@version-bcc@
+		SaveBindings(GetCurrentBindingSet())
+		--@end-version-bcc@
 	else
 		ItemRack.Print("Cannot save hotkeys in combat, please try again out of combat!")
 	end

@@ -1,0 +1,27 @@
+name: Package and push
+
+on:
+  push:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  CF_API_KEY: ${{ secrets.CF_API_KEY }}
+  GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: BigWigsMods/packager@master
+        with:
+          args: -g classic -n "{package-name}-{project-version}" -p 340903
+
+      - uses: BigWigsMods/packager@master
+        with:
+          args: -g bcc -n "{package-name}-{project-version}" -p 340903
