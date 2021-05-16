@@ -1,3 +1,6 @@
+__ New in 3.62 - By Rottenbeer __
+* Fix luacheck errors
+
 __ New in 3.61 - By Rottenbeer __
 * Test for github actions
 
