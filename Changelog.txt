@@ -1,3 +1,6 @@
+__ New in 3.63 - By Rottenbeer __
+* Version bump for github releases
+
 __ New in 3.62 - By Rottenbeer __
 * Fix luacheck errors
 
