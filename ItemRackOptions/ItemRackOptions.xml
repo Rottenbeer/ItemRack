@@ -3193,6 +3193,9 @@
 				</Frames>
 				<Scripts>
 					<OnLoad>
+						<!--@version-bcc@-->
+						Mixin(self, BackdropTemplateMixin)
+						<!--@end-version-bcc@-->
 						self:SetBackdropColor(.1,.1,.1,1)
 					</OnLoad>
 				</Scripts>
