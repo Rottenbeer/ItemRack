@@ -7,6 +7,7 @@ on:
 
 env:
   CF_API_KEY: ${{ secrets.CF_API_KEY }}
+  GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   release:
@@ -16,8 +17,8 @@ jobs:
 
       - uses: BigWigsMods/packager@master
         with:
-          args: -g classic -n "{package-name}-{project-version}" -p 340903
+          args: -g classic -n "{package-name}-classic-{project-version}" -p 340903
 
       - uses: BigWigsMods/packager@master
         with:
-          args: -g bcc -n "{package-name}-{project-version}" -p 340903
+          args: -g bcc -n "{package-name}-bcc-{project-version}" -p 340903
