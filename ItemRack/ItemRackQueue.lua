@@ -56,7 +56,7 @@ function ItemRack.ProcessAutoQueue(slot)
 		ItemRack.UpdateCombatQueue()
 	end
 
-	local list,rank = ItemRack.GetQueues()[slot]
+	local list = ItemRack.GetQueues()[slot]
 
 	local candidate,bag,s
 	for i=1,#(list) do
