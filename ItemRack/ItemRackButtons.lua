@@ -222,7 +222,8 @@ end
 -- while buttons drag, this function periodically lights up docking possibilities
 function ItemRack.ButtonsDocking()
 
-	local button,dock = ItemRack.ButtonMoving
+	local button = ItemRack.ButtonMoving
+	local dock = nil
 	local buttonID = button:GetID()
 	local near = ItemRack.Near
 	if not button then

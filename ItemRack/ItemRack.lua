@@ -760,7 +760,8 @@ function ItemRack.IsRed(which)
 end
 
 function ItemRack.PlayerCanWear(invslot,bag,slot)
-	local found,lines,txt = false
+	local found = false
+	local txt = false
 
 	local i=1
 	while _G["ItemRackTooltipTextLeft"..i] do
@@ -881,7 +882,7 @@ function ItemRack.StopTimer(name)
 	local idx = ItemRack.IsTimerActive(name)
 	if idx then
 		table.remove(ItemRack.Timers,idx)
-		if table.getn(ItemRack.Timers)<1 then
+		if #(ItemRack.Timers)<1 then
 			ItemRackFrame:Hide()
 		end
 	end
