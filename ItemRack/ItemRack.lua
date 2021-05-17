@@ -797,7 +797,7 @@ end
 function ItemRack.IsSoulbound(bag,slot)
 	ItemRackTooltip:SetBagItem(bag,slot)
 	for i=2,5 do
-		text = _G["ItemRackTooltipTextLeft"..i]:GetText()
+		local text = _G["ItemRackTooltipTextLeft"..i]:GetText()
 		if text==ITEM_SOULBOUND or text==ITEM_BIND_QUEST or text==ITEM_CONJURED then
 			return 1
 		end
@@ -1027,7 +1027,7 @@ function ItemRack.BuildMenu(id,menuInclude,masqueGroup)
 		-- display outward from docking point
 		local col,row,xpos,ypos = 0,0,ItemRack.DockInfo[ItemRack.currentDock].xstart,ItemRack.DockInfo[ItemRack.currentDock].ystart
 		local max_cols = 1
-		local button
+		local button, icon
 
 		if ItemRackUser.SetMenuWrap=="ON" then
 			max_cols = ItemRackUser.SetMenuWrapValue
@@ -1707,6 +1707,7 @@ end
 
 function ItemRack.DockMenuToCharacterSheet(self)
 	local name = self:GetName()
+	local slot
 	for i=0,19 do
 		if name=="Character"..ItemRack.SlotInfo[i].name then
 			slot = i
@@ -1868,6 +1869,9 @@ end
 
 function ItemRack.SetFont(button)
 	local item = _G[button.."Time"]
+	if not item then
+		return
+	end
 	if ItemRackSettings.LargeNumbers=="ON" then
 		item:SetFont("Fonts\\FRIZQT__.TTF",16,"OUTLINE")
 		item:SetTextColor(1,.82,0,1)
@@ -2073,7 +2077,7 @@ end
 -- pushes setname from bags/worn to bank
 function ItemRack.PutBankedSet(setname)
 	if SpellIsTargeting() or GetCursorInfo() then return end
-	local bag,slot,freeBag,freeSlot
+	local inv,bag,slot,freeBag,freeSlot
 	ItemRack.ClearLockList()
 	for _,i in pairs(ItemRackUser.Sets[setname].equip) do
 		if i~=0 then

@@ -58,7 +58,7 @@ function ItemRack.ProcessAutoQueue(slot)
 
 	local list = ItemRack.GetQueues()[slot]
 
-	local candidate,bag,s
+	local candidate,bag
 	for i=1,#(list) do
 		candidate = string.match(list[i],"(%d+)") --FIXME: not sure what list[i] is; it might simply be cleaning up some sort of slot number to make sure it is numeric, OR it might actually be an itemID... if it is the latter then this (conversion to baseID) should be handled by either ItemRack.GetIRString(list[i],true) if list[i] is an ItemRack-style ID or ItemRack.GetIRString(list[i],true,true) if list[i] is a regular ItemLink/ItemString, MOST things point to it being an ItemRack-style ID, but I do not want to mess anything up if this is in fact just a regular number, so I'll leave the line as it is
 		if list[i]==0 then
@@ -69,7 +69,7 @@ function ItemRack.ProcessAutoQueue(slot)
 			if not ready or enable==0 or (ItemRackItems[candidate] and ItemRackItems[candidate].priority) then
 				if ItemRack.ItemNearReady(candidate) then
 					if GetItemCount(candidate)>0 and not IsEquippedItem(candidate) then
-						_,bag,s = ItemRack.FindItem(list[i])
+						_,bag = ItemRack.FindItem(list[i])
 						if bag then
 							if ItemRack.CombatQueue[slot]~=list[i] then
 								ItemRack.EquipItemByID(list[i],slot)
