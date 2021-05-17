@@ -1,4 +1,7 @@
 package-as: ItemRack
+externals:
+  ItemRack/Libs/LibStub: https://repos.curseforge.com/wow/libstub/trunk
+  ItemRackOptions/Libs/LibStub: https://repos.curseforge.com/wow/libstub/trunk
 move-folders: 
     ItemRack/ItemRack: ItemRack
     ItemRack/ItemRackOptions: ItemRackOptions
