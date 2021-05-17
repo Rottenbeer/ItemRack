@@ -568,7 +568,7 @@ function ItemRack.WriteButtonCooldowns()
 end
 
 function ItemRack.UpdateButtonLocks()
-	local isLocked
+	local isLocked, alreadyLocked
 	for i in pairs(ItemRackUser.Buttons) do
 		if i<20 then
 			isLocked = IsInventoryItemLocked(i)

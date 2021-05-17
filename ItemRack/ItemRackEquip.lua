@@ -171,7 +171,7 @@ function ItemRack.IterateSwapList(setname)
 	ItemRack.AbortSwap = nil
 	ItemRack.ClearLockList()
 	
-	local skip = nil
+	local skip, inv, bag, slot
 	for i=0,19 do -- go in order to handle skips correctly
 		if skip or ItemRack.AbortSwap then
 			skip = nil
