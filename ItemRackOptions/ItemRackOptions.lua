@@ -912,12 +912,7 @@ end
 function ItemRackOpt.BindSet()
 	local setname = ItemRackOptSetsName:GetText()
 	ItemRackOpt.Binding = { type="Set", name="Set \""..setname.."\"", buttonName="ItemRack"..UnitName("player")..GetRealmName()..setname }
-	--@version-classic@
 	ItemRackOpt.Binding.button = _G[buttonName] or CreateFrame("Button",ItemRackOpt.Binding.buttonName,nil,"SecureActionButtonTemplate")
-	--@end-version-classic@
-	--@version-bcc@
-	ItemRackOpt.Binding.button = _G[buttonName] or CreateFrame("Button",ItemRackOpt.Binding.buttonName,nil,BackdropTemplateMixin and "SecureActionButtonTemplate")
-	--@end-version-bcc@
 	
 	ItemRackOptBindFrame:Show()	
 end
