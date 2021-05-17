@@ -1,6 +1,9 @@
 package-as: ItemRack
 externals:
   ItemRack/Libs/LibStub: https://repos.curseforge.com/wow/libstub/trunk
+  ItemRack/Libs/CallbackHandler-1.0: https://repos.curseforge.com/wow/callbackhandler/trunk/CallbackHandler-1.0
+  ItemRack/Libs/LibDataBroker-1.1: https://github.com/tekkub/libdatabroker-1-1
+  ItemRack/Libs/LibDBIcon-1.0: https://repos.curseforge.com/wow/libdbicon-1-0/trunk/LibDBIcon-1.0
   ItemRackOptions/Libs/LibStub: https://repos.curseforge.com/wow/libstub/trunk
 move-folders: 
     ItemRack/ItemRack: ItemRack

@@ -12,6 +12,9 @@ function ItemRack.IsBCC()
 	return WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC
 end
 
+local LDB = LibStub("LibDataBroker-1.1")
+local LDBIcon = LibStub("LibDBIcon-1.0")
+
 ItemRackUser = {
 	Sets = {}, -- user's sets
 	ItemsUsed = {}, -- items that have been used (for notify purposes)
@@ -46,8 +49,7 @@ ItemRackSettings = {
 	AllowEmpty = "ON", -- allow empty slot as a choice in menus
 	HideTradables = "OFF", -- allow non-soulbound gear to appear in menu
 	AllowHidden = "ON", -- allow the ability to hide items/sets in the menu with alt+click
-	ShowMinimap = "ON", -- whether to show the minimap button
-	SquareMinimap = "OFF", -- whether to position minimap button as if on a square minimap
+	ShowMinimap = true, -- whether to show the minimap button
 	TrinketMenuMode = "OFF", -- whether to merge top/bottom trinkets to one menu (leftclick=top,rightclick=bottom)
 	AnotherOther = "OFF", -- whether to dock the merged trinket menu to bottom trinket
 	EquipToggle = "OFF", -- whether to toggle equipping a set when choosing to equip it
@@ -149,8 +151,6 @@ ItemRack.TooltipInfo = {
 
 ItemRack.BankOpen = nil -- 1 if bank is open, nil if not
 
-ItemRack.LastCurrentSet = nil -- last known current set
-
 ItemRack.EventHandlers = {}
 ItemRack.ExternalEventHandlers = {}
 
@@ -216,6 +216,7 @@ end
 function ItemRack.OnPlayerLogin()
 	-- Normally some of these methods cannot be called in combat without causing errors, but since we run these IMMEDIATELY
 	-- on PLAYER_LOGIN event we get a grace period where it allows us to run secure code in combat.
+	ItemRack.InitBroker()
 	ItemRack.InitEventHandlers()
 	ItemRack.InitTimers()
 	ItemRack.InitCore()
@@ -445,9 +446,7 @@ function ItemRack.InitCore()
 	ItemRack.CreateTimer("MenuMouseover",ItemRack.MenuMouseover,.25,1)
 	ItemRack.CreateTimer("TooltipUpdate",ItemRack.TooltipUpdate,1,1)
 	ItemRack.CreateTimer("CooldownUpdate",ItemRack.CooldownUpdate,1,1)
-	ItemRack.CreateTimer("MinimapDragging",ItemRack.MinimapDragging,0,1)
 	ItemRack.CreateTimer("LocksChanged",ItemRack.LocksChanged,.2)
-	ItemRack.CreateTimer("MinimapShine",ItemRack.MinimapShineUpdate,0,1)
 	ItemRack.CreateTimer("DelayedCombatQueue",ItemRack.DelayedCombatQueue,.1)
 
 	for i=-2,11 do
@@ -483,7 +482,6 @@ function ItemRack.InitCore()
 	ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_FAILED")
 	--end
 	ItemRack.StartTimer("CooldownUpdate")
-	ItemRack.MoveMinimap()
 	ItemRack.ReflectAlpha()
 	ItemRack.SetSetBindings()
 
@@ -519,11 +517,7 @@ function ItemRack.UpdateCurrentSet()
 		ItemRackButton20Icon:SetTexture(texture)
 		ItemRackButton20Name:SetText(setname)
 	end
-	ItemRackMinimapIcon:SetTexture(texture)
-	if setname ~= ItemRack.LastCurrentSet then
-		ItemRack.MinimapShineFadeIn()
-		ItemRack.LastCurrentSet = setname
-	end
+	ItemRack.Broker.icon = texture
 end
 
 --[[ Item info gathering ]]
@@ -1728,35 +1722,26 @@ end
 
 --[[ Minimap button ]]
 
-function ItemRack.MinimapDragging()
-	local xpos,ypos = GetCursorPosition()
-	local xmin,ymin = Minimap:GetLeft(), Minimap:GetBottom()
-
-	xpos = xmin-xpos/Minimap:GetEffectiveScale()+70
-	ypos = ypos/Minimap:GetEffectiveScale()-ymin-70
-
-	ItemRackSettings.IconPos = math.deg(math.atan2(ypos,xpos))
-	ItemRack.MoveMinimap()
+function ItemRack.InitBroker()
+	local texture = ItemRack.GetTextureBySlot(20)
+	texture = [[Interface\AddOns\ItemRack\ItemRackIcon]]
+	ItemRack.Broker = LDB:NewDataObject("ItemRack", {
+		type = "launcher",
+		text = "ItemRack",
+		icon = texture,
+		OnClick = ItemRack.MinimapOnClick,
+		OnEnter = ItemRack.MinimapOnEnter
+	})
+	ItemRackSettings.minimap = ItemRackSettings.minimap or { hide = false }
+	LDBIcon:Register("ItemRack", ItemRack.Broker, ItemRackSettings.minimap)
+	ItemRack.ShowMinimap()
 end
 
-function ItemRack.MoveMinimap()
-	if ItemRackSettings.ShowMinimap=="ON" then
-		local xpos,ypos
-		local angle = ItemRackSettings.IconPos or -100
-		if ItemRackSettings.SquareMinimap=="ON" then
-			-- brute force method until trig solution figured out - min/max a point on a circle beyond square
-			xpos = 110 * cos(angle)
-			ypos = 110 * sin(angle)
-			xpos = math.max(-82,math.min(xpos,84))
-			ypos = math.max(-86,math.min(ypos,82))
-		else
-			xpos = 80*cos(angle)
-			ypos = 80*sin(angle)
-		end
-		ItemRackMinimapFrame:SetPoint("TOPLEFT","Minimap","TOPLEFT",52-xpos,ypos-52)
-		ItemRackMinimapFrame:Show()
+function ItemRack.ShowMinimap()
+	if ItemRackSettings.ShowMinimap == "ON" then
+		LDBIcon:Show("ItemRack")
 	else
-		ItemRackMinimapFrame:Hide()
+		LDBIcon:Hide("ItemRack")
 	end
 end
 
@@ -1773,9 +1758,9 @@ function ItemRack.MinimapOnClick(self,button)
 		else
 			local xpos,ypos = GetCursorPosition()
 			if ypos>400 then
-				ItemRack.DockWindows("TOPRIGHT",ItemRackMinimapFrame,"BOTTOMRIGHT","VERTICAL")
+				ItemRack.DockWindows("TOPRIGHT",self,"BOTTOMRIGHT","VERTICAL")
 			else
-				ItemRack.DockWindows("BOTTOMRIGHT",ItemRackMinimapFrame,"TOPRIGHT","VERTICAL")
+				ItemRack.DockWindows("BOTTOMRIGHT",self,"TOPRIGHT","VERTICAL")
 			end
 			ItemRack.BuildMenu(20, nil, 4)
 		end
@@ -1788,26 +1773,6 @@ function ItemRack.MinimapOnEnter(self)
 	if ItemRackSettings.MinimapTooltip=="ON" then
 		ItemRack.OnTooltip(self,"ItemRack","Left click: Select a set\nRight click: Open options\nAlt left click: Show hidden sets\nAlt right click: Toggle events\nShift click: Unequip this set")
 	end
-end
-
-
-function ItemRack.MinimapShineUpdate(elapsed)
-	ItemRack.MinimapShineAlpha = ItemRack.MinimapShineAlpha + (elapsed*2*ItemRack.MinimapShineDirection)
-	if ItemRack.MinimapShineAlpha < .1 then
-		ItemRack.StopTimer("MinimapShine")
-		ItemRackMinimapShine:Hide()
-	elseif ItemRack.MinimapShineAlpha > .9 then
-		ItemRack.MinimapShineDirection = -1
-	else
-		ItemRackMinimapShine:SetAlpha(ItemRack.MinimapShineAlpha)
-	end
-end
-
-function ItemRack.MinimapShineFadeIn()
-	ItemRack.MinimapShineAlpha = .1
-	ItemRack.MinimapShineDirection = 1
-	ItemRackMinimapShine:Show()
-	ItemRack.StartTimer("MinimapShine")
 end
 
 --[[ Non-LoD options support ]]
