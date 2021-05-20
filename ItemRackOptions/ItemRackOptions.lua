@@ -54,6 +54,17 @@ end
 
 function ItemRackOpt.OnLoad(self)
 	table.insert(UISpecialFrames,"ItemRackOptFrame")
+	if ItemRack.IsBCC() then
+		Mixin(ItemRackOptFrame, BackdropTemplateMixin)
+		ItemRackOptFrame:SetBackdrop({
+			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
+			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+			tile = true,
+			tileSize = 16,
+			edgeSize = 16,
+			insets = {left = 4, right = 4, top = 4, bottom = 4},
+		})
+	end
 	ItemRackOptInv0:SetScale(.8)
 	for i=0,19 do
 		ItemRackOpt.Inv[i] = {}
