@@ -518,6 +518,7 @@ function ItemRack.UpdateCurrentSet()
 		ItemRackButton20Name:SetText(setname)
 	end
 	ItemRack.Broker.icon = texture
+	ItemRack.Broker.label = setname
 end
 
 --[[ Item info gathering ]]
