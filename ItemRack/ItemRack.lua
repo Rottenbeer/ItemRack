@@ -518,7 +518,7 @@ function ItemRack.UpdateCurrentSet()
 		ItemRackButton20Name:SetText(setname)
 	end
 	ItemRack.Broker.icon = texture
-	ItemRack.Broker.label = setname
+	ItemRack.Broker.text = setname
 end
 
 --[[ Item info gathering ]]
@@ -1731,7 +1731,8 @@ function ItemRack.InitBroker()
 		text = "ItemRack",
 		icon = texture,
 		OnClick = ItemRack.MinimapOnClick,
-		OnEnter = ItemRack.MinimapOnEnter
+		OnEnter = ItemRack.MinimapOnEnter,
+		OnLeave = ItemRack.MinimapOnLeave
 	})
 	ItemRackSettings.minimap = ItemRackSettings.minimap or { hide = false }
 	LDBIcon:Register("ItemRack", ItemRack.Broker, ItemRackSettings.minimap)
@@ -1773,6 +1774,12 @@ end
 function ItemRack.MinimapOnEnter(self)
 	if ItemRackSettings.MinimapTooltip=="ON" then
 		ItemRack.OnTooltip(self,"ItemRack","Left click: Select a set\nRight click: Open options\nAlt left click: Show hidden sets\nAlt right click: Toggle events\nShift click: Unequip this set")
+	end
+end
+
+function ItemRack.MinimapOnLeave(self)
+	if ItemRackSettings.MinimapTooltip=="ON" then
+		GameTooltip:Hide()
 	end
 end
 
