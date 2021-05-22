@@ -1731,8 +1731,7 @@ function ItemRack.InitBroker()
 		text = "ItemRack",
 		icon = texture,
 		OnClick = ItemRack.MinimapOnClick,
-		OnEnter = ItemRack.MinimapOnEnter,
-		OnLeave = ItemRack.MinimapOnLeave
+		OnTooltipShow = ItemRack.MinimapOnEnter,
 	})
 	ItemRackSettings.minimap = ItemRackSettings.minimap or { hide = false }
 	LDBIcon:Register("ItemRack", ItemRack.Broker, ItemRackSettings.minimap)
@@ -1771,16 +1770,14 @@ function ItemRack.MinimapOnClick(self,button)
 	end
 end
 
-function ItemRack.MinimapOnEnter(self)
-	if ItemRackSettings.MinimapTooltip=="ON" then
-		ItemRack.OnTooltip(self,"ItemRack","Left click: Select a set\nRight click: Open options\nAlt left click: Show hidden sets\nAlt right click: Toggle events\nShift click: Unequip this set")
-	end
-end
-
-function ItemRack.MinimapOnLeave(self)
-	if ItemRackSettings.MinimapTooltip=="ON" then
-		GameTooltip:Hide()
-	end
+function ItemRack.MinimapOnEnter(tooltip)
+	if ItemRackSettings.MinimapTooltip~="ON" then return end
+	tooltip:AddLine("ItemRack")
+	tooltip:AddLine("Left click: Select a set",.8,.8,.8,1)
+	tooltip:AddLine("Right click: Open options",.8,.8,.8,1)
+	tooltip:AddLine("Alt left click: Show hidden sets",.8,.8,.8,1)
+	tooltip:AddLine("Alt right click: Toggle events",.8,.8,.8,1)
+	tooltip:AddLine("Shift click: Unequip this set",.8,.8,.8,1)
 end
 
 --[[ Non-LoD options support ]]
