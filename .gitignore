@@ -1,2 +1,6 @@
 ItemRack/Libs/*/*
 ItemRackOptions/Libs/*/*
+.luacheckrc
+.release/
+.vscode/
+ItemRack.zip
