@@ -1,3 +1,6 @@
+__ New in 3.65 - By Rottenbeer __
+* Show current set in libbroker, thanks mrbuds
+
 __ New in 3.64 - By Rottenbeer __
 * Fixed missing backdrop for tbc release, thanks to tobbi007 for the hint
 * Changed library for the minimap icon, so it should integrate better with
