@@ -461,14 +461,14 @@ function ItemRack.ReflectEventsRunning()
 		prevIcon = ItemRack.Broker.icon
 		prevText = ItemRack.Broker.text
 		ItemRack.Broker.icon = [[Interface\AddOns\ItemRack\ItemRackGear]]
-		ItemRack.Broker.label = "..."
+		ItemRack.Broker.text = "..."
 	else
 		if ItemRackUser.Buttons[20] then
 			ItemRackButton20Queue:Hide()
 		end
 		if prevIcon then
 			ItemRack.Broker.icon = prevIcon
-			ItemRack.Broker.label = prevText
+			ItemRack.Broker.text = prevText
 		end
 	end
 end
