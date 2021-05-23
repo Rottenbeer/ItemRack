@@ -1,3 +1,6 @@
+__ New in 3.66 - By Rottenbeer __
+* Fix set display in libbroker, thanks mrbuds
+
 __ New in 3.65 - By Rottenbeer __
 * Show current set in libbroker, thanks mrbuds
 
