@@ -75,7 +75,11 @@ ItemRackItems = {
 
 ItemRack.Menu = {}
 ItemRack.LockList = {} -- index -2 to 11, flag whether item is tagged already for swap
-ItemRack.BankSlots = { -1,5,6,7,8,9,10 }
+if ItemRack.IsClassic() then
+	ItemRack.BankSlots = { -1,5,6,7,8,9,10 }
+elseif ItemRack.IsBCC() then
+	ItemRack.BankSlots = { -1,5,6,7,8,9,10,11 }
+end
 ItemRack.KnownItems = {} -- cache of known item locations for fast lookup
 
 ItemRack.SlotInfo = {
@@ -1916,7 +1920,7 @@ function ItemRack.SetSetBindings()
 			if ItemRackUser.Sets[i].key then
 				buttonName = "ItemRack"..UnitName("player")..GetRealmName()..i
 				button = _G[buttonName] or CreateFrame("Button",buttonName,nil,"SecureActionButtonTemplate")
-				
+
 				button:SetAttribute("type","macro")
 				local macrotext = "/script ItemRack.RunSetBinding(\""..i.."\")\n"
 				for slot = 16, 18 do
