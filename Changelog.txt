@@ -1,3 +1,6 @@
+__ New in 3.67 - By Rottenbeer __
+* Add another bank slot for tbc
+
 __ New in 3.66 - By Rottenbeer __
 * Fix set display in libbroker, thanks mrbuds
 
