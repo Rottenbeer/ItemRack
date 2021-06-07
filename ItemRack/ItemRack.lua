@@ -2,7 +2,7 @@ ItemRack = {}
 
 local _
 
-ItemRack.Version = "3.67"
+ItemRack.Version = "3.68"
 
 function ItemRack.IsClassic()
 	return WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
