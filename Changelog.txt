@@ -1,3 +1,7 @@
+__ New in 3.68 - By Rottenbeer __
+* Fix lua error on login regarding bindings
+* Add tree of life event
+
 __ New in 3.67 - By Rottenbeer __
 * Add another bank slot for tbc
 
