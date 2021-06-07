@@ -177,6 +177,7 @@ function ItemRack.InitEventHandlers()
 	handler.UNIT_SPELLCAST_FAILED = ItemRack.OnCastingStop
 	handler.CHARACTER_POINTS_CHANGED = ItemRack.UpdateClassSpecificStuff
 	handler.PLAYER_TALENT_UPDATE = ItemRack.UpdateClassSpecificStuff
+	handler.PLAYER_ENTERING_WORLD = ItemRack.OnEnterWorld
 --	handler.ACTIVE_TALENT_GROUP_CHANGED = ItemRack.UpdateClassSpecificStuff
 --	handler.PET_BATTLE_OPENING_START = ItemRack.OnEnteringPetBattle
 --	handler.PET_BATTLE_CLOSE = ItemRack.OnLeavingPetBattle
@@ -226,6 +227,10 @@ function ItemRack.OnPlayerLogin()
 	ItemRack.InitCore()
 	ItemRack.InitButtons()
 	ItemRack.InitEvents()
+end
+
+function ItemRack.OnEnterWorld()
+	ItemRack.SetSetBindings()
 end
 
 local loader = CreateFrame("Frame",nil, self, BackdropTemplateMixin and "BackdropTemplate") -- need a new temp frame here, ItemRackFrame is not created yet
@@ -484,10 +489,10 @@ function ItemRack.InitCore()
 	ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 	ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
 	ItemRackFrame:RegisterEvent("UNIT_SPELLCAST_FAILED")
+	ItemRackFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 	--end
 	ItemRack.StartTimer("CooldownUpdate")
 	ItemRack.ReflectAlpha()
-	ItemRack.SetSetBindings()
 
 	SlashCmdList["ItemRack"] = ItemRack.SlashHandler
 	SLASH_ItemRack1 = "/itemrack"
