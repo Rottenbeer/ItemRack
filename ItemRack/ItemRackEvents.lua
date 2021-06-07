@@ -6,7 +6,7 @@
 		Stance : Triggered by UPDATE_SHAPESHIFT_FORM and not delayed
 		Script : User-defined trigger
 
-		Buff and Stance share an attribute : 
+		Buff and Stance share an attribute :
 		  NotInPVP : nil or 1, whether to ignore this event if pvp flag is set
 
 		Buff, Zone and Stance share an attribute :
@@ -14,27 +14,27 @@
 
 		Buff has a special case attribute:
 		  Anymount: nil or 1, whether the buff is any mount (IsPlayerMounted())
-		 
+
 		Zone has a table:
 		  Zones : Indexed by name of zone, lookup table for zones to define this event
 
 		Script has its own attributes:
 		  Trigger : Event (ie "UNIT_AURA") that triggers the script
 		  Script : Actual script run through RunScript
-		
+
 	The set to equip is defined in ItemRackUser.Events.Set, indexed by event name
 	The set to equip is nil if it's a Script event.  Sets equip/unequip explicitly
 	Whether an event is enabled is in ItemRackuser.Events.Enabled, indexed by event name
 ]]
 
 -- increment this value when default events are changed to deploy them to existing events
-ItemRack.EventsVersion = 17
+ItemRack.EventsVersion = 18
 
 -- default events, loaded when no events exist or ItemRack.EventsVersion is increased
 ItemRack.DefaultEvents = {
 	["PVP"] = {
 		Type = "Zone",
-		Unequip = 1,  
+		Unequip = 1,
 		Zones = {
 			["Alterac Valley"] = 1,
 			["Arathi Basin"] = 1,
@@ -78,6 +78,7 @@ ItemRack.DefaultEvents = {
 	["Druid Cat"] = { Class = "DRUID", Type = "Stance", Stance = 3 },
 	["Druid Travel"] = { Class = "DRUID", Type = "Stance", Stance = 4 },
 	["Druid Moonkin"] = { Class = "DRUID", Type = "Stance", Stance = "Moonkin Form" },
+	["Druid Tree of Life"] = { Class = "DRUID", Type = "Stance", Stance = "Tree of Life" },
 
 	["Rogue Stealth"] = { Class = "ROGUE", Type = "Stance", Unequip = 1, Stance = 1 },
 
@@ -404,7 +405,7 @@ function ItemRack.CheckForMountedEvents()
 	if ItemRackUser.EnableEvents=="OFF" then
 		return
 	end
-	
+
 	local isPlayerMounted = IsMounted() and not UnitOnTaxi("player")
 	if isPlayerMounted ~= _lastStateMounted then
 		_lastStateMounted = isPlayerMounted
