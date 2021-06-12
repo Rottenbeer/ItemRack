@@ -19,6 +19,15 @@ function ItemRack.ProcessAutoQueue(slot)
 		return
 	end
 
+	-- don't process offhand queue if a two-hander is equipped in the main hand slot
+	if slot==INVSLOT_OFFHAND then
+		local mhID = GetInventoryItemID("player",INVSLOT_MAINHAND)
+		local mhClass, mhSubclass = select(12, GetItemInfo(mhID))
+		if (mhClass==LE_ITEM_CLASS_WEAPON) and (mhSubclass==LE_ITEM_WEAPON_AXE2H or mhSubclass==LE_ITEM_WEAPON_MACE2H or mhSubclass==LE_ITEM_WEAPON_POLEARM or mhSubclass==LE_ITEM_WEAPON_SWORD2H or mhSubclass==LE_ITEM_WEAPON_STAFF or mhSubclass==LE_ITEM_WEAPON_FISHINGPOLE) then
+			return
+		end
+	end
+
 	local start,duration,enable = GetInventoryItemCooldown("player",slot)
 	local timeLeft = math.max(start + duration - GetTime(),0)
 	local baseID = ItemRack.GetIRString(GetInventoryItemLink("player",slot),true,true)
