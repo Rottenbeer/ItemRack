@@ -1,3 +1,6 @@
+__ New in 3.69 - By Rottenbeer __
+* Fix backgrop and bindings error for wow classic 1.14, thanks minigwen
+
 __ New in 3.68 - By Rottenbeer __
 * Fix lua error on login regarding bindings
 * Add tree of life event
