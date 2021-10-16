@@ -1,5 +1,5 @@
 ## Interface: 20501
-## Interface-Classic: 11307
+## Interface-Classic: 11400
 ## Interface-BCC: 20501
 ## Title: ItemRack
 ## Author: Gello - Updated for Classic by Rottenbeer
