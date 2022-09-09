@@ -1,3 +1,11 @@
+__New in WOTLK v1.0-alpha
+
+Now detects spec change into a spec with titan's grip
+
+__New in WOTLK v1.0-alpha
+
+First pass including Titan's Grip code from previous versions and loading in WOTLK Classic (Thanks phrsoft @ Curse)
+
 __ New in 3.69 - By Rottenbeer __
 * Fix backgrop and bindings error for wow classic 1.14, thanks minigwen
 
