@@ -407,6 +407,10 @@ function ItemRack.UpdateClassSpecificStuff()
 	if class=="SHAMAN" then
 		ItemRack.CanWearOneHandOffHand = 1
 	end
+	
+	if class=="DEATHKNIGHT" then
+	ItemRack.CanWearOneHandOffHand = 1
+	end
 end
 
 function ItemRack.OnSetBagItem(tooltip, bag, slot)
