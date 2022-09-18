@@ -1,4 +1,8 @@
-__New in WOTLK v1.0-alpha
+__New in WOTLK v1.2-alpha
+
+Allows Death Knight's to equip offhand weapons.
+
+__New in WOTLK v1.1-alpha
 
 Now detects spec change into a spec with titan's grip
 
