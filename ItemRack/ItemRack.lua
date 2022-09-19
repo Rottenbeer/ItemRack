@@ -398,7 +398,7 @@ function ItemRack.UpdateClassSpecificStuff()
 			ItemRack.SlotInfo[17].INVTYPE_2HWEAPON = 1
 		else
 			ItemRack.HasTitansGrip = nil
-			ItemRack.SlotInfo[18].INVTYPE_2HWEAPON = nil
+			ItemRack.SlotInfo[17].INVTYPE_2HWEAPON = nil
 		end
 	end
 
