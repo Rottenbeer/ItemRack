@@ -12,6 +12,10 @@ function ItemRack.IsBCC()
 	return WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC
 end
 
+function ItemRack.IsWrath() 
+	return WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
+end 
+
 local LDB = LibStub("LibDataBroker-1.1")
 local LDBIcon = LibStub("LibDBIcon-1.0")
 
@@ -77,7 +81,7 @@ ItemRack.Menu = {}
 ItemRack.LockList = {} -- index -2 to 11, flag whether item is tagged already for swap
 if ItemRack.IsClassic() then
 	ItemRack.BankSlots = { -1,5,6,7,8,9,10 }
-elseif ItemRack.IsBCC() then
+elseif ItemRack.IsBCC() or ItemRack.IsWrath() then
 	ItemRack.BankSlots = { -1,5,6,7,8,9,10,11 }
 end
 ItemRack.KnownItems = {} -- cache of known item locations for fast lookup
