@@ -22,3 +22,7 @@ jobs:
       - uses: BigWigsMods/packager@master
         with:
           args: -g bcc -n "{package-name}-bcc-{project-version}" -p 340903
+
+      - uses: BigWigsMods/packager@master
+        with:
+          args: -g wrath -n "{package-name}-wrath-{project-version}" -p 340903
