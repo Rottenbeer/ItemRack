@@ -386,15 +386,7 @@ end
 function ItemRack.UpdateClassSpecificStuff()
 	local _,class = UnitClass("player")
 
-	if class=="WARRIOR" or class=="ROGUE" or class=="HUNTER" or class=="MAGE" or class=="WARLOCK" then
-		ItemRack.CanWearOneHandOffHand = 1
-	end
-
-	if class=="SHAMAN" then
-		ItemRack.CanWearOneHandOffHand = 1
-	end
-
-	if class=="DEATHKNIGHT" then
+	if class=="WARRIOR" or class=="ROGUE" or class=="HUNTER" or class=="MAGE" or class=="WARLOCK" or class=="SHAMAN" or class=="DEATHKNIGHT" then
 		ItemRack.CanWearOneHandOffHand = 1
 	end
 end
