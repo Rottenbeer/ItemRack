@@ -393,6 +393,10 @@ function ItemRack.UpdateClassSpecificStuff()
 	if class=="SHAMAN" then
 		ItemRack.CanWearOneHandOffHand = 1
 	end
+
+	if class=="DEATHKNIGHT" then
+		ItemRack.CanWearOneHandOffHand = 1
+	end
 end
 
 function ItemRack.OnSetBagItem(tooltip, bag, slot)
@@ -481,8 +485,8 @@ function ItemRack.InitCore()
 	ItemRackFrame:RegisterEvent("BANKFRAME_CLOSED")
 	ItemRackFrame:RegisterEvent("BANKFRAME_OPENED")
 	ItemRackFrame:RegisterEvent("CHARACTER_POINTS_CHANGED")
-	-- ItemRackFrame:RegisterEvent("PLAYER_TALENT_UPDATE")
-	-- ItemRackFrame:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+	ItemRackFrame:RegisterEvent("PLAYER_TALENT_UPDATE")
+	ItemRackFrame:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
 	-- ItemRackFrame:RegisterEvent("PET_BATTLE_OPENING_START")
 	-- ItemRackFrame:RegisterEvent("PET_BATTLE_CLOSE")
 	--if not disable_delayed_swaps then
