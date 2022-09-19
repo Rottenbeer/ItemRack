@@ -392,7 +392,7 @@ function ItemRack.UpdateClassSpecificStuff()
 		ItemRack.CanWearOneHandOffHand = 1
 	end
 
-	if class=="WARRIOR" then
+	if ItemRack.IsWrath() and class=="WARRIOR" then
 		if select(5,GetTalentInfo(2,26))>0 then
 			ItemRack.HasTitansGrip = 1
 			ItemRack.SlotInfo[17].INVTYPE_2HWEAPON = 1
