@@ -182,7 +182,7 @@ function ItemRack.InitEventHandlers()
 	handler.CHARACTER_POINTS_CHANGED = ItemRack.UpdateClassSpecificStuff
 	handler.PLAYER_TALENT_UPDATE = ItemRack.UpdateClassSpecificStuff
 	handler.PLAYER_ENTERING_WORLD = ItemRack.OnEnterWorld
---	handler.ACTIVE_TALENT_GROUP_CHANGED = ItemRack.UpdateClassSpecificStuff
+	handler.ACTIVE_TALENT_GROUP_CHANGED = ItemRack.UpdateClassSpecificStuff
 --	handler.PET_BATTLE_OPENING_START = ItemRack.OnEnteringPetBattle
 --	handler.PET_BATTLE_CLOSE = ItemRack.OnLeavingPetBattle
 end
