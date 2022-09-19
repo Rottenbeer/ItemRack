@@ -12,6 +12,10 @@ function ItemRack.IsBCC()
 	return WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC
 end
 
+function ItemRack.IsWrath() 
+	return WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
+end 
+
 local LDB = LibStub("LibDataBroker-1.1")
 local LDBIcon = LibStub("LibDBIcon-1.0")
 
@@ -83,7 +87,7 @@ ItemRack.Menu = {}
 ItemRack.LockList = {} -- index -2 to 11, flag whether item is tagged already for swap
 if ItemRack.IsClassic() then
 	ItemRack.BankSlots = { -1,5,6,7,8,9,10 }
-elseif ItemRack.IsBCC() then
+elseif ItemRack.IsBCC() or ItemRack.IsWrath() then
 	ItemRack.BankSlots = { -1,5,6,7,8,9,10,11 }
 end
 ItemRack.KnownItems = {} -- cache of known item locations for fast lookup
@@ -184,7 +188,7 @@ function ItemRack.InitEventHandlers()
 	handler.CHARACTER_POINTS_CHANGED = ItemRack.UpdateClassSpecificStuff
 	handler.PLAYER_TALENT_UPDATE = ItemRack.UpdateClassSpecificStuff
 	handler.PLAYER_ENTERING_WORLD = ItemRack.OnEnterWorld
---	handler.ACTIVE_TALENT_GROUP_CHANGED = ItemRack.UpdateClassSpecificStuff
+	handler.ACTIVE_TALENT_GROUP_CHANGED = ItemRack.UpdateClassSpecificStuff
 --	handler.PET_BATTLE_OPENING_START = ItemRack.OnEnteringPetBattle
 --	handler.PET_BATTLE_CLOSE = ItemRack.OnLeavingPetBattle
 end
@@ -388,7 +392,7 @@ end
 function ItemRack.UpdateClassSpecificStuff()
 	local _,class = UnitClass("player")
 
-	if class=="WARRIOR" or class=="ROGUE" or class=="HUNTER" or class=="MAGE" or class=="WARLOCK" then
+	if class=="WARRIOR" or class=="ROGUE" or class=="HUNTER" or class=="MAGE" or class=="WARLOCK" or class=="SHAMAN" or class=="DEATHKNIGHT" then
 		ItemRack.CanWearOneHandOffHand = 1
 	end
 
@@ -402,9 +406,6 @@ function ItemRack.UpdateClassSpecificStuff()
 		end
 	end
 
-	if class=="SHAMAN" then
-		ItemRack.CanWearOneHandOffHand = 1
-	end
 end
 
 function ItemRack.OnSetBagItem(tooltip, bag, slot)
@@ -493,8 +494,8 @@ function ItemRack.InitCore()
 	ItemRackFrame:RegisterEvent("BANKFRAME_CLOSED")
 	ItemRackFrame:RegisterEvent("BANKFRAME_OPENED")
 	ItemRackFrame:RegisterEvent("CHARACTER_POINTS_CHANGED")
-	-- ItemRackFrame:RegisterEvent("PLAYER_TALENT_UPDATE")
-	-- ItemRackFrame:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+	ItemRackFrame:RegisterEvent("PLAYER_TALENT_UPDATE")
+	ItemRackFrame:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
 	-- ItemRackFrame:RegisterEvent("PET_BATTLE_OPENING_START")
 	-- ItemRackFrame:RegisterEvent("PET_BATTLE_CLOSE")
 	--if not disable_delayed_swaps then
