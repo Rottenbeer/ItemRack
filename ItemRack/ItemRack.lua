@@ -73,6 +73,12 @@ ItemRackItems = {
 	["25653"] = { keep=1 }, -- riding crop
 }
 
+ItemRack.NoTitansGrip = {
+	["Polearms"] = 1,
+	["Fishing Poles"] = 1,
+	["Staves"] = 1
+}
+
 ItemRack.Menu = {}
 ItemRack.LockList = {} -- index -2 to 11, flag whether item is tagged already for swap
 if ItemRack.IsClassic() then
@@ -384,6 +390,16 @@ function ItemRack.UpdateClassSpecificStuff()
 
 	if class=="WARRIOR" or class=="ROGUE" or class=="HUNTER" or class=="MAGE" or class=="WARLOCK" then
 		ItemRack.CanWearOneHandOffHand = 1
+	end
+
+	if class=="WARRIOR" then
+		if select(5,GetTalentInfo(2,26))>0 then
+			ItemRack.HasTitansGrip = 1
+			ItemRack.SlotInfo[17].INVTYPE_2HWEAPON = 1
+		else
+			ItemRack.HasTitansGrip = nil
+			ItemRack.SlotInfo[18].INVTYPE_2HWEAPON = nil
+		end
 	end
 
 	if class=="SHAMAN" then
@@ -1327,7 +1343,7 @@ function ItemRack.EquipItemByID(id,slot)
 				if not isLocked and not IsInventoryItemLocked(slot) then
 					-- neither container item nor inventory item locked, perform swap
 					local _,_,equipSlot = ItemRack.GetInfoByID(id)
-					if equipSlot~="INVTYPE_2HWEAPON" or not GetInventoryItemLink("player",17) then
+					if equipSlot~="INVTYPE_2HWEAPON" or (ItemRack.HasTitansGrip and not ItemRack.NoTitansGrip[select(7,GetItemInfo(GetContainerItemLink(b,s))) or ""]) or not GetInventoryItemLink("player",17) then
 						PickupContainerItem(b,s)
 						PickupInventoryItem(slot)
 					else
