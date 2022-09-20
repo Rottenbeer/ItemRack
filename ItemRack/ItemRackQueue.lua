@@ -66,16 +66,14 @@ function ItemRack.ProcessAutoQueue(slot)
 		elseif ready and candidate==baseID then
 			break
 		else
-			if not ready or enable==0 or (ItemRackItems[candidate] and ItemRackItems[candidate].priority) then
-				if ItemRack.ItemNearReady(candidate) then
-					if GetItemCount(candidate)>0 and not IsEquippedItem(candidate) then
-						_,bag = ItemRack.FindItem(list[i])
-						if bag then
-							if ItemRack.CombatQueue[slot]~=list[i] then
-								ItemRack.EquipItemByID(list[i],slot)
-							end
-							break
+			if (ItemRack.ReadyIn(candidate) < ItemRack.ReadyIn(baseID)) or (ItemRackItems[candidate] and ItemRackItems[candidate].priority and ItemRack.ItemNearReady(candidate)) then
+				if GetItemCount(candidate)>0 and not IsEquippedItem(candidate) then
+					_,bag = ItemRack.FindItem(list[i])
+					if bag then
+						if ItemRack.CombatQueue[slot]~=list[i] then
+							ItemRack.EquipItemByID(list[i],slot)
 						end
+						break
 					end
 				end
 			end
@@ -83,11 +81,19 @@ function ItemRack.ProcessAutoQueue(slot)
 	end
 end
 
-function ItemRack.ItemNearReady(id)
-	local start,duration = GetItemCooldown(id)
-	if start==0 or math.max(start + duration - GetTime(),0)<=30 then
-		return true
+function ItemRack.ReadyIn(id)
+	local start, duration = GetItemCooldown(id)
+	local swapTime = 0
+
+	if not IsEquippedItem(id) then
+		swapTime = 30
 	end
+
+	return math.max(start + duration - GetTime(), swapTime)
+end
+
+function ItemRack.ItemNearReady(id)
+	return ItemRack.ReadyIn(id) <= 30
 end
 
 function ItemRack.SetQueue(slot,newQueue)
