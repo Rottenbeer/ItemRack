@@ -1,5 +1,5 @@
 ## Interface: 20501
-## Interface-Classic: 11400
+## Interface-Classic: 11403
 ## Interface-BCC: 20501
 ## Interface-WOTLKC: 30400
 ## Title: ItemRack
