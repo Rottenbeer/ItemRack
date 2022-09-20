@@ -170,7 +170,8 @@ function ItemRack.IterateSwapList(setname)
 
 	ItemRack.AbortSwap = nil
 	ItemRack.ClearLockList()
-	
+
+	local treatAs2H = nil
 	local skip, inv, bag, slot
 	for i=0,19 do -- go in order to handle skips correctly
 		if skip or ItemRack.AbortSwap then
@@ -191,7 +192,15 @@ function ItemRack.IterateSwapList(setname)
 			else
 				inv,bag,slot = ItemRack.FindItem(swap[i],1)
 				if bag then
-					if select(3,ItemRack.GetInfoByID(swap[i]))=="INVTYPE_2HWEAPON" then
+					if i==16 and ItemRack.HasTitansGrip then
+						local subtype = select(7,GetItemInfo(GetContainerItemLink(bag,slot)))
+						if subtype and ItemRack.NoTitansGrip[subtype] then
+							treatAs2H = 1
+						end
+					end
+					-- TODO: Polarms, Fishing Poles and Staves (7th GetItemInfo) cannot
+					-- be equipped alongside Two-Handed Axes, Two-Handed Maces and Two-Handed Swords
+					if (not ItemRack.HasTitansGrip or treatAs2H) and select(3,ItemRack.GetInfoByID(swap[i]))=="INVTYPE_2HWEAPON" then
 						-- this is a 2H weapon. swap both slots at once if offhand equipped
 						if set.old then
 							set.old[i] = ItemRack.GetID(i)
