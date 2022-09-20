@@ -1,3 +1,6 @@
+__ New in 3.73 - By Rottenbeer __
+* Classic toc update again. Thanks to @jelmerj!
+
 __ New in 3.72 - By Rottenbeer __
 * Classic toc update. Thanks to @jelmerj!
 
