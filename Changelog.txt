@@ -1,3 +1,7 @@
+__ New in 3.71 - By Rottenbeer __
+* WOTLK fixes for Titen's Grip. Thanks to @ThisIsMakena and @jelmerj!
+* Classic fixes. Thanks to @jelmerj!
+
 __ New in 3.70 - By Rottenbeer __
 * WOTLK release! Thanks to @ThisIsMakena and @jelmerj!
 
