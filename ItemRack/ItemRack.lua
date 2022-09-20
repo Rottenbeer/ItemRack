@@ -494,8 +494,10 @@ function ItemRack.InitCore()
 	ItemRackFrame:RegisterEvent("BANKFRAME_CLOSED")
 	ItemRackFrame:RegisterEvent("BANKFRAME_OPENED")
 	ItemRackFrame:RegisterEvent("CHARACTER_POINTS_CHANGED")
-	ItemRackFrame:RegisterEvent("PLAYER_TALENT_UPDATE")
-	ItemRackFrame:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+	if ItemRack.IsWrath() then
+		ItemRackFrame:RegisterEvent("PLAYER_TALENT_UPDATE")
+		ItemRackFrame:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+	end
 	-- ItemRackFrame:RegisterEvent("PET_BATTLE_OPENING_START")
 	-- ItemRackFrame:RegisterEvent("PET_BATTLE_CLOSE")
 	--if not disable_delayed_swaps then
