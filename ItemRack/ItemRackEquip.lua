@@ -28,6 +28,70 @@ ItemRack.PhantomItem = {
 	[128289] = true, -- Scale of the Earth-Warder (prot warrior)
 }
 
+ItemRack.UniqueGems = {
+	-- Wrath JC gems
+	[36766] = 3, --bright-dragons-eye
+	[36767] = 3, --solid-dragons-eye
+	[42142] = 3, --bold-dragons-eye
+	[42143] = 3, --delicate-dragons-eye
+	[42144] = 3, --runed-dragons-eye
+	[42145] = 3, --sparkling-dragons-eye
+	[42146] = 3, --lustrous-dragons-eye
+	[42148] = 3, --brilliant-dragons-eye
+	[42149] = 3, --smooth-dragons-eye
+	[42150] = 3, --quick-dragons-eye
+	[42151] = 3, --subtle-dragons-eye
+	[42152] = 3, --flashing-dragons-eye
+	[42153] = 3, --fractured-dragons-eye
+	[42154] = 3, --precise-dragons-eye
+	[42155] = 3, --stormy-dragons-eye
+	[42156] = 3, --rigid-dragons-eye
+	[42157] = 3, --thick-dragons-eye
+	[42158] = 3, --mystic-dragons-eye
+	[49110] = 3, --nightmare-tear
+	-- Other
+	[27679] = 1, --sublime-mystic-dawnstone
+	[27777] = 1, --stark-blood-garnet
+	[27785] = 1, --notched-deep-peridot
+	[27786] = 1, --barbed-deep-peridot
+	[27809] = 1, --barbed-deep-peridot
+	[27812] = 1, --stark-blood-garnet
+	[27820] = 1, --notched-deep-peridot
+	[28360] = 1, --mighty-blood-garnet
+	[28361] = 1, --mighty-blood-garnet
+	[28556] = 1, --swift-windfire-diamond
+	[28557] = 1, --swift-starfire-diamond
+	[30571] = 1, --don-rodrigos-heart
+	[30598] = 1, --don-amancios-heart
+	[32634] = 1, --unstable-amethyst
+	[32635] = 1, --unstable-peridot
+	[32636] = 1, --unstable-sapphire
+	[32637] = 1, --unstable-citrine
+	[32638] = 1, --unstable-topaz
+	[32639] = 1, --unstable-talasite
+	[32735] = 1, --radiant-spencerite
+	[33131] = 1, --crimson-sun
+	[33132] = 1, --delicate-fire-ruby
+	[33133] = 1, --don-julios-heart
+	[33134] = 1, --kailees-rose
+	[33135] = 1, --falling-star
+	[33137] = 1, --sparkling-falling-star
+	[33138] = 1, --mystic-bladestone
+	[33139] = 1, --brilliant-bladestone
+	[33140] = 1, --blood-of-amber
+	[33141] = 1, --great-bladestone
+	[33142] = 1, --rigid-bladestone
+	[33143] = 1, --stone-of-blades
+	[33144] = 1, --facet-of-eternity
+	[34256] = 1, --charmed-amani-jewel
+	[34831] = 1, --eye-of-the-sea
+	[42701] = 1, --enchanted-pearl
+	[42702] = 1, --enchanted-tear
+	[44066] = 1, --kharmaas-grace
+	--[41492] = 1, --perfect-inscribed-citrine DEBUG
+}
+ItemRack.eqBackOfTheBusOffset = 100
+
 function ItemRack.ProcessSetsWaiting()
 	local setwaiting = ItemRack.SetsWaiting[1][1]
 	local whichequip = ItemRack.SetsWaiting[1][2]
@@ -43,6 +107,19 @@ function ItemRack.AddSetToSetsWaiting(setwaiting,whichequip)
 		end
 	end
 	table.insert(wait,{setwaiting,whichequip})
+end
+
+function ItemRack.OrderSwaps(swap)
+	for k,v in pairs(swap) do
+		if swap[k] and swap[k] ~= 0 then
+			local itemID, enchantID, gem1, gem2, gem3 = ItemRack.GetEnhancements(swap[k])
+			if (ItemRack.UniqueGems[gem1] or ItemRack.UniqueGems[gem2] or ItemRack.UniqueGems[gem3])
+			and k < ItemRack.eqBackOfTheBusOffset then
+				swap[k+ItemRack.eqBackOfTheBusOffset] = v
+				swap[k] = nil
+			end
+		end
+	end
 end
 
 function ItemRack.EquipSet(setname)
@@ -82,7 +159,7 @@ function ItemRack.EquipSet(setname)
 		ItemRack.EndSetSwap(setname) -- end swap if set already equipped
 		return
 	end
-	
+
 	if set.old then
 		for i in pairs(set.old) do
 			set.old[i] = nil -- wipe old items
@@ -123,6 +200,8 @@ function ItemRack.EquipSet(setname)
 			ShowCloak(false)
 		end
 	end
+
+	ItemRack.OrderSwaps(swap) -- bump items with unique gems to the end of the line
 
 	ItemRack.IterateSwapList(setname) -- run SwapList swaps
 	if not next(swap) then
@@ -173,24 +252,28 @@ function ItemRack.IterateSwapList(setname)
 
 	local treatAs2H = nil
 	local skip, inv, bag, slot
-	for i=0,19 do -- go in order to handle skips correctly
+	for k=0,19+ItemRack.eqBackOfTheBusOffset do
+		local i = k
+		if k >= ItemRack.eqBackOfTheBusOffset then
+			i = k-ItemRack.eqBackOfTheBusOffset
+		end
 		if skip or ItemRack.AbortSwap then
 			skip = nil
-		elseif swap[i] then
-			if swap[i]==0 then -- if intended to be empty
+		elseif swap[k] then
+			if swap[k]==0 then -- if intended to be empty
 				bag,slot = ItemRack.FindSpace()
 				if bag then
 					if set.old then
 						set.old[i] = ItemRack.GetID(i)
 					end
 					ItemRack.MoveItem(i,nil,bag,slot) -- empty slot
-					swap[i] = nil
+					swap[k] = nil
 				else
 					ItemRack.AbortSwap = 1
 					return
 				end
 			else
-				inv,bag,slot = ItemRack.FindItem(swap[i],1)
+				inv,bag,slot = ItemRack.FindItem(swap[k],1)
 				if bag then
 					if i==16 and ItemRack.HasTitansGrip then
 						local subtype = select(7,GetItemInfo(GetContainerItemLink(bag,slot)))
@@ -200,7 +283,7 @@ function ItemRack.IterateSwapList(setname)
 					end
 					-- TODO: Polarms, Fishing Poles and Staves (7th GetItemInfo) cannot
 					-- be equipped alongside Two-Handed Axes, Two-Handed Maces and Two-Handed Swords
-					if (not ItemRack.HasTitansGrip or treatAs2H) and select(3,ItemRack.GetInfoByID(swap[i]))=="INVTYPE_2HWEAPON" then
+					if (not ItemRack.HasTitansGrip or treatAs2H) and select(3,ItemRack.GetInfoByID(swap[k]))=="INVTYPE_2HWEAPON" then
 						-- this is a 2H weapon. swap both slots at once if offhand equipped
 						if set.old then
 							set.old[i] = ItemRack.GetID(i)
@@ -215,25 +298,25 @@ function ItemRack.IterateSwapList(setname)
 							end
 						end
 						ItemRack.MoveItem(bag,slot,16,nil)
-						swap[16] = nil
-						swap[17] = nil -- fix by Romracer
+						swap[k] = nil
+						swap[k+1] = nil -- fix by Romracer
 						skip = 1
 					else
 						if set.old then
 							set.old[i] = ItemRack.GetID(i)
 						end
 						ItemRack.MoveItem(bag,slot,i,nil)
-						swap[i] = nil
+						swap[k] = nil
 					end
-				elseif inv==(i+1) and ItemRack.SameID(swap[i+1],ItemRack.GetID(i)) then
+				elseif inv==(i+1) and ItemRack.SameID(swap[k+1],ItemRack.GetID(i)) then
 					-- item is in other slot and other slot wants to go to this one
 					if set.old then
 						set.old[i] = ItemRack.GetID(i)
 						set.old[i+1] = ItemRack.GetID(i+1)
 					end
 					ItemRack.MoveItem(i,nil,i+1,nil)
-					swap[i] = nil
-					swap[i+1] = nil
+					swap[k] = nil
+					swap[k+1] = nil
 					skip = 1
 				end
 			end
@@ -291,6 +374,9 @@ function ItemRack.MoveItem(fromBag,fromSlot,toBag,toSlot)
 		if toSlot then
 			PickupContainerItem(toBag,toSlot)
 		else
+			if toBag == INVSLOT_AMMO then -- workaround for classic ammo slot weirdness
+				toBag = INVSLOT_RANGED
+			end
 			PickupInventoryItem(toBag)
 		end
 	end

@@ -1,3 +1,8 @@
+__ New in 3.74 - By Roadblock __
+* WOTLK fix for Polearms + Titan's Grip.
+* Fix for ammo slot not equipping the set ammo.
+* Fix for JC (and possibly other) unique-equipped gems in gear.
+
 __ New in 3.73 - By Rottenbeer __
 * Classic toc update again. Thanks to @jelmerj!
 
