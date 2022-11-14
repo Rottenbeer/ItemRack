@@ -1,12 +1,13 @@
-ItemRack = {}
+local addonName, addon = ...
+_G[addonName] = addon
 
 local _
 
-ItemRack.Version = "3.73"
+ItemRack.Version = GetAddOnMetadata(addonName, "Version")
 
 function ItemRack.IsClassic()
 	return WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
-  end
+end
 
 function ItemRack.IsBCC()
 	return WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC
@@ -78,7 +79,7 @@ ItemRackItems = {
 }
 
 ItemRack.NoTitansGrip = {
-	["Polearms"] = 1,
+	--["Polearms"] = 1, -- 3.3.5 / Wrath Classic support Polearm Titan's Grip
 	["Fishing Poles"] = 1,
 	["Staves"] = 1
 }
@@ -577,6 +578,7 @@ end
 ItemRack.iSPatternRegularToIR = "item:(.-)\124h" --example: "62384:0:4041:4041:0:0:0:0:85:146:0:0", where 85 is the player's level when the itemLink/itemString was captured, in other words it's a regular itemString with the "item:" part removed
 ItemRack.iSPatternBaseIDFromIR = "^(%-?%d+)" --this must *only* be used on ItemRack-style IDs, and will return the first field (the itemID), allowing us to do loose item matching
 ItemRack.iSPatternBaseIDFromRegular = "item:(%-?%d+)" --this must *only* be used regular itemLinks/itemStrings, and will return the first field (the itemID), allowing us to do loose item matching
+ItemRack.iSPatternEnhancementsFromIR = "^(%-?%d+):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*)" --this must *only* be used on ItemRack-style IDs, and will return itemID, enchantID, gem1, gem2, gem3
 function ItemRack.GetIRString(inputString,baseid,regular)
 	return string.match(inputString or "", (baseid and (regular and ItemRack.iSPatternBaseIDFromRegular or ItemRack.iSPatternBaseIDFromIR) or ItemRack.iSPatternRegularToIR)) or 0
 end
@@ -619,6 +621,15 @@ function ItemRack.GetInfoByID(id)
 		name,texture,quality = "(empty)","Interface\\Icons\\INV_Misc_QuestionMark",0 --default response on invalid ID
 	end
 	return name,texture,equip,quality
+end
+
+-- takes an iItemRack-style ID and parses out enchant and gem ids
+function ItemRack.GetEnhancements(itemRackID)
+	local itemID, enchantID, gem1, gem2, gem3 = 0,0,0,0,0
+	if itemRackID and itemRackID ~= "" then
+		itemID, enchantID, gem1, gem2, gem3 = itemRackID:match(ItemRack.iSPatternEnhancementsFromIR)
+	end
+	return tonumber(itemID), tonumber(enchantID), tonumber(gem1), tonumber(gem2), tonumber(gem3)
 end
 
 -- takes an ItemRack-style ID and returns how many items you own with that particular baseID (will not differentiate between enchanted/unenchanted versions, etc)
