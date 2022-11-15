@@ -54,7 +54,7 @@ ItemRackSettings = {
 	AllowEmpty = "ON", -- allow empty slot as a choice in menus
 	HideTradables = "OFF", -- allow non-soulbound gear to appear in menu
 	AllowHidden = "ON", -- allow the ability to hide items/sets in the menu with alt+click
-	ShowMinimap = true, -- whether to show the minimap button
+	ShowMinimap = "ON", -- whether to show the minimap button
 	TrinketMenuMode = "OFF", -- whether to merge top/bottom trinkets to one menu (leftclick=top,rightclick=bottom)
 	AnotherOther = "OFF", -- whether to dock the merged trinket menu to bottom trinket
 	EquipToggle = "OFF", -- whether to toggle equipping a set when choosing to equip it
