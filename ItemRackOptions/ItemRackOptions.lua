@@ -839,6 +839,7 @@ function ItemRackOpt.OptListCheckButtonOnClick(self,override)
 	elseif opt.variable=="LargeNumbers" then
 		ItemRack.ReflectCooldownFont()
 	elseif opt.variable=="ShowMinimap" then
+		opt.optset["minimap"]["hide"] = check ~= "ON" and true or false
 		ItemRack.ShowMinimap()
 	elseif opt.variable=="EnableQueues" or opt.variable=="EnablePerSetQueues" then
 		ItemRack.UpdateCombatQueue()
