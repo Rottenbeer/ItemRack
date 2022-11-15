@@ -28,6 +28,12 @@ ItemRack.CheckButtonLabels = {
 	["ItemRackOptEventEditStanceNotInPVPText"] = "Except in PVP instances",
 }
 
+ItemRack.SetnameBlacklist = {
+	[_G.CUSTOM] = true, -- used for minimap/panel button display
+	["~CombatQueue"] = true, -- used for internal events
+	["~Unequip"] = true, -- used for internal events
+}
+
 function ItemRackOpt.InvOnEnter(self)
 	local id = self:GetID()
 	if ItemRack.IsTimerActive("SlotMarquee") then
@@ -436,7 +442,7 @@ function ItemRackOpt.ValidateSetButtons()
 	ItemRackOptShowCloak:Disable()
 
 	local setname = ItemRackOptSetsName:GetText()
-	if string.len(setname)>0 then
+	if string.len(setname)>0 and not ItemRack.SetnameBlacklist[setname] then
 		for i=0,19 do
 			if ItemRackOpt.Inv[i].selected then
 				ItemRackOptSetsSaveButton:Enable()

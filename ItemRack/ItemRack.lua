@@ -540,8 +540,16 @@ function ItemRack.Print(msg)
 end
 
 function ItemRack.UpdateCurrentSet()
-	local texture = ItemRack.GetTextureBySlot(20)
-	local setname = ItemRackUser.CurrentSet or ""
+	local texture = "Interface\\AddOns\\ItemRack\\ItemRackIcon"
+	local setname = ItemRackUser.CurrentSet or _G.CUSTOM
+	if setname and setname ~= _G.CUSTOM then
+		local equipped = ItemRack.IsSetEquipped(setname)
+		if equipped then
+			texture = ItemRack.GetTextureBySlot(20)
+		else
+			setname = _G.CUSTOM
+		end
+	end
 	if ItemRackButton20 and ItemRackUser.Buttons[20] then
 		ItemRackButton20Icon:SetTexture(texture)
 		ItemRackButton20Name:SetText(setname)
@@ -598,11 +606,15 @@ end
 -- returns an ItemRack-style ID (62384:0:4041:4041:0:0:0:0:85:146) if an item exists in that slot, or 0 for none
 -- bag,nil = inventory slot; bag,slot = container slot
 function ItemRack.GetID(bag,slot)
-	local itemLink
+	local _, itemLink
 	if slot then
 		itemLink = GetContainerItemLink(bag,slot)
 	else
-		itemLink = GetInventoryItemLink("player",bag)
+		if bag == INVSLOT_AMMO then -- classic workaround for ammo slot API bugs
+			_, itemLink = GetItemInfo(GetInventoryItemID("player",bag))
+		else
+			itemLink = GetInventoryItemLink("player",bag)
+		end
 	end
 	return ItemRack.GetIRString(itemLink)
 end
