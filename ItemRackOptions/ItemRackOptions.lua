@@ -426,6 +426,7 @@ function ItemRackOpt.SaveSet()
 	-- set.equip[18] = nil
 	ItemRackOpt.ReconcileSetBindings()
 	ItemRackOpt.ValidateSetButtons()
+	ItemRack.UpdateCurrentSet()
 	ItemRack:FireItemRackEvent("ITEMRACK_SET_SAVED", setname)
 end
 
@@ -519,6 +520,7 @@ function ItemRackOpt.DeleteSet()
 	ItemRackOpt.PopulateSetList()
 	ItemRack.CleanupEvents()
 	ItemRackOpt.PopulateEventList()
+	ItemRack.UpdateCurrentSet()
 	ItemRack:FireItemRackEvent("ITEMRACK_SET_DELETED", setname)
 end
 
