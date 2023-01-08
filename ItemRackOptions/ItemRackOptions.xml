@@ -3302,7 +3302,11 @@
 		</Frames>
 		<Scripts>
 			<OnLoad>
-				self:SetMinResize(250,110)
+				if self.SetMinResize then
+				  self:SetMinResize(250,110)
+				elseif self.SetResizeBounds then
+          self:SetResizeBounds(250,110)
+				end
 			</OnLoad>
 			<OnMouseDown>
 				self:StartMoving()

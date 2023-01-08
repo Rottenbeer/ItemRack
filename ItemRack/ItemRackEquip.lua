@@ -1,4 +1,23 @@
 -- ItemRackEquip.lua : ItemRack.EquipSet and its supporting functions.
+local GetContainerNumSlots, GetContainerItemLink, GetContainerItemCooldown, GetContainerItemInfo, GetItemCooldown, PickupContainerItem
+if C_Container then
+	GetContainerNumSlots = C_Container.GetContainerNumSlots
+	GetContainerItemLink = C_Container.GetContainerItemLink
+	GetContainerItemCooldown = C_Container.GetContainerItemCooldown
+	GetItemCooldown = C_Container.GetItemCooldown
+	PickupContainerItem = C_Container.PickupContainerItem
+	GetContainerItemInfo = function(bag, slot)
+		local info = C_Container.GetContainerItemInfo(bag, slot)
+		if info then
+			return info.iconFileID, info.stackCount, info.isLocked, info.quality, info.isReadable, info.hasLoot, info.hyperlink, info.isFiltered, info.hasNoValue, info.itemID, info.isBound
+		else
+			return
+		end
+	end
+else
+	GetContainerNumSlots, GetContainerItemLink, GetContainerItemCooldown, GetContainerItemInfo, GetItemCooldown, PickupContainerItem =
+	GetContainerNumSlots, GetContainerItemLink, GetContainerItemCooldown, GetContainerItemInfo, GetItemCooldown, PickupContainerItem
+end
 
 ItemRack.SwapList = {} -- table of item ids that want to swap in, indexed by slot
 ItemRack.AbortSwap = nil -- reasons: 1=not enough room, 2=item on cursor, 3=in spell targeting mode, 4=item lock
