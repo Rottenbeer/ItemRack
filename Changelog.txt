@@ -1,3 +1,7 @@
+__ New in 3.75 - By Roadblock __
+* WOTLK 3.4.1 compatibility
+* Fix a flyout menu tooltip error
+
 __ New in 3.74 - By Roadblock __
 * WOTLK fix for Polearms + Titan's Grip.
 * Fix for ammo slot not equipping the set ammo.

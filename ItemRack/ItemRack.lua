@@ -17,13 +17,14 @@ function ItemRack.IsWrath()
 	return WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
 end
 
-local GetContainerNumSlots, GetContainerItemLink, GetContainerItemCooldown, GetContainerItemInfo, GetItemCooldown, PickupContainerItem
+local GetContainerNumSlots, GetContainerItemLink, GetContainerItemCooldown, GetContainerItemInfo, GetItemCooldown, PickupContainerItem, ContainerIDToInventoryID
 if C_Container then
 	GetContainerNumSlots = C_Container.GetContainerNumSlots
 	GetContainerItemLink = C_Container.GetContainerItemLink
 	GetContainerItemCooldown = C_Container.GetContainerItemCooldown
 	GetItemCooldown = C_Container.GetItemCooldown
 	PickupContainerItem = C_Container.PickupContainerItem
+	ContainerIDToInventoryID = C_Container.ContainerIDToInventoryID
 	GetContainerItemInfo = function(bag, slot)
 		local info = C_Container.GetContainerItemInfo(bag, slot)
 		if info then
@@ -33,8 +34,8 @@ if C_Container then
 		end
 	end
 else
-	GetContainerNumSlots, GetContainerItemLink, GetContainerItemCooldown, GetContainerItemInfo, GetItemCooldown, PickupContainerItem =
-	GetContainerNumSlots, GetContainerItemLink, GetContainerItemCooldown, GetContainerItemInfo, GetItemCooldown, PickupContainerItem
+	GetContainerNumSlots, GetContainerItemLink, GetContainerItemCooldown, GetContainerItemInfo, GetItemCooldown, PickupContainerItem, ContainerIDToInventoryID =
+	_G.GetContainerNumSlots, _G.GetContainerItemLink, _G.GetContainerItemCooldown, _G.GetContainerItemInfo, _G.GetItemCooldown, _G.PickupContainerItem, _G.ContainerIDToInventoryID
 end
 
 local LDB = LibStub("LibDataBroker-1.1")
@@ -683,13 +684,13 @@ function ItemRack.FindItem(id,lock)
 	local knownID = ItemRack.KnownItems[id]
 	if knownID then
 		local bag,slot = math.floor(knownID/100),mod(knownID,100)
-		if bag<0 and not slot then
+		if bag < 0 and not slot then
 			bag = bag*-1
 			if id==getid(bag) and (not lock or not locklist[-2][bag]) then
 				if lock then locklist[-2][bag]=1 end
 				return bag
 			end
-		else
+		elseif slot and slot > 0 then
 			if id==getid(bag,slot) and (not lock or not locklist[bag][slot]) then
 				if lock then locklist[bag][slot]=1 end
 				return nil,bag,slot
