@@ -362,15 +362,25 @@ function ItemRackOpt.PopulateInitialIcons()
 	ItemRackOpt.PopulateInvIcons()
 	table.insert(ItemRackOpt.Icons,"Interface\\Icons\\INV_Banner_02")
 	table.insert(ItemRackOpt.Icons,"Interface\\Icons\\INV_Banner_03")
-	RefreshPlayerSpellIconInfo()
-	local numMacros = #GetMacroIcons(MACRO_ICON_FILENAMES)
-	local texture
-	for i=1,numMacros do
-		texture = GetSpellorMacroIconInfo(i)
-		if(type(texture) == "number") then
-			table.insert(ItemRackOpt.Icons,texture)
-		else
-			table.insert(ItemRackOpt.Icons,"Interface\\Icons\\"..texture)
+	if RefreshPlayerSpellIconInfo then
+		RefreshPlayerSpellIconInfo()
+		local numMacros = #GetMacroIcons(MACRO_ICON_FILENAMES)
+		local texture
+		for i=1,numMacros do
+			texture = GetSpellorMacroIconInfo(i)
+			if(type(texture) == "number") then
+				table.insert(ItemRackOpt.Icons,texture)
+			else
+				table.insert(ItemRackOpt.Icons,"Interface\\Icons\\"..texture)
+			end
+		end
+	elseif IconDataProviderMixin then
+		local iconProvider = CreateAndInitFromMixin(IconDataProviderMixin, IconDataProviderExtraType.Spell)
+		if iconProvider then
+			for i=1, iconProvider:GetNumIcons() do
+				table.insert(ItemRackOpt.Icons, iconProvider:GetIconByIndex(i))
+			end
+			iconProvider:Release()
 		end
 	end
 end

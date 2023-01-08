@@ -17,6 +17,26 @@ function ItemRack.IsWrath()
 	return WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
 end
 
+local GetContainerNumSlots, GetContainerItemLink, GetContainerItemCooldown, GetContainerItemInfo, GetItemCooldown, PickupContainerItem
+if C_Container then
+	GetContainerNumSlots = C_Container.GetContainerNumSlots
+	GetContainerItemLink = C_Container.GetContainerItemLink
+	GetContainerItemCooldown = C_Container.GetContainerItemCooldown
+	GetItemCooldown = C_Container.GetItemCooldown
+	PickupContainerItem = C_Container.PickupContainerItem
+	GetContainerItemInfo = function(bag, slot)
+		local info = C_Container.GetContainerItemInfo(bag, slot)
+		if info then
+			return info.iconFileID, info.stackCount, info.isLocked, info.quality, info.isReadable, info.hasLoot, info.hyperlink, info.isFiltered, info.hasNoValue, info.itemID, info.isBound
+		else
+			return
+		end
+	end
+else
+	GetContainerNumSlots, GetContainerItemLink, GetContainerItemCooldown, GetContainerItemInfo, GetItemCooldown, PickupContainerItem =
+	GetContainerNumSlots, GetContainerItemLink, GetContainerItemCooldown, GetContainerItemInfo, GetItemCooldown, PickupContainerItem
+end
+
 local LDB = LibStub("LibDataBroker-1.1")
 local LDBIcon = LibStub("LibDBIcon-1.0")
 
