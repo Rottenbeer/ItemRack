@@ -145,8 +145,8 @@ function ItemRack.AnythingLocked()
 	end
 	if not isLocked then
 		for i=0,4 do
-			for j=1,GetContainerNumSlots(i) do
-				if select(3,GetContainerItemInfo(i,j)) then
+			for j=1,C_Container.GetContainerNumSlots(i) do
+				if select(3,C_Container.GetContainerItemInfo(i,j)) then
 					return 1
 				end
 			end
@@ -193,7 +193,7 @@ function ItemRack.IterateSwapList(setname)
 				inv,bag,slot = ItemRack.FindItem(swap[i],1)
 				if bag then
 					if i==16 and ItemRack.HasTitansGrip then
-						local subtype = select(7,GetItemInfo(GetContainerItemLink(bag,slot)))
+						local subtype = select(7,GetItemInfo(C_Container.GetContainerItemLink(bag,slot)))
 						if subtype and ItemRack.NoTitansGrip[subtype] then
 							treatAs2H = 1
 						end
@@ -276,7 +276,7 @@ function ItemRack.MoveItem(fromBag,fromSlot,toBag,toSlot)
 		return  -- oscarucb: ignore swap requests on slots containing "phantom" artifact items
 	elseif (not fromSlot and IsInventoryItemLocked(fromBag)) or (not toSlot and IsInventoryItemLocked(toBag)) then
 		abort = 4
-	elseif (fromSlot and select(3,GetContainerItemInfo(fromBag,fromSlot))) or (toSlot and select(3,GetContainerItemInfo(toBag,toSlot))) then
+	elseif (fromSlot and select(3,C_Container.GetContainerItemInfo(fromBag,fromSlot))) or (toSlot and select(3,C_Container.GetContainerItemInfo(toBag,toSlot))) then
 		abort = 4
 	end
 	if abort then
@@ -284,12 +284,12 @@ function ItemRack.MoveItem(fromBag,fromSlot,toBag,toSlot)
 		return
 	else
 		if fromSlot then
-			PickupContainerItem(fromBag,fromSlot)
+			C_Container.PickupContainerItem(fromBag,fromSlot)
 		else
 			PickupInventoryItem(fromBag)
 		end
 		if toSlot then
-			PickupContainerItem(toBag,toSlot)
+			C_Container.PickupContainerItem(toBag,toSlot)
 		else
 			PickupInventoryItem(toBag)
 		end
