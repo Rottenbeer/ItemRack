@@ -1342,7 +1342,7 @@ function ItemRack.EquipItemByID(id,slot)
 		if id~=0 then -- not an empty slot
 			local _,b,s = ItemRack.FindItem(id)
 			if b then
-				local _,_,isLocked = GetContainerItemInfo(b,s)
+				local _,_,isLocked = C_Container.GetContainerItemInfo(b,s)
 				if not isLocked and not IsInventoryItemLocked(slot) then
 					-- neither container item nor inventory item locked, perform swap
 					local _,_,equipSlot = ItemRack.GetInfoByID(id)
