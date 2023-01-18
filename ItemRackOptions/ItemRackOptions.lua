@@ -1210,7 +1210,8 @@ function ItemRackOpt.SortListScrollFrameUpdate()
 			end
 			_G["ItemRackOptSortList"..i.."Name"]:SetText(name)
 			_G["ItemRackOptSortList"..i.."Icon"]:SetTexture(texture)
-			_G["ItemRackOptSortList"..i.."Name"]:SetTextColor(GetItemQualityColor(quality or 1))
+			local r,g,b = GetItemQualityColor(quality or 1)
+			_G["ItemRackOptSortList"..i.."Name"]:SetTextColor(r,g,b,1)
 			item:Show()
 			if idx==ItemRackOpt.SortSelected then
 				ItemRackOpt.LockHighlight(item)

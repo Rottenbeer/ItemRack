@@ -1,5 +1,6 @@
 -- ItemRackQueue.lua
 local _
+local GetItemCooldown = _G.GetItemCooldown or C_Container.GetItemCooldown
 
 function ItemRack.PeriodicQueueCheck()
 	if SpellIsTargeting() then
