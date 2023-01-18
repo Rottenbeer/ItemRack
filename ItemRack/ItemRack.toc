@@ -1,7 +1,7 @@
 ## Interface: 20501
 ## Interface-Classic: 11403
 ## Interface-BCC: 20501
-## Interface-WOTLKC: 30400
+## Interface-WOTLKC: 30401
 ## Title: ItemRack
 ## Author: Gello - Updated for Classic by Rottenbeer
 ## SavedVariables: ItemRackSettings, ItemRackItems, ItemRackEvents
