@@ -100,7 +100,7 @@ ItemRackItems = {
 }
 
 ItemRack.NoTitansGrip = {
-	--["Polearms"] = 1, -- 3.3.5 / Wrath Classic support Polearm Titan's Grip
+	["Polearms"] = 1, -- reverted in 3.4.1 to block Polearms from Titan's Grip again
 	["Fishing Poles"] = 1,
 	["Staves"] = 1
 }
