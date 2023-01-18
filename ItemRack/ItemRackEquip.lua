@@ -1,5 +1,10 @@
 -- ItemRackEquip.lua : ItemRack.EquipSet and its supporting functions.
 
+local GetContainerItemInfo = C_Container and C_Container.GetContainerItemInfo or GetContainerItemInfo
+local GetContainerItemLink = C_Container and C_Container.GetContainerItemLink or GetContainerItemLink
+local GetContainerNumSlots = C_Container and C_Container.GetContainerNumSlots or GetContainerNumSlots
+local PickupContainerItem = C_Container and C_Container.PickupContainerItem or PickupContainerItem
+
 ItemRack.SwapList = {} -- table of item ids that want to swap in, indexed by slot
 ItemRack.AbortSwap = nil -- reasons: 1=not enough room, 2=item on cursor, 3=in spell targeting mode, 4=item lock
 ItemRack.AbortReasons = {"Not enough room.","Something is on the cursor.","In spell targeting mode.","Another swap is in progress."}
@@ -145,8 +150,8 @@ function ItemRack.AnythingLocked()
 	end
 	if not isLocked then
 		for i=0,4 do
-			for j=1,C_Container.GetContainerNumSlots(i) do
-				if select(3,C_Container.GetContainerItemInfo(i,j)) then
+			for j=1,GetContainerNumSlots(i) do
+				if select(3,GetContainerItemInfo(i,j)) then
 					return 1
 				end
 			end
@@ -193,7 +198,7 @@ function ItemRack.IterateSwapList(setname)
 				inv,bag,slot = ItemRack.FindItem(swap[i],1)
 				if bag then
 					if i==16 and ItemRack.HasTitansGrip then
-						local subtype = select(7,GetItemInfo(C_Container.GetContainerItemLink(bag,slot)))
+						local subtype = select(7,GetItemInfo(GetContainerItemLink(bag,slot)))
 						if subtype and ItemRack.NoTitansGrip[subtype] then
 							treatAs2H = 1
 						end
@@ -276,7 +281,7 @@ function ItemRack.MoveItem(fromBag,fromSlot,toBag,toSlot)
 		return  -- oscarucb: ignore swap requests on slots containing "phantom" artifact items
 	elseif (not fromSlot and IsInventoryItemLocked(fromBag)) or (not toSlot and IsInventoryItemLocked(toBag)) then
 		abort = 4
-	elseif (fromSlot and select(3,C_Container.GetContainerItemInfo(fromBag,fromSlot))) or (toSlot and select(3,C_Container.GetContainerItemInfo(toBag,toSlot))) then
+	elseif (fromSlot and select(3,GetContainerItemInfo(fromBag,fromSlot))) or (toSlot and select(3,GetContainerItemInfo(toBag,toSlot))) then
 		abort = 4
 	end
 	if abort then
@@ -284,12 +289,12 @@ function ItemRack.MoveItem(fromBag,fromSlot,toBag,toSlot)
 		return
 	else
 		if fromSlot then
-			C_Container.PickupContainerItem(fromBag,fromSlot)
+			PickupContainerItem(fromBag,fromSlot)
 		else
 			PickupInventoryItem(fromBag)
 		end
 		if toSlot then
-			C_Container.PickupContainerItem(toBag,toSlot)
+			PickupContainerItem(toBag,toSlot)
 		else
 			PickupInventoryItem(toBag)
 		end
