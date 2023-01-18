@@ -356,6 +356,7 @@ function ItemRackOpt.PopulateInitialIcons()
 	ItemRackOpt.PopulateInvIcons()
 	table.insert(ItemRackOpt.Icons,"Interface\\Icons\\INV_Banner_02")
 	table.insert(ItemRackOpt.Icons,"Interface\\Icons\\INV_Banner_03")
+--[[
 	RefreshPlayerSpellIconInfo()
 	local numMacros = #GetMacroIcons(MACRO_ICON_FILENAMES)
 	local texture
@@ -367,6 +368,7 @@ function ItemRackOpt.PopulateInitialIcons()
 			table.insert(ItemRackOpt.Icons,"Interface\\Icons\\"..texture)
 		end
 	end
+]]--	
 end
 
 function ItemRackOpt.SetsIconScrollFrameUpdate()
