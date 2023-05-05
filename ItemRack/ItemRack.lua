@@ -3,6 +3,7 @@ _G[addonName] = addon
 
 local _
 
+local GetAddOnMetadata = C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetadata
 ItemRack.Version = GetAddOnMetadata(addonName, "Version")
 
 function ItemRack.IsClassic()
