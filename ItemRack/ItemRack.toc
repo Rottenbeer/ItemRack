@@ -1,9 +1,9 @@
-## Interface: 30401
-## Interface-Classic: 11403
+## Interface: 30403
+## Interface-Classic: 11500
 ## Interface-BCC: 20504
-## Interface-WOTLKC: 30401
+## Interface-WOTLKC: 30403
 ## Title: ItemRack - Classic
-## Version: 3.75
+## Version: 3.77
 ## Author: Gello - Updated for Classic by Rottenbeer,Roadblock
 ## SavedVariables: ItemRackSettings, ItemRackItems, ItemRackEvents
 ## SavedVariablesPerCharacter: ItemRackUser
