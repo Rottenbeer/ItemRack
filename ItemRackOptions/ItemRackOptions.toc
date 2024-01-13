@@ -1,7 +1,7 @@
-## Interface: 30401
-## Interface-Classic: 11403
+## Interface: 30403
+## Interface-Classic: 11500
 ## Interface-BCC: 20504
-## Interface-WOTLKC: 30401
+## Interface-WOTLKC: 30403
 ## Title: ItemRackOptions
 ## Notes: Load-On-Demand modules for ItemRack
 ## Dependencies: ItemRack, Blizzard_MacroUI
