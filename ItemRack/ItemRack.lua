@@ -215,6 +215,7 @@ function ItemRack.InitEventHandlers()
 	handler.CHARACTER_POINTS_CHANGED = ItemRack.UpdateClassSpecificStuff
 	handler.PLAYER_TALENT_UPDATE = ItemRack.UpdateClassSpecificStuff
 	handler.PLAYER_ENTERING_WORLD = ItemRack.OnEnterWorld
+	handler.PLAYER_LOGOUT = ItemRack.OnPlayerLogout
 	handler.ACTIVE_TALENT_GROUP_CHANGED = ItemRack.UpdateClassSpecificStuff
 --	handler.PET_BATTLE_OPENING_START = ItemRack.OnEnteringPetBattle
 --	handler.PET_BATTLE_CLOSE = ItemRack.OnLeavingPetBattle
@@ -266,8 +267,17 @@ function ItemRack.OnPlayerLogin()
 	ItemRack.InitEvents()
 end
 
-function ItemRack.OnEnterWorld()
+function ItemRack.OnPlayerLogout()
 	ItemRack.SetSetBindings()
+end
+
+function ItemRack.OnEnterWorld(self,event,...)
+	local isLogin,isReload = ...
+	if isLogin or isReload then
+		C_Timer.After(15,function()
+			ItemRack.SetSetBindings()
+		end)
+	end
 end
 
 local loader = CreateFrame("Frame",nil, self, BackdropTemplateMixin and "BackdropTemplate") -- need a new temp frame here, ItemRackFrame is not created yet
