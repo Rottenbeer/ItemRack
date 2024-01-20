@@ -1,3 +1,6 @@
+__ New in 3.77 - By Rottenbeer __
+* Fix curseforge release, don't commit before 10am
+
 __ New in 3.76 - By Roadblock __
 * Support for SoD
 * Fix for missing keybinds
