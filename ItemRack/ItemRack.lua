@@ -215,7 +215,6 @@ function ItemRack.InitEventHandlers()
 	handler.CHARACTER_POINTS_CHANGED = ItemRack.UpdateClassSpecificStuff
 	handler.PLAYER_TALENT_UPDATE = ItemRack.UpdateClassSpecificStuff
 	handler.PLAYER_ENTERING_WORLD = ItemRack.OnEnterWorld
-	handler.PLAYER_LOGOUT = ItemRack.OnPlayerLogout
 	handler.ACTIVE_TALENT_GROUP_CHANGED = ItemRack.UpdateClassSpecificStuff
 --	handler.PET_BATTLE_OPENING_START = ItemRack.OnEnteringPetBattle
 --	handler.PET_BATTLE_CLOSE = ItemRack.OnLeavingPetBattle
@@ -267,17 +266,8 @@ function ItemRack.OnPlayerLogin()
 	ItemRack.InitEvents()
 end
 
-function ItemRack.OnPlayerLogout()
+function ItemRack.OnEnterWorld()
 	ItemRack.SetSetBindings()
-end
-
-function ItemRack.OnEnterWorld(self,event,...)
-	local isLogin,isReload = ...
-	if isLogin or isReload then
-		C_Timer.After(15,function()
-			ItemRack.SetSetBindings()
-		end)
-	end
 end
 
 local loader = CreateFrame("Frame",nil, self, BackdropTemplateMixin and "BackdropTemplate") -- need a new temp frame here, ItemRackFrame is not created yet
@@ -2022,44 +2012,31 @@ function ItemRack.ToggleHidden(id)
 end
 
 --[[ Key bindings ]]
-local retryCount = 0
 function ItemRack.SetSetBindings()
 	if InCombatLockdown() then
 		ItemRack.Print("Cannot save hotkeys in combat, please try again out of combat!")
 		return
 	end
-	if retryCount > 3 then return end
-	local bindingSet = GetCurrentBindingSet()
-	if not bindingSet or not (Enum.BindingSet and tContains(Enum.BindingSet, bindingSet)) then
-		retryCount = retryCount + 1
-		C_Timer.After(5, function()
-			ItemRack.SetSetBindings()
-		end)
-		return
-	else
-		local buttonName,button
-		for i in pairs(ItemRackUser.Sets) do
-			if ItemRackUser.Sets[i].key then
-				buttonName = "ItemRack"..UnitName("player")..GetRealmName()..i
-				button = _G[buttonName] or CreateFrame("Button",buttonName,nil,"SecureActionButtonTemplate")
 
-				button:SetAttribute("type","macro")
-				local macrotext = "/script ItemRack.RunSetBinding(\""..i.."\")\n"
-				for slot = 16, 18 do
-					if ItemRackUser.Sets[i].equip[slot] then
-						local name,_,_,_,_,_,_,_,_,_ = GetItemInfo("item:"..ItemRackUser.Sets[i].equip[slot])
-						if name then
-							macrotext = macrotext .. "/equipslot [combat]" .. slot .. " " .. name .. "\n";
-						end
+	local buttonName,button
+	for i in pairs(ItemRackUser.Sets) do
+		if ItemRackUser.Sets[i].key then
+			buttonName = "ItemRack"..UnitName("player")..GetRealmName()..i
+			button = _G[buttonName] or CreateFrame("Button",buttonName,nil,"SecureActionButtonTemplate")
+
+			button:SetAttribute("type","macro")
+			local macrotext = "/script ItemRack.RunSetBinding(\""..i.."\")\n"
+			for slot = 16, 18 do
+				if ItemRackUser.Sets[i].equip[slot] then
+					local name,_,_,_,_,_,_,_,_,_ = GetItemInfo("item:"..ItemRackUser.Sets[i].equip[slot])
+					if name then
+						macrotext = macrotext .. "/equipslot [combat]" .. slot .. " " .. name .. "\n";
 					end
 				end
-				button:SetAttribute("macrotext",macrotext)
-				SetBindingClick(ItemRackUser.Sets[i].key,buttonName)
 			end
+			button:SetAttribute("macrotext",macrotext)
+			SetBindingClick(ItemRackUser.Sets[i].key,buttonName)
 		end
-		local bindingSet = GetCurrentBindingSet()
-		SaveBindings(bindingSet)
-		retryCount = 0
 	end
 end
 
