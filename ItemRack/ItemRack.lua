@@ -613,6 +613,7 @@ ItemRack.iSPatternRegularToIR = "item:(.-)\124h" --example: "62384:0:4041:4041:0
 ItemRack.iSPatternBaseIDFromIR = "^(%-?%d+)" --this must *only* be used on ItemRack-style IDs, and will return the first field (the itemID), allowing us to do loose item matching
 ItemRack.iSPatternBaseIDFromRegular = "item:(%-?%d+)" --this must *only* be used regular itemLinks/itemStrings, and will return the first field (the itemID), allowing us to do loose item matching
 ItemRack.iSPatternEnhancementsFromIR = "^(%-?%d+):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*)" --this must *only* be used on ItemRack-style IDs, and will return itemID, enchantID, gem1, gem2, gem3
+ItemRack.iSPatternRuneIDFromIR = ":runeid:(%d+)"
 function ItemRack.GetIRString(inputString,baseid,regular)
 	return string.match(inputString or "", (baseid and (regular and ItemRack.iSPatternBaseIDFromRegular or ItemRack.iSPatternBaseIDFromIR) or ItemRack.iSPatternRegularToIR)) or 0
 end
@@ -620,24 +621,28 @@ end
 -- [[ Season of Discovery Runes ]]
 if ItemRack.IsEngravingActive() then
 	function ItemRack.AppendRuneID(bag, slot)
-		local inv_slot
+		local rune_info
 		if slot then
-			local item_id = GetContainerItemID(bag, slot)
-			if item_id then
-				inv_slot = C_Item.GetItemInventoryTypeByID(item_id)
-			end
+			rune_info = C_Engraving.GetRuneForInventorySlot(bag, slot)
 		else
-			inv_slot = bag
+			rune_info = C_Engraving.GetRuneForEquipmentSlot(bag)
 		end
-		if inv_slot and C_Engraving.IsEquipmentSlotEngravable(inv_slot) then
-			local rune_info = C_Engraving.GetRuneForEquipmentSlot(inv_slot)
-			if rune_info then
-				return ":runeid:"..tostring(rune_info.skillLineAbilityID)
-			else
-				return ":runeid:0"
+		return ":runeid:"..tostring(rune_info and rune_info.skillLineAbilityID or 0)
+	end
+	
+	function ItemRack.GetRuneID(inputString)
+		return tonumber(string.match(inputString or "", ItemRack.iSPatternRuneIDFromIR))
+	end
+
+	function ItemRack.GetRuneTexture(runeID)
+		if not runeID or runeID == 0 then return end
+		local categories = C_Engraving.GetRuneCategories(true, true);
+		for _, category in ipairs(categories) do
+			local runes = C_Engraving.GetRunesForCategory(category, true);
+			for _, rune in ipairs(runes) do
+				if rune.skillLineAbilityID == runeID then return rune.iconTexture end
 			end
 		end
-		return ""
 	end
 end
 
@@ -1064,9 +1069,7 @@ function ItemRack.BuildMenu(id,menuInclude,masqueGroup)
 
 	local showButtonMenu = (ItemRackButtonMenu and ItemRack.menuMovable) and (IsAltKeyDown() or ItemRackUser.Locked=="OFF")
 
-	for i in pairs(ItemRack.Menu) do
-		ItemRack.Menu[i] = nil
-	end
+	wipe(ItemRack.Menu)
 
 	local itemLink,itemID,itemName,equipSlot,itemTexture
 
@@ -1291,9 +1294,9 @@ end
 
 function ItemRack.CreateMenuButton(idx,itemID)
 	if itemID=="MENU" then return end
-	local button
-	if not _G["ItemRackMenu"..idx] then
-		button = CreateFrame("CheckButton","ItemRackMenu"..idx,ItemRackMenuFrame,"ActionButtonTemplate")
+	local button = _G["ItemRackMenu"..idx]
+	if not button then
+		button = CreateFrame("CheckButton","ItemRackMenu"..idx,ItemRackMenuFrame,"ActionButtonTemplate,ItemButtonTemplate")
 		button:SetID(idx)
 		button:SetFrameStrata("HIGH")
 --		button:SetFrameLevel(ItemRackMenuFrame:GetFrameLevel()+1)
@@ -1312,15 +1315,21 @@ function ItemRack.CreateMenuButton(idx,itemID)
 	end
 	if itemID~=0 then
 		if ItemRackUser.Sets[itemID] then
-			_G["ItemRackMenu"..idx.."Icon"]:SetTexture(ItemRackUser.Sets[itemID].icon)
+			SetItemButtonTexture(button, ItemRackUser.Sets[itemID].icon)
+			SetItemButtonSubTexture(button, nil);
 		else
 			local _,texture = ItemRack.GetInfoByID(itemID)
-			_G["ItemRackMenu"..idx.."Icon"]:SetTexture(texture)
+			SetItemButtonTexture(button, texture)
+			if ItemRack.IsEngravingActive() then
+				local texture = ItemRack.GetRuneTexture(ItemRack.GetRuneID(itemID))
+				SetItemButtonSubTexture(button, texture);
+			end
 		end
 	else
-		_G["ItemRackMenu"..idx.."Icon"]:SetTexture(select(2,GetInventorySlotInfo(ItemRack.SlotInfo[ItemRack.menuOpen].name)))
+		SetItemButtonTexture(button, select(2,GetInventorySlotInfo(ItemRack.SlotInfo[ItemRack.menuOpen].name)))
+		SetItemButtonSubTexture(button, nil);
 	end
-	return _G["ItemRackMenu"..idx]
+	return button
 end
 
 -- takes an ItemRack-style ID, finds the best match in the player's inventory, and puts its ItemLink to the chat editbox.

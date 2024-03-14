@@ -23,7 +23,7 @@
 		</Layers>
 	</Frame>
 
-	<CheckButton name="ItemRackButtonsTemplate" movable="true" parent="UIParent" inherits="ActionButtonTemplate,SecureActionButtonTemplate" hidden="true" virtual="true">
+	<CheckButton name="ItemRackButtonsTemplate" movable="true" parent="UIParent" inherits="ActionButtonTemplate,ItemButtonTemplate,SecureActionButtonTemplate" hidden="true" virtual="true">
 <!--		<Layers>
 			<Layer level="OVERLAY">
 				<Texture name="$parentQueue" file="Interface\Cursor\Interact" hidden="true">

@@ -354,8 +354,14 @@ end
 -- updates icons for equipment slots by grabbing the texture directly from the player's worn items
 function ItemRack.UpdateButtons()
 	for i in pairs(ItemRackUser.Buttons) do
+		local button = _G["ItemRackButton"..i]
 		if i<20 then
-			_G["ItemRackButton"..i.."Icon"]:SetTexture(ItemRack.GetTextureBySlot(i))
+			SetItemButtonTexture(button, ItemRack.GetTextureBySlot(i))
+			
+			if ItemRack.IsEngravingActive() then
+				local rune_info = C_Engraving.GetRuneForEquipmentSlot(i)
+				SetItemButtonSubTexture(button, rune_info and rune_info.iconTexture);
+			end
 		end
 		--ranged ammo is now infinite, so the below ammo count updater has been commented out
 		if i==0 then --ranged "ammo" slot
