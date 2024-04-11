@@ -21,11 +21,17 @@ function ItemRack.InitButtons()
 	ItemRack.oldPaperDollItemSlotButton_OnModifiedClick = PaperDollItemSlotButton_OnModifiedClick
 	PaperDollItemSlotButton_OnModifiedClick = ItemRack.newPaperDollItemSlotButton_OnModifiedClick
 
-	ItemRack.oldCharacterAmmoSlot_OnClick = CharacterAmmoSlot:GetScript("OnClick")
-	CharacterAmmoSlot:SetScript("OnClick",ItemRack.newCharacterAmmoSlot_OnClick)
+	if CharacterAmmoSlot then
+		ItemRack.oldCharacterAmmoSlot_OnClick = CharacterAmmoSlot:GetScript("OnClick")
+		CharacterAmmoSlot:SetScript("OnClick",ItemRack.newCharacterAmmoSlot_OnClick)
+	end
 
-	ItemRack.oldCharacterModelFrame_OnMouseUp = CharacterModelFrame:GetScript("OnMouseUp")
-	CharacterModelFrame:SetScript("OnMouseUp",ItemRack.newCharacterModelFrame_OnMouseUp)
+	local characterModel = CharacterModelFrame or CharacterModelScene
+	if characterModel then
+		ItemRack.oldCharacterModelFrame_OnMouseUp = characterModel:GetScript("OnMouseUp")
+		characterModel:SetScript("OnMouseUp",ItemRack.newCharacterModelFrame_OnMouseUp)
+	end
+
 
 	local button
 	for i=0,20 do

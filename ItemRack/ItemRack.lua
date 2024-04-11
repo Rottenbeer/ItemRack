@@ -3,6 +3,7 @@ _G[addonName] = addon
 
 local _
 
+local wowver, wowbuild, wowbuilddate, wowtoc = GetBuildInfo()
 ItemRack.Version = GetAddOnMetadata(addonName, "Version")
 
 function ItemRack.IsClassic()
@@ -14,7 +15,11 @@ function ItemRack.IsBCC()
 end
 
 function ItemRack.IsWrath()
-	return WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
+	return (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC) and not ItemRack.IsCata()
+end
+
+function ItemRack.IsCata()
+	return wowtoc > 40000 and wowtoc < 50000
 end
 
 function ItemRack.IsEngravingActive()
