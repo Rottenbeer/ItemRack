@@ -1,3 +1,10 @@
+__ New in 3.77 - By Rottenbeer __
+* Fix curseforge release, don't commit before 10am
+
+__ New in 3.76 - By Roadblock __
+* Support for SoD
+* Fix for missing keybinds
+
 __ New in 3.75 - By Roadblock __
 * WOTLK 3.4.1 compatibility
 * Fix a flyout menu tooltip error
