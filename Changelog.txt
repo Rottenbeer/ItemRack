@@ -1,3 +1,7 @@
+__ New in 3.78 - By Roadblock __
+* Release Cata version
+* Maybe fix for missing keybinds
+
 __ New in 3.77 - By Rottenbeer __
 * Fix curseforge release, don't commit before 10am
 
