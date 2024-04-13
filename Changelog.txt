@@ -1,3 +1,6 @@
+__ New in 4.00 - By Rottenbeer  __
+* Add Cata CI release
+
 __ New in 3.78 - By Roadblock __
 * Release Cata version
 * Maybe fix for missing keybinds
