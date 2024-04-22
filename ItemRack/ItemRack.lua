@@ -685,7 +685,11 @@ function ItemRack.GetID(bag,slot)
 	if ItemRack.AppendRuneID then
 		runeSuffix = ItemRack.AppendRuneID(bag,slot)
 	end
-	return ItemRack.GetIRString(itemLink)..runeSuffix
+	if runeSuffix ~= ""	then
+		return ItemRack.GetIRString(itemLink)..runeSuffix
+	else
+		return ItemRack.GetIRString(itemLink)
+	end
 end
 
 -- takes two ItemRack-style IDs (one or both of the parameters can be a baseID instead if needed) and returns true if those items share the same base itemID
