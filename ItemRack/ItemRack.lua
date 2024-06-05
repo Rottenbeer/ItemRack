@@ -955,6 +955,7 @@ function ItemRack.PopulateKnownItems()
 			end
 		end
 	end
+	ItemRack.KnownItems = known
 end
 
 --[[ Timers ]]
