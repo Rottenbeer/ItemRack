@@ -1287,7 +1287,13 @@ end
 
 function ItemRack.MenuMouseover()
 	local frame = GetMouseFocus()
-	if MouseIsOver(ItemRackMenuFrame) or IsShiftKeyDown() or (frame and frame:GetName() and frame:IsVisible() and ItemRack.MenuMouseoverFrames[frame:GetName()]) then
+	local frameName = nil
+	local frameVisible = nil
+	local IRmouseOverFrame = nil
+	if frame then frameName = frame:GetName() end
+	if frame then frameVisible = frame:IsVisible() end
+	if frameName then IRmouseOverFrame = ItemRack.MenuMouseoverFrames[frameName] end
+	if MouseIsOver(ItemRackMenuFrame) or IsShiftKeyDown() or (frame and frameName and frameVisible and IRmouseOverFrame) then
 		return -- keep menu open if mouse over menu, shift is down or mouse is immediately over a mouseover frame
 	end
 	for i in pairs(ItemRack.MenuMouseoverFrames) do
