@@ -22,8 +22,39 @@ function ItemRack.IsCata()
 	return wowtoc > 40000 and wowtoc < 50000
 end
 
+-- [[ Season of Discovery Runes ]]
 function ItemRack.IsEngravingActive()
 	return C_Engraving and C_Engraving.IsEngravingEnabled()
+end
+
+do
+	if ItemRack.IsEngravingActive() then
+		function ItemRack.AppendRuneID(bag, slot)
+			if slot then
+				if C_Engraving.IsInventorySlotEngravable(bag, slot) then
+					local rune_info = C_Engraving.GetRuneForInventorySlot(bag, slot)
+					if rune_info then
+						return ":runeid:"..tostring(rune_info.skillLineAbilityID)
+					else
+						return ":runeid:0"
+					end
+				else
+					return ""
+				end
+			else
+				if C_Engraving.IsEquipmentSlotEngravable(bag) then
+					local rune_info = C_Engraving.GetRuneForEquipmentSlot(bag)
+					if rune_info then
+						return ":runeid:"..tostring(rune_info.skillLineAbilityID)
+					else
+						return ":runeid:0"
+					end
+				else
+					return ""
+				end
+			end
+		end
+	end
 end
 
 local GetContainerNumSlots, GetContainerItemLink, GetContainerItemID, GetContainerItemCooldown, GetContainerItemInfo, GetItemCooldown, PickupContainerItem, ContainerIDToInventoryID
@@ -630,30 +661,6 @@ ItemRack.iSPatternBaseIDFromRegular = "item:(%-?%d+)" --this must *only* be used
 ItemRack.iSPatternEnhancementsFromIR = "^(%-?%d+):(%-?%d*):(%-?%d*):(%-?%d*):(%-?%d*)" --this must *only* be used on ItemRack-style IDs, and will return itemID, enchantID, gem1, gem2, gem3
 function ItemRack.GetIRString(inputString,baseid,regular)
 	return string.match(inputString or "", (baseid and (regular and ItemRack.iSPatternBaseIDFromRegular or ItemRack.iSPatternBaseIDFromIR) or ItemRack.iSPatternRegularToIR)) or 0
-end
-
--- [[ Season of Discovery Runes ]]
-if ItemRack.IsEngravingActive() then
-	function ItemRack.AppendRuneID(bag, slot)
-		local inv_slot
-		if slot then
-			local item_id = GetContainerItemID(bag, slot)
-			if item_id then
-				inv_slot = C_Item.GetItemInventoryTypeByID(item_id)
-			end
-		else
-			inv_slot = bag
-		end
-		if inv_slot and C_Engraving.IsEquipmentSlotEngravable(inv_slot) then
-			local rune_info = C_Engraving.GetRuneForEquipmentSlot(inv_slot)
-			if rune_info then
-				return ":runeid:"..tostring(rune_info.skillLineAbilityID)
-			else
-				return ":runeid:0"
-			end
-		end
-		return ""
-	end
 end
 
 -- itemrack itemstring updater.
