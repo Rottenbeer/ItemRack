@@ -460,11 +460,11 @@ function ItemRack.UpdateClassSpecificStuff()
 end
 
 function ItemRack.OnSetBagItem(tooltip, bag, slot)
-	ItemRack.ListSetsHavingItem(tooltip, ItemRack.GetID(bag, slot))
+	ItemRack.ListSetsHavingItem(tooltip, ItemRack.GetID(bag, slot), true)
 end
 
 function ItemRack.OnSetInventoryItem(tooltip, unit, inv_slot)
-	ItemRack.ListSetsHavingItem(tooltip, ItemRack.GetID(inv_slot))
+	ItemRack.ListSetsHavingItem(tooltip, ItemRack.GetID(inv_slot), true)
 end
 
 function ItemRack.OnSetHyperlink(tooltip, link)
@@ -474,16 +474,23 @@ end
 do
 	local data = {}
 
-	function ItemRack.ListSetsHavingItem(tooltip, id)
+	function ItemRack.ListSetsHavingItem(tooltip, id, exact)
 		if ItemRackSettings.ShowSetInTooltip ~= "ON" then
 			return
 		end
-		local same_ids = ItemRack.SameID
 		if not id or id == 0 then return end
+		local same_ids = ItemRack.SameID
 		for name, set in pairs(ItemRackUser.Sets) do
 			for _, item in pairs(set.equip) do
-				if same_ids(item, id) then
-					data[name] = true
+				if exact then
+					item = ItemRack.UpdateIRString(item)
+					if item==id then
+						data[name] = true
+					end
+				else
+					if same_ids(item, id) then
+						data[name] = true
+					end
 				end
 			end
 		end
