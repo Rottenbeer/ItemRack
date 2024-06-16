@@ -451,7 +451,10 @@ function ItemRack.UpdateClassSpecificStuff()
 end
 
 function ItemRack.OnSetBagItem(tooltip, bag, slot)
-	ItemRack.ListSetsHavingItem(tooltip, ItemRack.GetID(bag, slot))
+	local id = ItemRack.GetID(bag, slot)
+	if id ~= "0" then
+		ItemRack.ListSetsHavingItem(tooltip, id)
+	end
 end
 
 function ItemRack.OnSetInventoryItem(tooltip, unit, inv_slot)
