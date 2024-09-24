@@ -6,6 +6,15 @@ local _
 local wowver, wowbuild, wowbuilddate, wowtoc = GetBuildInfo()
 ItemRack.Version = GetAddOnMetadata(addonName, "Version")
 
+-- by Mikinho - Fix for latest update for Classic Era/SoD v11504
+local GetMouseFocus = GetMouseFocus
+if not GetMouseFocus and GetMouseFoci then
+    local GetMouseFoci = GetMouseFoci
+          GetMouseFocus = function()
+          return GetMouseFoci()[1]
+      end
+end
+
 function ItemRack.IsClassic()
 	return WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 end
