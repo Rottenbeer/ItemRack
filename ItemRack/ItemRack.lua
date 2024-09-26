@@ -479,7 +479,7 @@ do
 			return
 		end
 		local same_ids = ItemRack.SameID
-		if not id or id == 0 then return end
+		if not id or id == 0 or id == "0" then return end
 		for name, set in pairs(ItemRackUser.Sets) do
 			for _, item in pairs(set.equip) do
 				if same_ids(item, id) then
