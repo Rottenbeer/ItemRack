@@ -159,7 +159,7 @@ ItemRack.Menu = {}
 ItemRack.LockList = {} -- index -2 to 11, flag whether item is tagged already for swap
 if ItemRack.IsClassic() then
 	ItemRack.BankSlots = { -1,5,6,7,8,9,10 }
-elseif ItemRack.IsBCC() or ItemRack.IsWrath() then
+elseif ItemRack.IsBCC() or ItemRack.IsWrath() or ItemRack.IsCata() then
 	ItemRack.BankSlots = { -1,5,6,7,8,9,10,11 }
 end
 ItemRack.KnownItems = {} -- cache of known item locations for fast lookup
