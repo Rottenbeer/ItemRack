@@ -10,25 +10,25 @@
 		</Scripts>
 	</Frame>
 
-	<Frame name="ItemRackMenuFrame" frameStrata="HIGH" enableMouse="false" movable="true" parent="UIParent" hidden="true" clampedToScreen="true" topLevel="true">
+	<Frame name="ItemRackMenuFrame" frameStrata="HIGH" enableMouse="false" movable="true" parent="UIParent" hidden="true" clampedToScreen="true" topLevel="true" inherits="BackdropTemplate">
 		<Size>
 			<AbsDimension x="64" y="64" />
 		</Size>
-		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
-			<BackgroundInsets>
-				<AbsInset left="4" right="4" top="4" bottom="4" />
-			</BackgroundInsets>
-			<TileSize>
-				<AbsValue val="16" />
-			</TileSize>
-			<EdgeSize>
-				<AbsValue val="16" />
-			</EdgeSize>
-			<BorderColor>
-				<Color r=".3" g=".3" b=".3"/>
-			</BorderColor>
-		</Backdrop>
 		<Scripts>
+			<OnLoad>
+				local backdropInfo =
+				{
+					bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+					edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+					tile = true,
+					tileEdge = true,
+					tileSize = 16,
+					edgeSize = 16,
+					insets = { left = 4, right = 4, top = 4, bottom = 4 },
+				}
+				self:SetBackdrop(backdropInfo)
+				self:SetBackdropBorderColor(0.3, 0.3, 0.3)
+			</OnLoad>
 			<OnHide>
 				ItemRack.MenuOnHide()
 			</OnHide>
