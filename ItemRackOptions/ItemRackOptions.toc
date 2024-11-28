@@ -1,8 +1,8 @@
-## Interface: 30403, 40400
+## Interface: 30403, 40401
 ## Interface-Vanilla: 11505
 ## Interface-TBC: 20504
 ## Interface-Wrath: 30403
-## Interface-Cata: 40400
+## Interface-Cata: 40401
 ## Title: ItemRackOptions
 ## Notes: Load-On-Demand modules for ItemRack
 ## Dependencies: ItemRack, Blizzard_MacroUI
